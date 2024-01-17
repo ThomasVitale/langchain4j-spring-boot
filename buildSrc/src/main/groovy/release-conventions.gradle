@@ -9,7 +9,7 @@ java {
 }
 
 javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
+    if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
     }
 }
@@ -32,6 +32,7 @@ publishing {
 
             pom {
                 url = "https://github.com/ThomasVitale/langchain4j-spring-boot"
+                inceptionYear = '2024'
                 packaging = 'jar'
 
                 licenses {
@@ -60,10 +61,17 @@ publishing {
 
     repositories {
         maven {
-            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            name = "SonatypeSnapshot"
+            url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
 
-            url = isReleaseVersion ? releaseRepo : snapshotRepo
+            credentials {
+                username = findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
+                password = findProperty("mavenCentralToken") ?: System.getenv("MAVEN_CENTRAL_TOKEN")
+            }
+        }
+        maven {
+            name = "SonatypeStaging"
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
 
             credentials {
                 username = findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
@@ -74,9 +82,19 @@ publishing {
 }
 
 signing {
-    required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+    required { gradle.taskGraph.hasTask("release") }
     def signingSecretKey = findProperty('signingSecretKey') ?: System.getenv("SIGNING_SECRET_KEY")
     def signingPassphrase = findProperty('signingPassphrase') ?: System.getenv("SIGNING_PASSPHRASE")
     useInMemoryPgpKeys(signingSecretKey, signingPassphrase)
     sign publishing.publications.mavenJava
+}
+
+tasks.register('snapshot') {
+    onlyIf { !isReleaseVersion }
+    finalizedBy 'publishAllPublicationsToSonatypeSnapshotRepository'
+}
+
+tasks.register('release') {
+    onlyIf { isReleaseVersion }
+    finalizedBy 'publishAllPublicationsToSonatypeStagingRepository'
 }
