@@ -26,8 +26,8 @@ jobs:
       - name: Compile and test
         run: ./gradlew build
 
-      - name: Publish production releases
-        run: ./gradlew publish
+      - name: Publish staging artifacts
+        run: ./gradlew release
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
