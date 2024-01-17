@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.thomasvitale.langchain4j'
-version = '0.0.1'
+version = '0.0.2-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
