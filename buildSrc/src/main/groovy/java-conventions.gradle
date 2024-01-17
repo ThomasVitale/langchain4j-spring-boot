@@ -1,0 +1,26 @@
+plugins {
+    id 'java-library'
+    id 'io.spring.dependency-management'
+    id 'io.thomasvitale.langchain4j.optional-dependencies'
+}
+
+group = 'io.thomasvitale.langchain4j'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

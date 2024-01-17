@@ -1,0 +1,4 @@
+rootProject.name = "langchain4j-spring-boot"
+
+include 'langchain4j-spring-boot-autoconfigure'
+include 'langchain4j-spring-boot-starters:langchain4j-openai-spring-boot-starter'

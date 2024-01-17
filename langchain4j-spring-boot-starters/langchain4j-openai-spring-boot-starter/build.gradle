@@ -1,0 +1,23 @@
+plugins {
+	id 'java-conventions'
+	id 'sbom-conventions'
+	id 'release-conventions'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	api project(":langchain4j-spring-boot-autoconfigure")
+	api "dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}"
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			pom {
+				name = "LangChain4J OpenAI Spring Boot Starter"
+				description = "Spring Boot Starter for LangChain4J OpenAI."
+			}
+		}
+	}
+}
