@@ -31,7 +31,7 @@ publishing {
             }
 
             pom {
-                url = "https://github.com/arconia-io/arconia"
+                url = "https://github.com/ThomasVitale/langchain4j-spring-boot"
                 packaging = 'jar'
 
                 licenses {
@@ -43,7 +43,7 @@ publishing {
 
                 developers {
                     developer {
-                        id = "thomasvitale"
+                        id = "ThomasVitale"
                         name = "Thomas Vitale"
                         url = "https://thomasvitale.com"
                     }

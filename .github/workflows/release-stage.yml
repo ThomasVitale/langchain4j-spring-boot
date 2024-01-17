@@ -1,5 +1,8 @@
-name: Commit Stage
-on: push
+name: Release Stage
+on:
+  release:
+    types:
+      - created
 
 jobs:
   build:
@@ -26,7 +29,6 @@ jobs:
         run: ./gradlew build
 
       - name: Publish snapshot releases
-        if: ${{ github.ref == 'refs/heads/main' }}
         run: ./gradlew publish
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
