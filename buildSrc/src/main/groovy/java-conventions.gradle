@@ -8,7 +8,9 @@ group = 'io.thomasvitale.langchain4j'
 version = '0.0.2-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
