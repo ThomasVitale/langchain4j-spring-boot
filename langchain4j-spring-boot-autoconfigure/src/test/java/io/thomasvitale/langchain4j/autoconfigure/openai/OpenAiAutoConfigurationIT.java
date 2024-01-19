@@ -19,6 +19,11 @@ import java.util.concurrent.CompletableFuture;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Integration tests for {@link OpenAiAutoConfiguration}.
+ *
+ * @author Thomas Vitale
+ */
 @EnabledIfEnvironmentVariable(named = "LANGCHAIN4J_OPENAI_API_KEY", matches = ".*")
 class OpenAiAutoConfigurationIT {
 

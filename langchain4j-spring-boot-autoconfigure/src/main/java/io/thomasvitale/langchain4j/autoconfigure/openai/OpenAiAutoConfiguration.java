@@ -6,7 +6,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
+/**
+ * Auto-configuration for OpenAI clients and models.
+ *
+ * @author Thomas Vitale
+ */
 @AutoConfiguration
 @ConditionalOnClass({OpenAiChatModel.class})
 @EnableConfigurationProperties({OpenAiProperties.class, OpenAiChatProperties.class,
@@ -16,9 +22,10 @@ public class OpenAiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     OpenAiChatModel openAiChatModel(OpenAiProperties openAiProperties, OpenAiChatProperties openAiChatProperties) {
+        validateApiKey(openAiProperties.getApiKey());
         return OpenAiChatModel.builder()
                 .apiKey(openAiProperties.getApiKey())
-                .baseUrl(openAiProperties.getBaseUrl())
+                .baseUrl(openAiProperties.getBaseUrl().toString())
                 .organizationId(openAiProperties.getOrganizationId())
                 .modelName(openAiChatProperties.getModel())
                 .temperature(openAiChatProperties.getTemperature())
@@ -37,9 +44,10 @@ public class OpenAiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     OpenAiStreamingChatModel openAiStreamingChatModel(OpenAiProperties openAiProperties, OpenAiChatProperties openAiChatProperties) {
+        validateApiKey(openAiProperties.getApiKey());
         return OpenAiStreamingChatModel.builder()
                 .apiKey(openAiProperties.getApiKey())
-                .baseUrl(openAiProperties.getBaseUrl())
+                .baseUrl(openAiProperties.getBaseUrl().toString())
                 .organizationId(openAiProperties.getOrganizationId())
                 .modelName(openAiChatProperties.getModel())
                 .temperature(openAiChatProperties.getTemperature())
@@ -57,8 +65,9 @@ public class OpenAiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     OpenAiEmbeddingModel openAiEmbeddingModel(OpenAiProperties openAiProperties, OpenAiEmbeddingProperties openAiEmbeddingProperties) {
+        validateApiKey(openAiProperties.getApiKey());
         return OpenAiEmbeddingModel.builder()
-                .baseUrl(openAiProperties.getBaseUrl())
+                .baseUrl(openAiProperties.getBaseUrl().toString())
                 .apiKey(openAiProperties.getApiKey())
                 .organizationId(openAiProperties.getOrganizationId())
                 .modelName(openAiEmbeddingProperties.getModel())
@@ -73,8 +82,9 @@ public class OpenAiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     OpenAiImageModel openAiImageModel(OpenAiProperties openAiProperties, OpenAiImageProperties openAiImageProperties) {
+        validateApiKey(openAiProperties.getApiKey());
         return OpenAiImageModel.builder()
-                .baseUrl(openAiProperties.getBaseUrl())
+                .baseUrl(openAiProperties.getBaseUrl().toString())
                 .apiKey(openAiProperties.getApiKey())
                 .organizationId(openAiProperties.getOrganizationId())
                 .modelName(openAiImageProperties.getModel())
@@ -95,8 +105,9 @@ public class OpenAiAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     OpenAiModerationModel openAiModerationModel(OpenAiProperties openAiProperties, OpenAiModerationProperties openAiModerationProperties) {
+        validateApiKey(openAiProperties.getApiKey());
         return OpenAiModerationModel.builder()
-                .baseUrl(openAiProperties.getBaseUrl())
+                .baseUrl(openAiProperties.getBaseUrl().toString())
                 .apiKey(openAiProperties.getApiKey())
                 .organizationId(openAiProperties.getOrganizationId())
                 .modelName(openAiModerationProperties.getModel())
@@ -105,6 +116,12 @@ public class OpenAiAutoConfiguration {
                 .logRequests(openAiProperties.getLogRequests())
                 .logResponses(openAiProperties.getLogResponses())
                 .build();
+    }
+
+    private void validateApiKey(String apiKey) {
+        if (!StringUtils.hasText(apiKey)) {
+            throw new OpenAiConfigurationException("apiKey cannot be empty");
+        }
     }
 
 }

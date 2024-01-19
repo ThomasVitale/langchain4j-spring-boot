@@ -7,6 +7,11 @@ import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Unit tests for {@link OpenAiAutoConfiguration}.
+ *
+ * @author Thomas Vitale
+ */
 class OpenAiAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()

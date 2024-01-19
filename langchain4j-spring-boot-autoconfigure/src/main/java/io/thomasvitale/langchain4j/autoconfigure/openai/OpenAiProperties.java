@@ -2,27 +2,65 @@ package io.thomasvitale.langchain4j.autoconfigure.openai;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.net.URI;
 import java.time.Duration;
 
+/**
+ * Common configuration properties for the OpenAI clients.
+ *
+ * @author Thomas Vitale
+ */
 @ConfigurationProperties(OpenAiProperties.CONFIG_PREFIX)
 public class OpenAiProperties {
 
     public static final String CONFIG_PREFIX = "langchain4j.openai";
 
-    private String baseUrl = "https://api.openai.com/v1/";
+    /**
+     * Base URL of the OpenAI API.
+     */
+    private URI baseUrl = URI.create("https://api.openai.com/v1/");
+
+    /**
+     * OpenAI APY Key.
+     */
     private String apiKey;
+
+    /**
+     * Which organization to use for OpenAI requests.
+     */
     private String organizationId;
+
+    /**
+     * Timeout for OpenAI calls.
+     */
     private Duration timeout = Duration.ofSeconds(10);
+
+    /**
+     * The maximum number of times an OpenAI call will be retried.
+     */
     private Integer maxRetries = 3;
+
+    /**
+     * A unique identifier representing your end-user,
+     * which can help OpenAI to monitor and detect abuse.
+     */
     private String user;
+
+    /**
+     * Enable logging for OpenAI requests.
+     */
     private Boolean logRequests = false;
+
+    /**
+     * Enable logging for OpenAI responses.
+     */
     private Boolean logResponses = false;
 
-    public String getBaseUrl() {
+    public URI getBaseUrl() {
         return baseUrl;
     }
 
-    public void setBaseUrl(String baseUrl) {
+    public void setBaseUrl(URI baseUrl) {
         this.baseUrl = baseUrl;
     }
 
