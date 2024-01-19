@@ -16,7 +16,7 @@
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.0.1'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.1.0'
 ```
 
 Maven:
@@ -25,7 +25,7 @@ Maven:
 <dependency>
     <groupId>io.thomasvitale.langchain4j</groupId>
     <artifactId>langchain4j-openai-spring-boot-starter</artifactId>
-    <version>0.0.1</version>
+    <version>0.1.0</version>
 </dependency>
 ```
 
