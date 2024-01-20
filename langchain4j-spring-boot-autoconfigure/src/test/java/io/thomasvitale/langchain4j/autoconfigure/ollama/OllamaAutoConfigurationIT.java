@@ -50,7 +50,7 @@ class OllamaAutoConfigurationIT {
     @Test
     void chat() {
         contextRunner
-                .withPropertyValues("langchain4j.ollama.baseUrl=%s".formatted(getBaseUrl()))
+                .withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl()))
                 .run(context -> {
                     OllamaChatModel model = context.getBean(OllamaChatModel.class);
                     String response = model.generate("What is the capital of Italy?");
@@ -62,7 +62,7 @@ class OllamaAutoConfigurationIT {
     @Test
     void chatStreaming() {
         contextRunner
-                .withPropertyValues("langchain4j.ollama.baseUrl=%s".formatted(getBaseUrl()))
+                .withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl()))
                 .run(context -> {
                     OllamaStreamingChatModel model = context.getBean(OllamaStreamingChatModel.class);
                     CompletableFuture<Response<AiMessage>> future = new CompletableFuture<>();
@@ -90,7 +90,7 @@ class OllamaAutoConfigurationIT {
     @Test
     void embedding() {
         contextRunner
-                .withPropertyValues("langchain4j.ollama.baseUrl=%s".formatted(getBaseUrl()))
+                .withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl()))
                 .run(context -> {
                     OllamaEmbeddingModel model = context.getBean(OllamaEmbeddingModel.class);
                     Embedding embedding = model.embed("hi").content();
