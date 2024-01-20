@@ -1,1 +1,2 @@
+io.thomasvitale.langchain4j.autoconfigure.ollama.OllamaAutoConfiguration
 io.thomasvitale.langchain4j.autoconfigure.openai.OpenAiAutoConfiguration

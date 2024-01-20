@@ -16,6 +16,7 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter'
 
+	optional "dev.langchain4j:langchain4j-ollama:${langchain4jVersion}"
 	optional "dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
