@@ -31,9 +31,11 @@ class OllamaAutoConfigurationIT {
 
     private static final Logger log = LoggerFactory.getLogger(OllamaAutoConfigurationIT.class);
     private static final String MODEL_NAME = "orca-mini";
+    private static final String OCI_IMAGE_BASE_PREFIX = System.getenv("OLLAMA_IMAGE_BASE_PREFIX") != null ?
+            System.getenv("OLLAMA_IMAGE_BASE_PREFIX") : "ghcr.io/thomasvitale/ollama/";
 
     @Container
-    static GenericContainer<?> ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama/%s".formatted(MODEL_NAME))
+    static GenericContainer<?> ollama = new GenericContainer<>("%s%s".formatted(OCI_IMAGE_BASE_PREFIX, MODEL_NAME))
             .withExposedPorts(11434);
 
     private static String getBaseUrl() {

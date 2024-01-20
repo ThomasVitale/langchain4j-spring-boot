@@ -24,6 +24,8 @@ jobs:
 
       - name: Compile and test
         run: ./gradlew build
+        env:
+          OLLAMA_IMAGE_BASE_PREFIX: "ghcr.io/thomasvitale/ollama-"
 
       - name: Publish staging artifacts
         run: ./gradlew release
