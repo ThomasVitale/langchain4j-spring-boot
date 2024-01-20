@@ -26,8 +26,6 @@ jobs:
 
       - name: Compile and test
         run: ./gradlew build
-        env:
-          OLLAMA_IMAGE_BASE_PREFIX: "ghcr.io/thomasvitale/ollama-"
 
       - name: Generate SBOMs
         run: ./gradlew cyclonedxBom
