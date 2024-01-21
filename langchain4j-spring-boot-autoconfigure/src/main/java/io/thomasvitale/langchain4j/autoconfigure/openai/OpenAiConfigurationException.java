@@ -1,8 +1,8 @@
 package io.thomasvitale.langchain4j.autoconfigure.openai;
 
 /**
- * Exception thrown if an invalid property is found when processing
- * the OpenAI configuration data.
+ * Exception thrown if an invalid property is found when processing the OpenAI
+ * configuration data.
  *
  * @author Thomas Vitale
  */

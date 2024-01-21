@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'io.spring.dependency-management'
+    id 'io.spring.javaformat'
     id 'io.thomasvitale.langchain4j.optional-dependencies'
 }
 

@@ -14,9 +14,9 @@ import org.springframework.util.StringUtils;
  * @author Thomas Vitale
  */
 @AutoConfiguration
-@ConditionalOnClass({OpenAiChatModel.class})
-@EnableConfigurationProperties({OpenAiProperties.class, OpenAiChatProperties.class,
-        OpenAiEmbeddingProperties.class, OpenAiModerationProperties.class, OpenAiImageProperties.class})
+@ConditionalOnClass({ OpenAiChatModel.class })
+@EnableConfigurationProperties({ OpenAiProperties.class, OpenAiChatProperties.class, OpenAiEmbeddingProperties.class,
+        OpenAiModerationProperties.class, OpenAiImageProperties.class })
 public class OpenAiAutoConfiguration {
 
     @Bean
@@ -24,59 +24,61 @@ public class OpenAiAutoConfiguration {
     OpenAiChatModel openAiChatModel(OpenAiProperties openAiProperties, OpenAiChatProperties openAiChatProperties) {
         validateApiKey(openAiProperties.getApiKey());
         return OpenAiChatModel.builder()
-                .apiKey(openAiProperties.getApiKey())
-                .baseUrl(openAiProperties.getBaseUrl().toString())
-                .organizationId(openAiProperties.getOrganizationId())
-                .modelName(openAiChatProperties.getModel())
-                .temperature(openAiChatProperties.getTemperature())
-                .topP(openAiChatProperties.getTopP())
-                .maxTokens(openAiChatProperties.getMaxTokens())
-                .presencePenalty(openAiChatProperties.getPresencePenalty())
-                .frequencyPenalty(openAiChatProperties.getFrequencyPenalty())
-                .timeout(openAiProperties.getTimeout())
-                .maxRetries(openAiProperties.getMaxRetries())
-                .user(openAiProperties.getUser())
-                .logRequests(openAiProperties.getLogRequests())
-                .logResponses(openAiProperties.getLogResponses())
-                .build();
+            .apiKey(openAiProperties.getApiKey())
+            .baseUrl(openAiProperties.getBaseUrl().toString())
+            .organizationId(openAiProperties.getOrganizationId())
+            .modelName(openAiChatProperties.getModel())
+            .temperature(openAiChatProperties.getTemperature())
+            .topP(openAiChatProperties.getTopP())
+            .maxTokens(openAiChatProperties.getMaxTokens())
+            .presencePenalty(openAiChatProperties.getPresencePenalty())
+            .frequencyPenalty(openAiChatProperties.getFrequencyPenalty())
+            .timeout(openAiProperties.getTimeout())
+            .maxRetries(openAiProperties.getMaxRetries())
+            .user(openAiProperties.getUser())
+            .logRequests(openAiProperties.getLogRequests())
+            .logResponses(openAiProperties.getLogResponses())
+            .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiStreamingChatModel openAiStreamingChatModel(OpenAiProperties openAiProperties, OpenAiChatProperties openAiChatProperties) {
+    OpenAiStreamingChatModel openAiStreamingChatModel(OpenAiProperties openAiProperties,
+            OpenAiChatProperties openAiChatProperties) {
         validateApiKey(openAiProperties.getApiKey());
         return OpenAiStreamingChatModel.builder()
-                .apiKey(openAiProperties.getApiKey())
-                .baseUrl(openAiProperties.getBaseUrl().toString())
-                .organizationId(openAiProperties.getOrganizationId())
-                .modelName(openAiChatProperties.getModel())
-                .temperature(openAiChatProperties.getTemperature())
-                .topP(openAiChatProperties.getTopP())
-                .maxTokens(openAiChatProperties.getMaxTokens())
-                .presencePenalty(openAiChatProperties.getPresencePenalty())
-                .frequencyPenalty(openAiChatProperties.getFrequencyPenalty())
-                .timeout(openAiProperties.getTimeout())
-                .user(openAiProperties.getUser())
-                .logRequests(openAiProperties.getLogRequests())
-                .logResponses(openAiProperties.getLogResponses())
-                .build();
+            .apiKey(openAiProperties.getApiKey())
+            .baseUrl(openAiProperties.getBaseUrl().toString())
+            .organizationId(openAiProperties.getOrganizationId())
+            .modelName(openAiChatProperties.getModel())
+            .temperature(openAiChatProperties.getTemperature())
+            .topP(openAiChatProperties.getTopP())
+            .maxTokens(openAiChatProperties.getMaxTokens())
+            .presencePenalty(openAiChatProperties.getPresencePenalty())
+            .frequencyPenalty(openAiChatProperties.getFrequencyPenalty())
+            .timeout(openAiProperties.getTimeout())
+            .user(openAiProperties.getUser())
+            .logRequests(openAiProperties.getLogRequests())
+            .logResponses(openAiProperties.getLogResponses())
+            .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiEmbeddingModel openAiEmbeddingModel(OpenAiProperties openAiProperties, OpenAiEmbeddingProperties openAiEmbeddingProperties) {
+    OpenAiEmbeddingModel openAiEmbeddingModel(OpenAiProperties openAiProperties,
+            OpenAiEmbeddingProperties openAiEmbeddingProperties) {
         validateApiKey(openAiProperties.getApiKey());
         return OpenAiEmbeddingModel.builder()
-                .baseUrl(openAiProperties.getBaseUrl().toString())
-                .apiKey(openAiProperties.getApiKey())
-                .organizationId(openAiProperties.getOrganizationId())
-                .modelName(openAiEmbeddingProperties.getModel())
-                .timeout(openAiProperties.getTimeout())
-                .maxRetries(openAiProperties.getMaxRetries())
-                .user(openAiProperties.getUser())
-                .logRequests(openAiProperties.getLogRequests())
-                .logResponses(openAiProperties.getLogResponses())
-                .build();
+            .baseUrl(openAiProperties.getBaseUrl().toString())
+            .apiKey(openAiProperties.getApiKey())
+            .organizationId(openAiProperties.getOrganizationId())
+            .modelName(openAiEmbeddingProperties.getModel())
+            .timeout(openAiProperties.getTimeout())
+            .maxRetries(openAiProperties.getMaxRetries())
+            .user(openAiProperties.getUser())
+            .logRequests(openAiProperties.getLogRequests())
+            .logResponses(openAiProperties.getLogResponses())
+            .build();
     }
 
     @Bean
@@ -84,38 +86,39 @@ public class OpenAiAutoConfiguration {
     OpenAiImageModel openAiImageModel(OpenAiProperties openAiProperties, OpenAiImageProperties openAiImageProperties) {
         validateApiKey(openAiProperties.getApiKey());
         return OpenAiImageModel.builder()
-                .baseUrl(openAiProperties.getBaseUrl().toString())
-                .apiKey(openAiProperties.getApiKey())
-                .organizationId(openAiProperties.getOrganizationId())
-                .modelName(openAiImageProperties.getModel())
-                .size(openAiImageProperties.getSize())
-                .quality(openAiImageProperties.getQuality())
-                .style(openAiImageProperties.getStyle())
-                .user(openAiProperties.getUser())
-                .responseFormat(openAiImageProperties.getResponseFormat())
-                .timeout(openAiProperties.getTimeout())
-                .maxRetries(openAiProperties.getMaxRetries())
-                .logRequests(openAiProperties.getLogRequests())
-                .logResponses(openAiProperties.getLogResponses())
-                .withPersisting(openAiImageProperties.getPersist())
-                .persistTo(openAiImageProperties.getPersistDirectory())
-                .build();
+            .baseUrl(openAiProperties.getBaseUrl().toString())
+            .apiKey(openAiProperties.getApiKey())
+            .organizationId(openAiProperties.getOrganizationId())
+            .modelName(openAiImageProperties.getModel())
+            .size(openAiImageProperties.getSize())
+            .quality(openAiImageProperties.getQuality())
+            .style(openAiImageProperties.getStyle())
+            .user(openAiProperties.getUser())
+            .responseFormat(openAiImageProperties.getResponseFormat())
+            .timeout(openAiProperties.getTimeout())
+            .maxRetries(openAiProperties.getMaxRetries())
+            .logRequests(openAiProperties.getLogRequests())
+            .logResponses(openAiProperties.getLogResponses())
+            .withPersisting(openAiImageProperties.getPersist())
+            .persistTo(openAiImageProperties.getPersistDirectory())
+            .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiModerationModel openAiModerationModel(OpenAiProperties openAiProperties, OpenAiModerationProperties openAiModerationProperties) {
+    OpenAiModerationModel openAiModerationModel(OpenAiProperties openAiProperties,
+            OpenAiModerationProperties openAiModerationProperties) {
         validateApiKey(openAiProperties.getApiKey());
         return OpenAiModerationModel.builder()
-                .baseUrl(openAiProperties.getBaseUrl().toString())
-                .apiKey(openAiProperties.getApiKey())
-                .organizationId(openAiProperties.getOrganizationId())
-                .modelName(openAiModerationProperties.getModel())
-                .timeout(openAiProperties.getTimeout())
-                .maxRetries(openAiProperties.getMaxRetries())
-                .logRequests(openAiProperties.getLogRequests())
-                .logResponses(openAiProperties.getLogResponses())
-                .build();
+            .baseUrl(openAiProperties.getBaseUrl().toString())
+            .apiKey(openAiProperties.getApiKey())
+            .organizationId(openAiProperties.getOrganizationId())
+            .modelName(openAiModerationProperties.getModel())
+            .timeout(openAiProperties.getTimeout())
+            .maxRetries(openAiProperties.getMaxRetries())
+            .logRequests(openAiProperties.getLogRequests())
+            .logResponses(openAiProperties.getLogResponses())
+            .build();
     }
 
     private void validateApiKey(String apiKey) {

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OllamaAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withConfiguration(AutoConfigurations.of(OllamaAutoConfiguration.class));
+        .withConfiguration(AutoConfigurations.of(OllamaAutoConfiguration.class));
 
     @Test
     void chat() {

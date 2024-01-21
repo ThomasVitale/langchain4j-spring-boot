@@ -20,16 +20,16 @@ public class OpenAiChatProperties {
     /**
      * What sampling temperature to use, with values between 0 and 2.
      * <p>
-     * Higher values will make the output more random, while lower values
-     * will make it more focused and deterministic.
+     * Higher values will make the output more random, while lower values will make it
+     * more focused and deterministic.
      * <p>
      * It's recommended to alter this or {@code topP} but not both.
      */
     private Double temperature = 1.0;
 
     /**
-     * An alternative to sampling with temperature, called nucleus sampling,
-     * where the model considers the results of the tokens with top_p probability mass.
+     * An alternative to sampling with temperature, called nucleus sampling, where the
+     * model considers the results of the tokens with top_p probability mass.
      * <p>
      * 0.1 means only the tokens comprising the top 10% probability mass are considered.
      * <p>
@@ -40,15 +40,16 @@ public class OpenAiChatProperties {
     /**
      * The maximum number of tokens that can be generated in the completion.
      * <p>
-     * The total length of input tokens and generated tokens is limited by the model's context length.
+     * The total length of input tokens and generated tokens is limited by the model's
+     * context length.
      */
     private Integer maxTokens;
 
     /**
      * Number between -2.0 and 2.0.
      * <p>
-     * Positive values penalize new tokens based on whether they appear in the text so far,
-     * increasing the model's likelihood to talk about new topics.
+     * Positive values penalize new tokens based on whether they appear in the text so
+     * far, increasing the model's likelihood to talk about new topics.
      */
     private Double presencePenalty = 0.0;
 

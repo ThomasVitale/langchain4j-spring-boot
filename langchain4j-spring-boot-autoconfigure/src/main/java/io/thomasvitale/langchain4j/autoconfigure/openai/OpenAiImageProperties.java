@@ -33,24 +33,27 @@ public class OpenAiImageProperties {
     private Path persistDirectory = Paths.get(System.getProperty("java.io.tmpdir"));
 
     /**
-     * The format in which the generated images are returned.
-     * Must be one of {@code url} or {@code b64_json}.
+     * The format in which the generated images are returned. Must be one of {@code url}
+     * or {@code b64_json}.
      */
     private String responseFormat = "url";
 
     /**
      * The size of the generated images.
      * <p>
-     * Must be one of {@code 256x256}, {@code 512x512}, or {@code 1024x1024} when the model is {@code dall-e-2}.
+     * Must be one of {@code 256x256}, {@code 512x512}, or {@code 1024x1024} when the
+     * model is {@code dall-e-2}.
      * <p>
-     * Must be one of {@code 1024x1024}, {@code 1792x1024}, or {@code 1024x1792} when the model is {@code dall-e-3}.
+     * Must be one of {@code 1024x1024}, {@code 1792x1024}, or {@code 1024x1792} when the
+     * model is {@code dall-e-3}.
      */
     private String size = "1024x1024";
 
     /**
      * The quality of the image that will be generated.
      * <p>
-     * {@code hd} creates images with finer details and greater consistency across the image.
+     * {@code hd} creates images with finer details and greater consistency across the
+     * image.
      * <p>
      * Only supported when using {@code dall-e-3}.
      */
@@ -64,8 +67,7 @@ public class OpenAiImageProperties {
     private Integer number = 1;
 
     /**
-     * The style of the generated images.
-     * Must be one of {@code vivid} or {@code natural}.
+     * The style of the generated images. Must be one of {@code vivid} or {@code natural}.
      * <p>
      * Vivid causes the model to lean towards generating hyper-real and dramatic images.
      * Natural causes the model to produce more natural, less hyper-real looking images.

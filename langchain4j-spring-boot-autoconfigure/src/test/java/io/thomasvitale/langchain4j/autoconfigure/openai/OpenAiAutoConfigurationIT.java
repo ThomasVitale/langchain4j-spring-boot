@@ -30,8 +30,8 @@ class OpenAiAutoConfigurationIT {
     private static final Logger log = LoggerFactory.getLogger(OpenAiAutoConfigurationIT.class);
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withPropertyValues("langchain4j.openai.apiKey=" + System.getenv("LANGCHAIN4J_OPENAI_API_KEY"))
-            .withConfiguration(AutoConfigurations.of(OpenAiAutoConfiguration.class));
+        .withPropertyValues("langchain4j.openai.apiKey=" + System.getenv("LANGCHAIN4J_OPENAI_API_KEY"))
+        .withConfiguration(AutoConfigurations.of(OpenAiAutoConfiguration.class));
 
     @Test
     void chat() {
@@ -80,14 +80,12 @@ class OpenAiAutoConfigurationIT {
 
     @Test
     void image() {
-        contextRunner
-            .withPropertyValues("langchain4j.openai.image.size=256x256")
-            .run(context -> {
-                OpenAiImageModel model = context.getBean(OpenAiImageModel.class);
-                Image image = model.generate("sun").content();
-                assertThat(image.url()).isNotNull();
-                log.info("URL: " + image.url());
-            });
+        contextRunner.withPropertyValues("langchain4j.openai.image.size=256x256").run(context -> {
+            OpenAiImageModel model = context.getBean(OpenAiImageModel.class);
+            Image image = model.generate("sun").content();
+            assertThat(image.url()).isNotNull();
+            log.info("URL: " + image.url());
+        });
     }
 
     @Test

@@ -20,20 +20,21 @@ public class OllamaChatProperties {
     private String model = "llama2";
 
     /**
-     * The temperature of the model.
-     * Increasing the temperature will make the model answer more creatively.
+     * The temperature of the model. Increasing the temperature will make the model answer
+     * more creatively.
      */
     private Double temperature = 0.8;
 
     /**
-     * Reduces the probability of generating nonsense. A higher value (e.g. 100)
-     * will give more diverse answers, while a lower value (e.g. 10) will be more conservative.
+     * Reduces the probability of generating nonsense. A higher value (e.g. 100) will give
+     * more diverse answers, while a lower value (e.g. 10) will be more conservative.
      */
     private Integer topK = 40;
 
     /**
-     * Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text,
-     * while a lower value (e.g., 0.5) will generate more focused and conservative text.
+     * Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse
+     * text, while a lower value (e.g., 0.5) will generate more focused and conservative
+     * text.
      */
     private Double topP = 0.9;
 
@@ -44,21 +45,21 @@ public class OllamaChatProperties {
     private Double repeatPenalty = 1.1;
 
     /**
-     * Sets the random number seed to use for generation. Setting this to a specific number
-     * will make the model generate the same text for the same prompt.
+     * Sets the random number seed to use for generation. Setting this to a specific
+     * number will make the model generate the same text for the same prompt.
      */
     private Integer seed = 0;
 
     /**
-     * Maximum number of tokens to predict when generating text.
-     * (-1 = infinite generation, -2 = fill context)
+     * Maximum number of tokens to predict when generating text. (-1 = infinite
+     * generation, -2 = fill context)
      */
     private Integer numPredict = 128;
 
     /**
-     * Sets the stop sequences to use. When this pattern is encountered
-     * the LLM will stop generating text and return. Multiple stop patterns
-     * may be set by specifying multiple separate stop parameters in a list.
+     * Sets the stop sequences to use. When this pattern is encountered the LLM will stop
+     * generating text and return. Multiple stop patterns may be set by specifying
+     * multiple separate stop parameters in a list.
      */
     private List<String> stop;
 

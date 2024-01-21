@@ -30,72 +30,67 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OllamaAutoConfigurationIT {
 
     private static final Logger log = LoggerFactory.getLogger(OllamaAutoConfigurationIT.class);
+
     private static final String MODEL_NAME = "orca-mini";
 
     @Container
     static GenericContainer<?> ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama-%s".formatted(MODEL_NAME))
-            .withExposedPorts(11434);
+        .withExposedPorts(11434);
 
     private static String getBaseUrl() {
         return "http://%s:%s".formatted(ollama.getHost(), ollama.getMappedPort(11434));
     }
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withPropertyValues("langchain4j.ollama.chat.model=%s".formatted(MODEL_NAME))
-            .withPropertyValues("langchain4j.ollama.embedding.model=%s".formatted(MODEL_NAME))
-            .withPropertyValues("langchain4j.ollama.chat.max-tokens=20")
-            .withPropertyValues("langchain4j.ollama.timeout=60s")
-            .withConfiguration(AutoConfigurations.of(OllamaAutoConfiguration.class));
+        .withPropertyValues("langchain4j.ollama.chat.model=%s".formatted(MODEL_NAME))
+        .withPropertyValues("langchain4j.ollama.embedding.model=%s".formatted(MODEL_NAME))
+        .withPropertyValues("langchain4j.ollama.chat.max-tokens=20")
+        .withPropertyValues("langchain4j.ollama.timeout=60s")
+        .withConfiguration(AutoConfigurations.of(OllamaAutoConfiguration.class));
 
     @Test
     void chat() {
-        contextRunner
-                .withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl()))
-                .run(context -> {
-                    OllamaChatModel model = context.getBean(OllamaChatModel.class);
-                    String response = model.generate("What is the capital of Italy?");
-                    log.info("Response: " + response);
-                    assertThat(response).containsIgnoringCase("Rome");
-                });
+        contextRunner.withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl())).run(context -> {
+            OllamaChatModel model = context.getBean(OllamaChatModel.class);
+            String response = model.generate("What is the capital of Italy?");
+            log.info("Response: " + response);
+            assertThat(response).containsIgnoringCase("Rome");
+        });
     }
 
     @Test
     void chatStreaming() {
-        contextRunner
-                .withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl()))
-                .run(context -> {
-                    OllamaStreamingChatModel model = context.getBean(OllamaStreamingChatModel.class);
-                    CompletableFuture<Response<AiMessage>> future = new CompletableFuture<>();
-                    model.generate("What is the capital of Italy?", new StreamingResponseHandler<>() {
-                        @Override
-                        public void onNext(String token) {
-                        }
+        contextRunner.withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl())).run(context -> {
+            OllamaStreamingChatModel model = context.getBean(OllamaStreamingChatModel.class);
+            CompletableFuture<Response<AiMessage>> future = new CompletableFuture<>();
+            model.generate("What is the capital of Italy?", new StreamingResponseHandler<>() {
+                @Override
+                public void onNext(String token) {
+                }
 
-                        @Override
-                        public void onComplete(Response<AiMessage> response) {
-                            future.complete(response);
-                        }
+                @Override
+                public void onComplete(Response<AiMessage> response) {
+                    future.complete(response);
+                }
 
-                        @Override
-                        public void onError(Throwable error) {
-                        }
-                    });
+                @Override
+                public void onError(Throwable error) {
+                }
+            });
 
-                    Response<AiMessage> response = future.get(30, SECONDS);
-                    log.info("Response: " + response);
-                    assertThat(response.content().text()).containsIgnoringCase("Rome");
-                });
+            Response<AiMessage> response = future.get(30, SECONDS);
+            log.info("Response: " + response);
+            assertThat(response.content().text()).containsIgnoringCase("Rome");
+        });
     }
 
     @Test
     void embedding() {
-        contextRunner
-                .withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl()))
-                .run(context -> {
-                    OllamaEmbeddingModel model = context.getBean(OllamaEmbeddingModel.class);
-                    Embedding embedding = model.embed("hi").content();
-                    assertThat(embedding.dimension()).isEqualTo(3200);
-                });
+        contextRunner.withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl())).run(context -> {
+            OllamaEmbeddingModel model = context.getBean(OllamaEmbeddingModel.class);
+            Embedding embedding = model.embed("hi").content();
+            assertThat(embedding.dimension()).isEqualTo(3200);
+        });
     }
 
 }

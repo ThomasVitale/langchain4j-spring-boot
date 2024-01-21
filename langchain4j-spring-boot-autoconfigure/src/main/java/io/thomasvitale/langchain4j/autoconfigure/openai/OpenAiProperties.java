@@ -41,8 +41,8 @@ public class OpenAiProperties {
     private Integer maxRetries = 3;
 
     /**
-     * A unique identifier representing your end-user,
-     * which can help OpenAI to monitor and detect abuse.
+     * A unique identifier representing your end-user, which can help OpenAI to monitor
+     * and detect abuse.
      */
     private String user;
 
