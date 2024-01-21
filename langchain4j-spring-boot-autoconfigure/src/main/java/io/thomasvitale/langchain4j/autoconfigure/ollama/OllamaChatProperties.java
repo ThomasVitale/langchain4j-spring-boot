@@ -1,8 +1,8 @@
 package io.thomasvitale.langchain4j.autoconfigure.ollama;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.List;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for Ollama chat.

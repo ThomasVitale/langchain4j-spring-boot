@@ -1,9 +1,9 @@
 package io.thomasvitale.langchain4j.autoconfigure.ollama;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.net.URI;
 import java.time.Duration;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Common configuration properties for Ollama.

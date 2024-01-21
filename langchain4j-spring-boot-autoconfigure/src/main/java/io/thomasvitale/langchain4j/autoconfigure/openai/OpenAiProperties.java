@@ -1,9 +1,9 @@
 package io.thomasvitale.langchain4j.autoconfigure.openai;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.net.URI;
 import java.time.Duration;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Common configuration properties for the OpenAI clients.

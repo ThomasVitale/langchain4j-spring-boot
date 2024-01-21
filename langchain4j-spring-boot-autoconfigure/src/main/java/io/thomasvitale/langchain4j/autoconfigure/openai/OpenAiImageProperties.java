@@ -1,9 +1,9 @@
 package io.thomasvitale.langchain4j.autoconfigure.openai;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for OpenAI image clients.
