@@ -15,12 +15,12 @@ public class OllamaChatProperties {
     public static final String CONFIG_PREFIX = "langchain4j.ollama.chat";
 
     /**
-     * The name of the model to use.
+     * Name of the model to use.
      */
     private String model = "llama2";
 
     /**
-     * The temperature of the model. Increasing the temperature will make the model answer
+     * Temperature of the model. Increasing the temperature will make the model answer
      * more creatively.
      */
     private Double temperature = 0.8;

@@ -36,12 +36,12 @@ public class OpenAiProperties {
     private Duration timeout = Duration.ofSeconds(10);
 
     /**
-     * The maximum number of times an OpenAI call will be retried.
+     * Maximum number of times an OpenAI call will be retried.
      */
     private Integer maxRetries = 3;
 
     /**
-     * A unique identifier representing your end-user, which can help OpenAI to monitor
+     * Unique identifier representing your end-user, which can help OpenAI to monitor
      * and detect abuse.
      */
     private String user;

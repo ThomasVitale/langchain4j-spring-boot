@@ -13,7 +13,7 @@ public class OllamaEmbeddingProperties {
     public static final String CONFIG_PREFIX = "langchain4j.ollama.embedding";
 
     /**
-     * The name of the model to use.
+     * Name of the model to use.
      */
     private String model = "llama2";
 

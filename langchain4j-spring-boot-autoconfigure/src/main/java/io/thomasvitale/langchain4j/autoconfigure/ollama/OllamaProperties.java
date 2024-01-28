@@ -26,7 +26,7 @@ public class OllamaProperties {
     private Duration timeout = Duration.ofSeconds(30);
 
     /**
-     * The maximum number of times an Ollama call will be retried.
+     * Mximum number of times an Ollama call will be retried.
      */
     private Integer maxRetries = 3;
 

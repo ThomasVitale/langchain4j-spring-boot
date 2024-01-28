@@ -13,7 +13,7 @@ public class OpenAiEmbeddingProperties {
     public static final String CONFIG_PREFIX = "langchain4j.openai.embedding";
 
     /**
-     * The name of the model to use.
+     * Name of the model to use.
      */
     private String model = "text-embedding-ada-002";
 

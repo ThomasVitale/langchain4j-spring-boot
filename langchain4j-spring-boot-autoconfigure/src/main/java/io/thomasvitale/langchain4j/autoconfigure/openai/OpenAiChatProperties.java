@@ -2,6 +2,8 @@ package io.thomasvitale.langchain4j.autoconfigure.openai;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * Configuration properties for OpenAI chat clients.
  *
@@ -13,7 +15,7 @@ public class OpenAiChatProperties {
     public static final String CONFIG_PREFIX = "langchain4j.openai.chat";
 
     /**
-     * The name of the model to use.
+     * Name of the model to use.
      */
     private String model = "gpt-3.5-turbo";
 
@@ -28,7 +30,7 @@ public class OpenAiChatProperties {
     private Double temperature = 1.0;
 
     /**
-     * An alternative to sampling with temperature, called nucleus sampling, where the
+     * Alternative to sampling with temperature, called nucleus sampling, where the
      * model considers the results of the tokens with top_p probability mass.
      * <p>
      * 0.1 means only the tokens comprising the top 10% probability mass are considered.
@@ -38,7 +40,12 @@ public class OpenAiChatProperties {
     private Double topP = 1.0;
 
     /**
-     * The maximum number of tokens that can be generated in the completion.
+     * Up to 4 sequences where the API will stop generating further tokens.
+     */
+    private List<String> stop;
+
+    /**
+     * Maximum number of tokens that can be generated in the completion.
      * <p>
      * The total length of input tokens and generated tokens is limited by the model's
      * context length.
@@ -60,6 +67,12 @@ public class OpenAiChatProperties {
      * so far, decreasing the model's likelihood to repeat the same line verbatim.
      */
     private Double frequencyPenalty = 0.0;
+
+    /**
+     * Sets the random number seed to use for generation. Setting this to a specific
+     * number will make the model generate the same text for the same prompt.
+     */
+    private Integer seed;
 
     public String getModel() {
         return model;
@@ -85,6 +98,14 @@ public class OpenAiChatProperties {
         this.topP = topP;
     }
 
+    public List<String> getStop() {
+        return stop;
+    }
+
+    public void setStop(List<String> stop) {
+        this.stop = stop;
+    }
+
     public Integer getMaxTokens() {
         return maxTokens;
     }
@@ -107,6 +128,14 @@ public class OpenAiChatProperties {
 
     public void setFrequencyPenalty(Double frequencyPenalty) {
         this.frequencyPenalty = frequencyPenalty;
+    }
+
+    public Integer getSeed() {
+        return seed;
+    }
+
+    public void setSeed(Integer seed) {
+        this.seed = seed;
     }
 
 }
