@@ -16,17 +16,33 @@
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.2.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.3.0'
 ```
 
-Maven:
+Configuration:
 
-```xml
-<dependency>
-    <groupId>io.thomasvitale.langchain4j</groupId>
-    <artifactId>langchain4j-openai-spring-boot-starter</artifactId>
-    <version>0.2.0</version>
-</dependency>
+```yaml
+langchain4j:
+  open-ai:
+    api-key: ${OPENAI_API_KEY}
+```
+
+Example:
+
+```java
+@RestController
+class ChatController {
+    private final ChatLanguageModel chatLanguageModel;
+
+    ChatController(ChatLanguageModel chatLanguageModel) {
+        this.chatLanguageModel = chatLanguageModel;
+    }
+
+    @GetMapping("/ai/chat")
+    String chat(@RequestParam(defaultValue = "What did Gandalf say to the Balrog?") String message) {
+        return chatLanguageModel.generate(message);
+    }
+}
 ```
 
 ### Ollama
@@ -34,18 +50,59 @@ Maven:
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.2.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.3.0'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.3.0'
 ```
 
-Maven:
+Configuration:
 
-```xml
-<dependency>
-    <groupId>io.thomasvitale.langchain4j</groupId>
-    <artifactId>langchain4j-ollama-spring-boot-starter</artifactId>
-    <version>0.2.0</version>
-</dependency>
+```yaml
+langchain4j:
+  ollama:
+    chat:
+      model: llama2
 ```
+
+Example:
+
+```java
+@RestController
+class ChatController {
+    private final ChatLanguageModel chatLanguageModel;
+
+    ChatController(ChatLanguageModel chatLanguageModel) {
+        this.chatLanguageModel = chatLanguageModel;
+    }
+
+    @GetMapping("/ai/chat")
+    String chat(@RequestParam(defaultValue = "What did Gandalf say to the Balrog?") String message) {
+        return chatLanguageModel.generate(message);
+    }
+}
+```
+
+Testcontainers:
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+public class TestChatModelsOllamaApplication {
+
+    @Bean
+    @RestartScope
+    @ServiceConnection
+    OllamaContainer ollama() {
+        return new OllamaContainer("ghcr.io/thomasvitale/ollama-llama2");
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.from(ChatModelsOllamaApplication::main).with(TestChatModelsOllamaApplication.class).run(args);
+    }
+}
+```
+
+## 🌟 Examples
+
+Check these [examples](https://github.com/ThomasVitale/llm-apps-java-langchain4j) to see LangChain4j and Spring Boot in action.
 
 ## 🛡️&nbsp; Security
 
