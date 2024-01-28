@@ -33,8 +33,8 @@ public class OpenAiImageProperties {
     private Path persistDirectory = Paths.get(System.getProperty("java.io.tmpdir"));
 
     /**
-     * Format in which the generated images are returned. Must be one of {@code url}
-     * or {@code b64_json}.
+     * Format in which the generated images are returned. Must be one of {@code url} or
+     * {@code b64_json}.
      */
     private String responseFormat = "url";
 

@@ -30,8 +30,8 @@ public class OpenAiChatProperties {
     private Double temperature = 1.0;
 
     /**
-     * Alternative to sampling with temperature, called nucleus sampling, where the
-     * model considers the results of the tokens with top_p probability mass.
+     * Alternative to sampling with temperature, called nucleus sampling, where the model
+     * considers the results of the tokens with top_p probability mass.
      * <p>
      * 0.1 means only the tokens comprising the top 10% probability mass are considered.
      * <p>
