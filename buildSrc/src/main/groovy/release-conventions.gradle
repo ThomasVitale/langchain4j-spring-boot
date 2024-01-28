@@ -15,8 +15,6 @@ javadoc {
     options.addStringOption("Xdoclint:none", "-quiet")
 }
 
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
-
 publishing {
     publications {
         mavenJava(MavenPublication) {
@@ -88,14 +86,4 @@ signing {
     def signingPassphrase = findProperty('signingPassphrase') ?: System.getenv("SIGNING_PASSPHRASE")
     useInMemoryPgpKeys(signingSecretKey, signingPassphrase)
     sign publishing.publications.mavenJava
-}
-
-tasks.register('snapshot') {
-    onlyIf { !isReleaseVersion }
-    finalizedBy 'publishAllPublicationsToSonatypeSnapshotRepository'
-}
-
-tasks.register('release') {
-    onlyIf { isReleaseVersion }
-    finalizedBy 'publishAllPublicationsToSonatypeStagingRepository'
 }
