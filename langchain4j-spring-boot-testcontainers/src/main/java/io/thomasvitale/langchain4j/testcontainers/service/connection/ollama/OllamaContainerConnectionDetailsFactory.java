@@ -32,16 +32,13 @@ class OllamaContainerConnectionDetailsFactory
     private static final class OllamaContainerConnectionDetails extends ContainerConnectionDetails<OllamaContainer>
             implements OllamaConnectionDetails {
 
-        private final String url;
-
         private OllamaContainerConnectionDetails(ContainerConnectionSource<OllamaContainer> source) {
             super(source);
-            this.url = "http://%s:%s".formatted(getContainer().getHost(), getContainer().getFirstMappedPort());
         }
 
         @Override
         public String getUrl() {
-            return url;
+            return "http://%s:%s".formatted(getContainer().getHost(), getContainer().getFirstMappedPort());
         }
 
     }
