@@ -1,0 +1,34 @@
+plugins {
+    id 'code-quality-conventions'
+    id 'java-conventions'
+    id 'sbom-conventions'
+    id 'release-conventions'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+	annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	api project(":langchain4j-spring-boot-autoconfigure")
+    api 'org.springframework.boot:spring-boot-testcontainers'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testcontainers:junit-jupiter'
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			pom {
+				name = "LangChain4J Spring Boot Testcontainers"
+				description = "LangChain4J Spring Boot Testcontainers."
+			}
+		}
+	}
+}

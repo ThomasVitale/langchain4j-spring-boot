@@ -21,10 +21,17 @@ import org.springframework.context.annotation.Bean;
 public class OllamaAutoConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean(OllamaConnectionDetails.class)
+    PropertiesOllamaConnectionDetails propertiesOllamaConnectionDetails(OllamaProperties ollamaProperties) {
+        return new PropertiesOllamaConnectionDetails(ollamaProperties);
+    }
+
+    @Bean
     @ConditionalOnMissingBean(OllamaChatModel.class)
-    OllamaChatModel ollamaChatModel(OllamaProperties ollamaProperties, OllamaChatProperties ollamaChatProperties) {
+    OllamaChatModel ollamaChatModel(OllamaConnectionDetails ollamaConnectionDetails, OllamaProperties ollamaProperties,
+            OllamaChatProperties ollamaChatProperties) {
         return OllamaChatModel.builder()
-            .baseUrl(ollamaProperties.getBaseUrl().toString())
+            .baseUrl(ollamaConnectionDetails.getUrl())
             .modelName(ollamaChatProperties.getModel())
             .temperature(ollamaChatProperties.getTemperature())
             .topK(ollamaChatProperties.getTopK())
@@ -40,10 +47,10 @@ public class OllamaAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OllamaStreamingChatModel.class)
-    OllamaStreamingChatModel ollamaStreamingChatModel(OllamaProperties ollamaProperties,
-            OllamaChatProperties ollamaChatProperties) {
+    OllamaStreamingChatModel ollamaStreamingChatModel(OllamaConnectionDetails ollamaConnectionDetails,
+            OllamaProperties ollamaProperties, OllamaChatProperties ollamaChatProperties) {
         return OllamaStreamingChatModel.builder()
-            .baseUrl(ollamaProperties.getBaseUrl().toString())
+            .baseUrl(ollamaConnectionDetails.getUrl())
             .modelName(ollamaChatProperties.getModel())
             .temperature(ollamaChatProperties.getTemperature())
             .topK(ollamaChatProperties.getTopK())
@@ -58,14 +65,32 @@ public class OllamaAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(OllamaEmbeddingModel.class)
-    OllamaEmbeddingModel ollamaEmbeddingModel(OllamaProperties ollamaProperties,
-            OllamaEmbeddingProperties ollamaEmbeddingProperties) {
+    OllamaEmbeddingModel ollamaEmbeddingModel(OllamaConnectionDetails ollamaConnectionDetails,
+            OllamaProperties ollamaProperties, OllamaEmbeddingProperties ollamaEmbeddingProperties) {
         return OllamaEmbeddingModel.builder()
-            .baseUrl(ollamaProperties.getBaseUrl().toString())
+            .baseUrl(ollamaConnectionDetails.getUrl())
             .modelName(ollamaEmbeddingProperties.getModel())
             .timeout(ollamaProperties.getTimeout())
             .maxRetries(ollamaProperties.getMaxRetries())
             .build();
+    }
+
+    /**
+     * Adapts {@link OllamaProperties} to {@link OllamaConnectionDetails}.
+     */
+    static class PropertiesOllamaConnectionDetails implements OllamaConnectionDetails {
+
+        private final OllamaProperties ollamaProperties;
+
+        PropertiesOllamaConnectionDetails(OllamaProperties ollamaProperties) {
+            this.ollamaProperties = ollamaProperties;
+        }
+
+        @Override
+        public String getUrl() {
+            return ollamaProperties.getBaseUrl().toString();
+        }
+
     }
 
 }
