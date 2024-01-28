@@ -23,24 +23,21 @@ class OllamaAutoConfigurationTests {
     @Test
     void chat() {
         contextRunner.run(context -> {
-            OllamaChatModel model = context.getBean(OllamaChatModel.class);
-            assertThat(model).isInstanceOf(OllamaChatModel.class);
+            assertThat(context).hasSingleBean(OllamaChatModel.class);
         });
     }
 
     @Test
     void chatStreaming() {
         contextRunner.run(context -> {
-            OllamaStreamingChatModel model = context.getBean(OllamaStreamingChatModel.class);
-            assertThat(model).isInstanceOf(OllamaStreamingChatModel.class);
+            assertThat(context).hasSingleBean(OllamaStreamingChatModel.class);
         });
     }
 
     @Test
     void embedding() {
         contextRunner.run(context -> {
-            OllamaEmbeddingModel model = context.getBean(OllamaEmbeddingModel.class);
-            assertThat(model).isInstanceOf(OllamaEmbeddingModel.class);
+            assertThat(context).hasSingleBean(OllamaEmbeddingModel.class);
         });
     }
 

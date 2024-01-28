@@ -26,40 +26,35 @@ class OpenAiAutoConfigurationTests {
     @Test
     void chat() {
         contextRunner.run(context -> {
-            OpenAiChatModel model = context.getBean(OpenAiChatModel.class);
-            assertThat(model).isInstanceOf(OpenAiChatModel.class);
+            assertThat(context).hasSingleBean(OpenAiChatModel.class);
         });
     }
 
     @Test
     void chatStreaming() {
         contextRunner.run(context -> {
-            OpenAiStreamingChatModel model = context.getBean(OpenAiStreamingChatModel.class);
-            assertThat(model).isInstanceOf(OpenAiStreamingChatModel.class);
+            assertThat(context).hasSingleBean(OpenAiStreamingChatModel.class);
         });
     }
 
     @Test
     void embedding() {
         contextRunner.run(context -> {
-            OpenAiEmbeddingModel model = context.getBean(OpenAiEmbeddingModel.class);
-            assertThat(model).isInstanceOf(OpenAiEmbeddingModel.class);
+            assertThat(context).hasSingleBean(OpenAiEmbeddingModel.class);
         });
     }
 
     @Test
     void image() {
         contextRunner.run(context -> {
-            OpenAiImageModel model = context.getBean(OpenAiImageModel.class);
-            assertThat(model).isInstanceOf(OpenAiImageModel.class);
+            assertThat(context).hasSingleBean(OpenAiImageModel.class);
         });
     }
 
     @Test
     void moderation() {
         contextRunner.run(context -> {
-            OpenAiModerationModel model = context.getBean(OpenAiModerationModel.class);
-            assertThat(model).isInstanceOf(OpenAiModerationModel.class);
+            assertThat(context).hasSingleBean(OpenAiModerationModel.class);
         });
     }
 
