@@ -1,37 +1,37 @@
 plugins {
-	id 'code-quality-conventions'
-	id 'java-conventions'
-	id 'sbom-conventions'
-	id 'release-conventions'
+    id 'code-quality-conventions'
+    id 'java-conventions'
+    id 'sbom-conventions'
+    id 'release-conventions'
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 dependencies {
-	annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-	implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter'
 
-	optional "dev.langchain4j:langchain4j-ollama:${langchain4jVersion}"
-	optional "dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}"
+    optional "dev.langchain4j:langchain4j-ollama:${langchain4jVersion}"
+    optional "dev.langchain4j:langchain4j-open-ai:${langchain4jVersion}"
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-	testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom {
-				name = "LangChain4J Spring Boot Autoconfigure"
-				description = "LangChain4J Spring Boot Auto-Configuration."
-			}
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = "LangChain4J Spring Boot Autoconfigure"
+                description = "LangChain4J Spring Boot Auto-Configuration."
+            }
+        }
+    }
 }
