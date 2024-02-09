@@ -16,7 +16,7 @@
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.4.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.5.0'
 ```
 
 Configuration:
@@ -50,8 +50,8 @@ class ChatController {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.4.0'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.4.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.5.0'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.5.0'
 ```
 
 Configuration:
