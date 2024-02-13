@@ -9,7 +9,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
 
     api project(":langchain4j-spring-boot-autoconfigure")
-    api "dev.langchain4j:langchain4j-ollama:${langchain4jVersion}"
+    api project(":langchain4j-spring-core")
+
+    api('dev.langchain4j:langchain4j-ollama')  {
+        exclude group: 'dev.langchain4j', module: 'langchain4j-core'
+    }
 }
 
 publishing {

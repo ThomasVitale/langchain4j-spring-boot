@@ -4,6 +4,8 @@ plugins {
 
 rootProject.name = "langchain4j-spring-boot"
 
+include 'langchain4j-spring-core'
+
 include 'langchain4j-spring-boot-autoconfigure'
 include 'langchain4j-spring-boot-docker-compose'
 include 'langchain4j-spring-boot-testcontainers'

@@ -1,0 +1,50 @@
+plugins {
+    id 'code-quality-conventions'
+    id 'java-conventions'
+    id 'sbom-conventions'
+    id 'release-conventions'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    api('dev.langchain4j:langchain4j-core') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
+    api('dev.langchain4j:langchain4j') {
+        exclude group: 'dev.langchain4j', module: 'langchain4j-core'
+        exclude group: 'com.squareup.retrofit2', module: 'retrofit'
+    }
+
+    implementation 'org.springframework:spring-core'
+
+    implementation 'com.fasterxml.jackson.core:jackson-annotations'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
+    implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names'
+    implementation "org.antlr:stringtemplate:${stringTemplateVersion}"
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation('dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2-q') {
+        exclude group: 'dev.langchain4j', module: 'langchain4j-core'
+    }
+
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			pom {
+				name = "LangChain4J Spring Core"
+				description = "LangChain4J Spring Core."
+			}
+		}
+	}
+}

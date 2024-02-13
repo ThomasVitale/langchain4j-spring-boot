@@ -18,8 +18,13 @@ repositories {
 
 dependencyManagement {
     imports {
+        mavenBom "dev.langchain4j:langchain4j-bom:${langchain4jVersion}"
         mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add("-parameters")
 }
 
 tasks.named('test') {
