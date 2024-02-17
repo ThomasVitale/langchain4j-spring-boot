@@ -12,23 +12,24 @@ configurations {
 }
 
 dependencies {
-	annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-	api project(":langchain4j-spring-boot-autoconfigure")
+    api project(":langchain4j-spring-boot-autoconfigure")
     api 'org.springframework.boot:spring-boot-testcontainers'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.springframework:spring-web'
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom {
-				name = "LangChain4J Spring Boot Testcontainers"
-				description = "LangChain4J Spring Boot Testcontainers."
-			}
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = "LangChain4j Spring Boot Testcontainers"
+                description = "LangChain4j Spring Boot Testcontainers."
+            }
+        }
+    }
 }

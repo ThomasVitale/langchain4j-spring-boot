@@ -12,24 +12,25 @@ configurations {
 }
 
 dependencies {
-	annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-autoconfigure-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-	api project(":langchain4j-spring-boot-autoconfigure")
+    api project(":langchain4j-spring-boot-autoconfigure")
     api 'org.springframework.boot:spring-boot-docker-compose'
 
     optional 'org.springframework.boot:spring-boot-autoconfigure'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom {
-				name = "LangChain4J Spring Boot Docker Compose"
-				description = "LangChain4J Spring Boot Docker Compose."
-			}
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = "LangChain4j Spring Boot Docker Compose"
+                description = "LangChain4j Spring Boot Docker Compose."
+            }
+        }
+    }
 }
