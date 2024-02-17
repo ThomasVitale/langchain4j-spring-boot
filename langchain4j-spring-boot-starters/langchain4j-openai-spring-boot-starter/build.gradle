@@ -20,8 +20,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             pom {
-                name = "LangChain4J OpenAI Spring Boot Starter"
-                description = "Spring Boot Starter for LangChain4J OpenAI."
+                name = "LangChain4j OpenAI Spring Boot Starter"
+                description = "Spring Boot Starter for LangChain4j OpenAI."
             }
         }
     }

@@ -16,20 +16,18 @@ dependencies {
 
     api('dev.langchain4j:langchain4j-core') {
         exclude group: 'com.google.code.gson', module: 'gson'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
     }
     api('dev.langchain4j:langchain4j') {
         exclude group: 'dev.langchain4j', module: 'langchain4j-core'
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
         exclude group: 'com.squareup.retrofit2', module: 'retrofit'
+        exclude group: 'org.slf4j', module: 'slf4j-api'
     }
 
-    implementation 'org.springframework:spring-core'
+    api 'org.springframework.boot:spring-boot-starter-json'
 
-    implementation 'com.fasterxml.jackson.core:jackson-annotations'
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8'
-    implementation 'com.fasterxml.jackson.module:jackson-module-parameter-names'
-    implementation "org.antlr:stringtemplate:${stringTemplateVersion}"
+    implementation "org.antlr:ST4:${stringTemplateVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation('dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2-q') {
@@ -42,8 +40,8 @@ publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			pom {
-				name = "LangChain4J Spring Core"
-				description = "LangChain4J Spring Core."
+				name = "LangChain4j Spring Core"
+				description = "LangChain4j Spring Core."
 			}
 		}
 	}

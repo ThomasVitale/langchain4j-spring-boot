@@ -1,19 +1,25 @@
-# LangChain4J Spring Boot
+# LangChain4j Spring Boot
 
-[LangChain4J](https://github.com/langchain4j) support in Spring Boot to build AI and LLM-powered applications.
+[LangChain4j](https://github.com/langchain4j) support in Spring Boot to build AI and LLM-powered applications.
 
-## 🚀&nbsp; Getting Started
+## 🚀&nbsp; LLM Application Development
 
-### Prerequisites
+This project brings LangChain4j support in Spring Boot, including tools, chains, AI services,
+and integrations with LLM services and vector stores.
 
-* Java 17+
-* Spring Boot 3+
+Using the starter projects in this repository, you gain the following advantages over
+using the vanilla LangChain4j libraries in Spring Boot:
+
+* Autoconfiguration and unified configuration properties for models and vector stores
+* HTTP infrastructure with RestClient, WebClient, and Jackson for all integrations
+* Built-in observability with Micrometer, including LLM-specific metrics and traces
+* Dev services with Docker Compose and Testcontainers for models and vector stores.
 
 ## 🦜 Models
 
 ### OpenAI
 
-Gradle:
+Dependency:
 
 ```groovy
 implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.5.0'

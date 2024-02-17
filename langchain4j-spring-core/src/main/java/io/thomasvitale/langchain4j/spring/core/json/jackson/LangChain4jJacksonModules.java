@@ -12,7 +12,7 @@ import io.thomasvitale.langchain4j.spring.core.tool.jackson.ToolJacksonModule;
 import io.thomasvitale.langchain4j.spring.core.vectorstore.jackson.VectorStoreJacksonModule;
 
 /**
- * Gives access to all the Jackson modules configured in LangChain4J Spring.
+ * Gives access to all the Jackson modules configured in LangChain4j Spring.
  *
  * <pre>
  *     ObjectMapper mapper = new ObjectMapper();

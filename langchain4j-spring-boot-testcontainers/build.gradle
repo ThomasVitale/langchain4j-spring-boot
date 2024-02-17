@@ -20,14 +20,15 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.springframework:spring-web'
 }
 
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
 			pom {
-				name = "LangChain4J Spring Boot Testcontainers"
-				description = "LangChain4J Spring Boot Testcontainers."
+				name = "LangChain4j Spring Boot Testcontainers"
+				description = "LangChain4j Spring Boot Testcontainers."
 			}
 		}
 	}

@@ -1,9 +1,11 @@
 package io.thomasvitale.langchain4j.autoconfigure.ollama;
 
 import java.net.URI;
-import java.time.Duration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import io.thomasvitale.langchain4j.spring.core.model.client.ClientConfig;
 
 /**
  * Common configuration properties for Ollama.
@@ -21,14 +23,10 @@ public class OllamaProperties {
     private URI baseUrl = URI.create("http://localhost:11434");
 
     /**
-     * Timeout for Ollama calls.
+     * Settings for the HTTP client.
      */
-    private Duration timeout = Duration.ofSeconds(30);
-
-    /**
-     * Mximum number of times an Ollama call will be retried.
-     */
-    private Integer maxRetries = 3;
+    @NestedConfigurationProperty
+    private ClientConfig client = new ClientConfig();
 
     public URI getBaseUrl() {
         return baseUrl;
@@ -38,20 +36,12 @@ public class OllamaProperties {
         this.baseUrl = baseUrl;
     }
 
-    public Duration getTimeout() {
-        return timeout;
+    public ClientConfig getClient() {
+        return client;
     }
 
-    public void setTimeout(Duration timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getMaxRetries() {
-        return maxRetries;
-    }
-
-    public void setMaxRetries(Integer maxRetries) {
-        this.maxRetries = maxRetries;
+    public void setClient(ClientConfig client) {
+        this.client = client;
     }
 
 }
