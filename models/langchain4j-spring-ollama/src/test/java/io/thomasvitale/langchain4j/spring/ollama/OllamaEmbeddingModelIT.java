@@ -51,7 +51,7 @@ class OllamaEmbeddingModelIT {
         var ollamaEmbeddingModel = OllamaEmbeddingModel.builder()
             .withClient(ollamaClient)
             .withModel(MODEL_NAME)
-            .withOptions(Options.builder().build())
+            .withOptions(Options.create())
             .build();
 
         var response = ollamaEmbeddingModel.embed("Welcome to the jungle");
@@ -66,7 +66,7 @@ class OllamaEmbeddingModelIT {
         var ollamaEmbeddingModel = OllamaEmbeddingModel.builder()
             .withClient(ollamaClient)
             .withModel(MODEL_NAME)
-            .withOptions(Options.builder().build())
+            .withOptions(Options.create())
             .build();
 
         var textSegment1 = TextSegment.from("Welcome to the jungle");

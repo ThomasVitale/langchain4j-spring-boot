@@ -24,7 +24,7 @@ public class OllamaEmbeddingProperties {
      * Additional model parameters.
      */
     @NestedConfigurationProperty
-    private Options options = Options.builder().build();
+    private Options options = Options.create();
 
     public String getModel() {
         return model;

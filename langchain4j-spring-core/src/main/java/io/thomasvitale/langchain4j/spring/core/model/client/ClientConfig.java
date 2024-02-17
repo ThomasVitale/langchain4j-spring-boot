@@ -56,6 +56,28 @@ public class ClientConfig {
         return logResponses;
     }
 
+    // Setters
+
+    public void setConnectTimeout(Duration connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public void setReadTimeout(Duration readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    public void setSslBundle(String sslBundle) {
+        this.sslBundle = sslBundle;
+    }
+
+    public void setLogRequests(boolean logRequests) {
+        this.logRequests = logRequests;
+    }
+
+    public void setLogResponses(boolean logResponses) {
+        this.logResponses = logResponses;
+    }
+
     // Builders
 
     public static ClientConfig create() {
