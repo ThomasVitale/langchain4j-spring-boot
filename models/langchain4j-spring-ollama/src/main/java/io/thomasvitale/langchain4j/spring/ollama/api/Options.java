@@ -56,18 +56,18 @@ public class Options {
      * Works together with top-k. A higher value (e.g., 0.95) will lead to more diverse text,
      * while a lower value (e.g., 0.5) will generate more focused and conservative text.
      */
-    private Float topP = 0.9F;
+    private Double topP = 0.9;
 
     /**
      * Tail free sampling is used to reduce the impact of less probable tokens from the output.
      * A higher value (e.g., 2.0) will reduce the impact more, while a value of 1.0 disables this setting.
      */
-    private Float tfsZ = 1.0F;
+    private Double tfsZ = 1.0;
 
     /**
      * TypicalP
      */
-    private Float typicalP = 1.0F;
+    private Double typicalP = 1.0;
 
     /**
      * Sets how far back for the model to look back to prevent repetition.
@@ -79,24 +79,24 @@ public class Options {
      * The temperature of the model. Increasing the temperature
      * will make the model answer more creatively.
      */
-    private Float temperature = 0.8F;
+    private Double temperature = 0.8;
 
     /**
      * Sets how strongly to penalize repetitions. A higher value (e.g., 1.5)
      * will penalize repetitions more strongly, while a lower value (e.g., 0.9)
      * will be more lenient.
      */
-    private Float repeatPenalty = 1.1F;
+    private Double repeatPenalty = 1.1;
 
     /**
      * PresencePenalty
      */
-    private Float presencePenalty = 0.0F;
+    private Double presencePenalty = 0.0;
 
     /**
      * FrequencyPenalty
      */
-    private Float frequencyPenalty = 0.0F;
+    private Double frequencyPenalty = 0.0;
 
     /**
      * Enable Mirostat sampling for controlling perplexity.
@@ -108,14 +108,14 @@ public class Options {
      * Controls the balance between coherence and diversity of the output.
      * A lower value will result in more focused and coherent text.
      */
-   private Float mirostatTau = 5.0F;
+   private Double mirostatTau = 5.0;
 
     /**
      * Influences how quickly the algorithm responds to feedback from the generated text.
      * A lower learning rate will result in slower adjustments, while a higher learning rate
      * will make the algorithm more responsive.
      */
-    private Float mirostatEta = 0.1F;
+    private Double mirostatEta = 0.1;
 
     /**
      * PenalizeNewline
@@ -202,12 +202,12 @@ public class Options {
     /**
      * RopeFrequencyBase
      */
-    @JsonProperty("rope_frequency_base") private Float ropeFrequencyBase = 10000.0F;
+    @JsonProperty("rope_frequency_base") private Double ropeFrequencyBase = 10000.0;
 
     /**
      * RopeFrequencyScale
      */
-    @JsonProperty("rope_frequency_scale") private Float ropeFrequencyScale = 1.0F;
+    @JsonProperty("rope_frequency_scale") private Double ropeFrequencyScale = 1.0;
 
     /**
      * Sets the number of threads to use during computation. By default, Ollama will detect
@@ -236,15 +236,15 @@ public class Options {
         return topK;
     }
 
-    public Float getTopP() {
+    public Double getTopP() {
         return topP;
     }
 
-    public Float getTfsZ() {
+    public Double getTfsZ() {
         return tfsZ;
     }
 
-    public Float getTypicalP() {
+    public Double getTypicalP() {
         return typicalP;
     }
 
@@ -252,19 +252,19 @@ public class Options {
         return repeatLastN;
     }
 
-    public Float getTemperature() {
+    public Double getTemperature() {
         return temperature;
     }
 
-    public Float getRepeatPenalty() {
+    public Double getRepeatPenalty() {
         return repeatPenalty;
     }
 
-    public Float getPresencePenalty() {
+    public Double getPresencePenalty() {
         return presencePenalty;
     }
 
-    public Float getFrequencyPenalty() {
+    public Double getFrequencyPenalty() {
         return frequencyPenalty;
     }
 
@@ -272,11 +272,11 @@ public class Options {
         return mirostat;
     }
 
-    public Float getMirostatTau() {
+    public Double getMirostatTau() {
         return mirostatTau;
     }
 
-    public Float getMirostatEta() {
+    public Double getMirostatEta() {
         return mirostatEta;
     }
 
@@ -340,11 +340,11 @@ public class Options {
         return embeddingOnly;
     }
 
-    public Float getRopeFrequencyBase() {
+    public Double getRopeFrequencyBase() {
         return ropeFrequencyBase;
     }
 
-    public Float getRopeFrequencyScale() {
+    public Double getRopeFrequencyScale() {
         return ropeFrequencyScale;
     }
 
@@ -370,15 +370,15 @@ public class Options {
         this.topK = topK;
     }
 
-    public void setTopP(Float topP) {
+    public void setTopP(Double topP) {
         this.topP = topP;
     }
 
-    public void setTfsZ(Float tfsZ) {
+    public void setTfsZ(Double tfsZ) {
         this.tfsZ = tfsZ;
     }
 
-    public void setTypicalP(Float typicalP) {
+    public void setTypicalP(Double typicalP) {
         this.typicalP = typicalP;
     }
 
@@ -386,19 +386,19 @@ public class Options {
         this.repeatLastN = repeatLastN;
     }
 
-    public void setTemperature(Float temperature) {
+    public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
 
-    public void setRepeatPenalty(Float repeatPenalty) {
+    public void setRepeatPenalty(Double repeatPenalty) {
         this.repeatPenalty = repeatPenalty;
     }
 
-    public void setPresencePenalty(Float presencePenalty) {
+    public void setPresencePenalty(Double presencePenalty) {
         this.presencePenalty = presencePenalty;
     }
 
-    public void setFrequencyPenalty(Float frequencyPenalty) {
+    public void setFrequencyPenalty(Double frequencyPenalty) {
         this.frequencyPenalty = frequencyPenalty;
     }
 
@@ -406,11 +406,11 @@ public class Options {
         this.mirostat = mirostat;
     }
 
-    public void setMirostatTau(Float mirostatTau) {
+    public void setMirostatTau(Double mirostatTau) {
         this.mirostatTau = mirostatTau;
     }
 
-    public void setMirostatEta(Float mirostatEta) {
+    public void setMirostatEta(Double mirostatEta) {
         this.mirostatEta = mirostatEta;
     }
 
@@ -474,11 +474,11 @@ public class Options {
         this.embeddingOnly = embeddingOnly;
     }
 
-    public void setRopeFrequencyBase(Float ropeFrequencyBase) {
+    public void setRopeFrequencyBase(Double ropeFrequencyBase) {
         this.ropeFrequencyBase = ropeFrequencyBase;
     }
 
-    public void setRopeFrequencyScale(Float ropeFrequencyScale) {
+    public void setRopeFrequencyScale(Double ropeFrequencyScale) {
         this.ropeFrequencyScale = ropeFrequencyScale;
     }
 
@@ -512,17 +512,17 @@ public class Options {
         return this;
     }
 
-    public Options withTopP(Float topP) {
+    public Options withTopP(Double topP) {
         this.topP = topP;
         return this;
     }
 
-    public Options withTfsZ(Float tfsZ) {
+    public Options withTfsZ(Double tfsZ) {
         this.tfsZ = tfsZ;
         return this;
     }
 
-    public Options withTypicalP(Float typicalP) {
+    public Options withTypicalP(Double typicalP) {
         this.typicalP = typicalP;
         return this;
     }
@@ -532,22 +532,22 @@ public class Options {
         return this;
     }
 
-    public Options withTemperature(Float temperature) {
+    public Options withTemperature(Double temperature) {
         this.temperature = temperature;
         return this;
     }
 
-    public Options withRepeatPenalty(Float repeatPenalty) {
+    public Options withRepeatPenalty(Double repeatPenalty) {
         this.repeatPenalty = repeatPenalty;
         return this;
     }
 
-    public Options withPresencePenalty(Float presencePenalty) {
+    public Options withPresencePenalty(Double presencePenalty) {
         this.presencePenalty = presencePenalty;
         return this;
     }
 
-    public Options withFrequencyPenalty(Float frequencyPenalty) {
+    public Options withFrequencyPenalty(Double frequencyPenalty) {
         this.frequencyPenalty = frequencyPenalty;
         return this;
     }
@@ -557,12 +557,12 @@ public class Options {
         return this;
     }
 
-    public Options withMirostatTau(Float mirostatTau) {
+    public Options withMirostatTau(Double mirostatTau) {
         this.mirostatTau = mirostatTau;
         return this;
     }
 
-    public Options withMirostatEta(Float mirostatEta) {
+    public Options withMirostatEta(Double mirostatEta) {
         this.mirostatEta = mirostatEta;
         return this;
     }
@@ -642,12 +642,12 @@ public class Options {
         return this;
     }
 
-    public Options withRopeFrequencyBase(Float ropeFrequencyBase) {
+    public Options withRopeFrequencyBase(Double ropeFrequencyBase) {
         this.ropeFrequencyBase = ropeFrequencyBase;
         return this;
     }
 
-    public Options withRopeFrequencyScale(Float ropeFrequencyScale) {
+    public Options withRopeFrequencyScale(Double ropeFrequencyScale) {
         this.ropeFrequencyScale = ropeFrequencyScale;
         return this;
     }
