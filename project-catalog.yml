@@ -1,0 +1,32 @@
+# Catalog of projects usable from the Spring CLI (https://docs.spring.io/spring-cli/reference)
+# to bootstrap LLM applications using Java, Spring Boot, and LangChain4j.
+---
+project-repositories:
+  - name: "langchain4j-ollama-chat"
+    description: "LangChain4j Spring with chat models (Ollama)."
+    url: "https://github.com/ThomasVitale/llm-apps-java-langchain4j?subPath=01-chat-models/chat-models-ollama"
+    tags:
+      - "java-21"
+      - "boot-3.2"
+      - "langchain4j"
+      - "ai"
+      - "chat"
+  - name: "langchain4j-ollama-chat-prompts"
+    description: "LangChain4j Spring with prompts, messages, and templates (Ollama)."
+    url: "https://github.com/ThomasVitale/llm-apps-java-langchain4j?subPath=02-prompts/prompts-templates-ollama"
+    tags:
+      - "java-21"
+      - "boot-3.2"
+      - "langchain4j"
+      - "ai"
+      - "chat"
+      - "prompts"
+  - name: "langchain4j-ollama-embeddings"
+    description: "LLM Application with LangChain4j and Ollama (embeddings)."
+    url: "https://github.com/ThomasVitale/llm-apps-java-langchain4j?subPath=04-embedding-models/embedding-models-ollama"
+    tags:
+      - "java-21"
+      - "boot-3.2"
+      - "langchain4j"
+      - "ai"
+      - "embeddings"
