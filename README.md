@@ -19,7 +19,7 @@ using the vanilla LangChain4j libraries in Spring Boot:
 
 ### OpenAI
 
-Dependency:
+Gradle:
 
 ```groovy
 implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.5.0'

@@ -12,7 +12,7 @@ configurations {
 }
 
 dependencies {
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     api project(':langchain4j-spring-core')
 
@@ -24,12 +24,12 @@ dependencies {
 }
 
 publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			pom {
-				name = "LangChain4j Spring Ollama"
-				description = "LangChain4j Spring Ollama."
-			}
-		}
-	}
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = "LangChain4j Spring Ollama"
+                description = "LangChain4j Spring Ollama."
+            }
+        }
+    }
 }

@@ -11,7 +11,7 @@ dependencies {
     api project(":langchain4j-spring-boot-autoconfigure")
     api project(":langchain4j-spring-core")
 
-    api('dev.langchain4j:langchain4j-open-ai')  {
+    api('dev.langchain4j:langchain4j-open-ai') {
         exclude group: 'dev.langchain4j', module: 'langchain4j-core'
     }
 }

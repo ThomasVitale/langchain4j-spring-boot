@@ -21,7 +21,7 @@ dependencies {
 
     optional project(":models:langchain4j-spring-ollama")
 
-    optional('dev.langchain4j:langchain4j-open-ai')  {
+    optional('dev.langchain4j:langchain4j-open-ai') {
         exclude group: 'dev.langchain4j', module: 'langchain4j-core'
     }
 
