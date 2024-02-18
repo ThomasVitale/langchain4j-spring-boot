@@ -1,11 +1,8 @@
 # LangChain4j Spring Boot
 
-[LangChain4j](https://github.com/langchain4j) support in Spring Boot to build AI and LLM-powered applications.
-
-## 🚀&nbsp; LLM Application Development
-
-This project brings LangChain4j support in Spring Boot, including tools, chains, AI services,
-and integrations with LLM services and vector stores.
+This project brings [LangChain4j](https://github.com/langchain4j) support in Spring Boot
+to build AI and LLM-powered applications. It provides integrations with LLM services
+and vector stores, as well as tools, chains, and AI services.
 
 Using the starter projects in this repository, you gain the following advantages over
 using the vanilla LangChain4j libraries in Spring Boot:
@@ -22,7 +19,7 @@ using the vanilla LangChain4j libraries in Spring Boot:
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.5.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.6.0'
 ```
 
 Configuration:
@@ -56,8 +53,8 @@ class ChatController {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.5.0'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.5.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.6.0'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.6.0'
 ```
 
 Configuration:
