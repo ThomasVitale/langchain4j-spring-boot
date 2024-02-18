@@ -35,7 +35,7 @@ jobs:
         run: |
           VERSION=$(./gradlew properties | grep 'version:' | awk '{print $2}')
           if [[ $VERSION == *"SNAPSHOT"* ]]; then
-            ./gradlew publishAllPublicationsToSonatypeSnapshotRepository
+            ./gradlew publishAllPublicationsToSonatypeSnapshotRepository -Dorg.gradle.parallel=false
           fi
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
