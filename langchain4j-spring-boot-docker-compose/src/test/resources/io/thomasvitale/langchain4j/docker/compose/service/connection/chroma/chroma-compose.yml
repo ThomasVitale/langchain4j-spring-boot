@@ -1,0 +1,7 @@
+services:
+  chroma:
+    image: ghcr.io/chroma-core/chroma
+    ports:
+      - '8000'
+    environment:
+      ANONYMIZED_TELEMETRY: False

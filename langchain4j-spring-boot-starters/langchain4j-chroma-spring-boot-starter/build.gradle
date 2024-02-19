@@ -1,0 +1,25 @@
+plugins {
+    id 'code-quality-conventions'
+    id 'java-conventions'
+    id 'sbom-conventions'
+    id 'release-conventions'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    api project(":langchain4j-spring-boot-autoconfigure")
+    api project(":langchain4j-spring-core")
+    api project(":vector-stores:langchain4j-spring-chroma")
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = "LangChain4j Chroma Spring Boot Starter"
+                description = "LangChain4j Chroma Spring Boot Starter."
+            }
+        }
+    }
+}

@@ -9,7 +9,7 @@ import io.thomasvitale.langchain4j.spring.core.document.jackson.DocumentJacksonM
 import io.thomasvitale.langchain4j.spring.core.embedding.jackson.EmbeddingJacksonModule;
 import io.thomasvitale.langchain4j.spring.core.image.jackson.ImageJacksonModule;
 import io.thomasvitale.langchain4j.spring.core.tool.jackson.ToolJacksonModule;
-import io.thomasvitale.langchain4j.spring.core.vectorstore.jackson.VectorStoreJacksonModule;
+import io.thomasvitale.langchain4j.spring.core.vectorstore.inmemory.jackson.VectorStoreJacksonModule;
 
 /**
  * Gives access to all the Jackson modules configured in LangChain4j Spring.

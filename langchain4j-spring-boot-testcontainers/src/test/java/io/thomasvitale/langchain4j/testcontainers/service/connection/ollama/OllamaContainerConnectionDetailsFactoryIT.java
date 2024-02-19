@@ -9,8 +9,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import io.thomasvitale.langchain4j.autoconfigure.ollama.OllamaAutoConfiguration;
-import io.thomasvitale.langchain4j.autoconfigure.ollama.OllamaConnectionDetails;
+import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaAutoConfiguration;
+import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionDetails;
 import io.thomasvitale.langchain4j.testcontainers.service.containers.OllamaContainer;
 
 import static org.assertj.core.api.Assertions.assertThat;

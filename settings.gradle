@@ -8,9 +8,12 @@ include 'langchain4j-spring-core'
 
 include 'models:langchain4j-spring-ollama'
 
+include 'vector-stores:langchain4j-spring-chroma'
+
 include 'langchain4j-spring-boot-autoconfigure'
 include 'langchain4j-spring-boot-docker-compose'
 include 'langchain4j-spring-boot-testcontainers'
 
+include 'langchain4j-spring-boot-starters:langchain4j-chroma-spring-boot-starter'
 include 'langchain4j-spring-boot-starters:langchain4j-ollama-spring-boot-starter'
 include 'langchain4j-spring-boot-starters:langchain4j-openai-spring-boot-starter'

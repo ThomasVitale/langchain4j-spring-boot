@@ -59,7 +59,7 @@ http :8080/ai/chat message=="What is the capital of Italy?"
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.6.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.6.1'
 ```
 
 Configuration:
@@ -93,8 +93,8 @@ class ChatController {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.6.0'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.6.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.6.1'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.6.1'
 ```
 
 Configuration:
@@ -139,6 +139,59 @@ public class TestChatModelsOllamaApplication {
 
     public static void main(String[] args) {
         SpringApplication.from(ChatModelsOllamaApplication::main).with(TestChatModelsOllamaApplication.class).run(args);
+    }
+}
+```
+
+## 🫙 Vector Stores
+
+### Chroma
+
+Gradle:
+
+```groovy
+implementation 'io.thomasvitale.langchain4j:langchain4j-chroma-spring-boot-starter:0.6.1'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.6.1'
+```
+
+Example:
+
+```java
+class ChromaDataIngestor {
+    private final ChromaEmbeddingStore embeddingStore;
+    private final EmbeddingModel embeddingModel;
+
+    ChatController(ChromaEmbeddingStore embeddingStore, EmbeddingModel embeddingModel) {
+        this.embeddingStore = embeddingStore;
+        this.embeddingModel = embeddingModel;
+    }
+
+    public void ingest(List<Document> documents) {
+        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+                .embeddingStore(embeddingStore)
+                .embeddingModel(embeddingModel)
+                .documentSplitter(recursive(300, 0))
+                .build();
+        ingestor.ingest(documents);
+    }
+}
+```
+
+Testcontainers:
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+public class TestChromaApplication {
+
+    @Bean
+    @RestartScope
+    @ServiceConnection
+    GenericContainer<?> chroma() {
+        return new GenericContainer<>("ghcr.io/chroma-core/chroma").withExposedPorts(8000);
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.from(ChromaApplication::main).with(TestChromaApplication.class).run(args);
     }
 }
 ```

@@ -4,7 +4,7 @@ import org.springframework.boot.docker.compose.core.RunningService;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionDetailsFactory;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionSource;
 
-import io.thomasvitale.langchain4j.autoconfigure.ollama.OllamaConnectionDetails;
+import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionDetails;
 
 /**
  * {@link DockerComposeConnectionDetailsFactory} to create {@link OllamaConnectionDetails}

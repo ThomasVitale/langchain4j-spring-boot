@@ -1,9 +1,9 @@
 package io.thomasvitale.langchain4j.spring.ollama;
 
-import java.util.List;
-
 import dev.langchain4j.data.segment.TextSegment;
-
+import io.thomasvitale.langchain4j.spring.core.http.HttpClientConfig;
+import io.thomasvitale.langchain4j.spring.ollama.api.Options;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -13,9 +13,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import io.thomasvitale.langchain4j.spring.core.model.client.ClientConfig;
-import io.thomasvitale.langchain4j.spring.ollama.api.Options;
-import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +41,7 @@ class OllamaEmbeddingModelIT {
 
     @BeforeAll
     static void beforeAll() {
-        ollamaClient = new OllamaClient(getBaseUrl(), RestClient.builder(), ClientConfig.create());
+        ollamaClient = new OllamaClient(getBaseUrl(), RestClient.builder(), HttpClientConfig.create());
     }
 
     @Test
