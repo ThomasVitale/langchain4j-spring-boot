@@ -1,9 +1,9 @@
 package io.thomasvitale.langchain4j.spring.ollama.client;
 
-import java.net.http.HttpClient;
-import java.util.List;
-import java.util.function.Consumer;
-
+import io.thomasvitale.langchain4j.spring.core.http.HttpClientConfig;
+import io.thomasvitale.langchain4j.spring.core.http.HttpLoggingInterceptor;
+import io.thomasvitale.langchain4j.spring.core.http.HttpResponseErrorHandler;
+import io.thomasvitale.langchain4j.spring.ollama.api.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -14,13 +14,9 @@ import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClient;
 
-import io.thomasvitale.langchain4j.spring.core.model.client.ClientConfig;
-import io.thomasvitale.langchain4j.spring.ollama.api.ChatRequest;
-import io.thomasvitale.langchain4j.spring.ollama.api.ChatResponse;
-import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingRequest;
-import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingResponse;
-import io.thomasvitale.langchain4j.spring.ollama.api.GenerateRequest;
-import io.thomasvitale.langchain4j.spring.ollama.api.GenerateResponse;
+import java.net.http.HttpClient;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Client for the Ollama API.
@@ -38,16 +34,12 @@ public class OllamaClient {
 
     private final static String DEFAULT_BASE_URL = "http://localhost:11434";
 
-    private final OllamaResponseErrorHandler responseErrorHandler;
+    private final HttpResponseErrorHandler responseErrorHandler;
 
     private final RestClient restClient;
 
-    public OllamaClient() {
-        this(DEFAULT_BASE_URL, RestClient.builder(), ClientConfig.create());
-    }
-
-    public OllamaClient(String baseUrl, RestClient.Builder restClientBuilder, ClientConfig clientConfig) {
-        this.responseErrorHandler = new OllamaResponseErrorHandler();
+    public OllamaClient(String baseUrl, RestClient.Builder restClientBuilder, HttpClientConfig clientConfig) {
+        this.responseErrorHandler = new HttpResponseErrorHandler();
 
         HttpClient httpClient = HttpClient.newBuilder().connectTimeout(clientConfig.getConnectTimeout()).build();
 
@@ -55,7 +47,7 @@ public class OllamaClient {
         jdkClientHttpRequestFactory.setReadTimeout(clientConfig.getReadTimeout());
 
         ClientHttpRequestFactory requestFactory;
-        if (clientConfig.getLogResponses()) {
+        if (clientConfig.isLogRequests()) {
             requestFactory = new BufferingClientHttpRequestFactory(jdkClientHttpRequestFactory);
         }
         else {
@@ -70,7 +62,12 @@ public class OllamaClient {
         this.restClient = restClientBuilder.requestFactory(requestFactory)
             .baseUrl(baseUrl)
             .defaultHeaders(defaultHeaders)
-            .requestInterceptor(new LoggingInterceptor(clientConfig.getLogRequests(), clientConfig.getLogResponses()))
+            .requestInterceptors(interceptors -> {
+                if (clientConfig.isLogRequests() || clientConfig.isLogResponses()) {
+                    interceptors
+                        .add(new HttpLoggingInterceptor(clientConfig.isLogRequests(), clientConfig.isLogResponses()));
+                }
+            })
             .build();
     }
 

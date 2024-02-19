@@ -1,1 +1,1 @@
-io.thomasvitale.langchain4j.spring.core.vectorstore.SpringInMemoryEmbeddingStoreJsonCodecFactory
+io.thomasvitale.langchain4j.spring.core.vectorstore.inmemory.SpringInMemoryEmbeddingStoreJsonCodecFactory

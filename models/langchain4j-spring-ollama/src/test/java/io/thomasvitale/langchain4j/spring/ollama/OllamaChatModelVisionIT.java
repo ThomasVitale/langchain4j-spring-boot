@@ -17,7 +17,7 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import io.thomasvitale.langchain4j.spring.core.model.client.ClientConfig;
+import io.thomasvitale.langchain4j.spring.core.http.HttpClientConfig;
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
 import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
 
@@ -50,7 +50,7 @@ class OllamaChatModelVisionIT {
     @BeforeAll
     static void beforeAll() {
         ollamaClient = new OllamaClient(getBaseUrl(), RestClient.builder(),
-                ClientConfig.create().withReadTimeout(Duration.ofMinutes(5)));
+                HttpClientConfig.create().withReadTimeout(Duration.ofMinutes(5)));
     }
 
     @Test

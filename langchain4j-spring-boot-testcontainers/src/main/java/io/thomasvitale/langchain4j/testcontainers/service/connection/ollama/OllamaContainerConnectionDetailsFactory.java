@@ -5,7 +5,7 @@ import org.springframework.boot.testcontainers.service.connection.ContainerConne
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.GenericContainer;
 
-import io.thomasvitale.langchain4j.autoconfigure.ollama.OllamaConnectionDetails;
+import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionDetails;
 import io.thomasvitale.langchain4j.testcontainers.service.containers.OllamaContainer;
 
 /**

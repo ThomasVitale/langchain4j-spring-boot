@@ -1,0 +1,38 @@
+plugins {
+    id 'code-quality-conventions'
+    id 'java-conventions'
+    id 'sbom-conventions'
+    id 'release-conventions'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    api project(':langchain4j-spring-core')
+
+    api 'org.springframework.boot:spring-boot-starter-json'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation('dev.langchain4j:langchain4j-embeddings-all-minilm-l6-v2-q') {
+        exclude group: 'dev.langchain4j', module: 'langchain4j-core'
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = "LangChain4j Spring Chroma"
+                description = "LangChain4j Spring Chroma."
+            }
+        }
+    }
+}
