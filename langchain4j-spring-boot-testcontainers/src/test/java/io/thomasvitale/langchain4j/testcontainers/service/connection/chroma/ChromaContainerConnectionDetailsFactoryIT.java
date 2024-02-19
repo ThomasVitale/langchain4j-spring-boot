@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ChromaContainerConnectionDetailsFactoryIT {
 
     @Container
-    @ServiceConnection
+    @ServiceConnection("chroma")
     static final GenericContainer<?> container = new GenericContainer<>("ghcr.io/chroma-core/chroma")
         .withExposedPorts(8000);
 
