@@ -25,8 +25,7 @@ class ChromaContainerConnectionDetailsFactory
     }
 
     @Override
-    protected ChromaConnectionDetails getContainerConnectionDetails(
-            ContainerConnectionSource<Container<?>> source) {
+    protected ChromaConnectionDetails getContainerConnectionDetails(ContainerConnectionSource<Container<?>> source) {
         return new ChromaContainerConnectionDetails(source);
     }
 
