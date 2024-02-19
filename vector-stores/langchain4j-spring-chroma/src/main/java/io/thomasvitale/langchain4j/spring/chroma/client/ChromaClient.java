@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientResponseException;
 
 import io.thomasvitale.langchain4j.spring.chroma.api.AddEmbeddingsRequest;
 import io.thomasvitale.langchain4j.spring.chroma.api.Collection;
@@ -135,15 +136,19 @@ public class ChromaClient {
                 .retrieve()
                 .body(Collection.class);
         }
-        catch (HttpServerErrorException ex) {
-            var errorMessage = ex.getMessage();
+        catch (HttpServerErrorException.InternalServerError ex) {
+            // You thought Graphql returning 200 on errors was strange? Wait for it!
             // The Chroma API returns 500 instead of 404 when the collection does not
             // exist, so we need this workaround to handle the error.
+            var errorMessage = ex.getMessage();
             if (StringUtils.hasText(errorMessage)
                     && errorMessage.contains("Collection %s does not exist".formatted(collectionName))) {
                 return null;
             }
             throw new RuntimeException(errorMessage, ex);
+        }
+        catch (RestClientResponseException ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
         }
     }
 

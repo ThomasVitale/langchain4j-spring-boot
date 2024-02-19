@@ -5,6 +5,7 @@ import java.net.URI;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionDetailsFactory;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionSource;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.testcontainers.containers.Container;
 import org.testcontainers.containers.GenericContainer;
 
 import io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaConnectionDetails;
@@ -17,24 +18,25 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaConne
  * @author Thomas Vitale
  */
 class ChromaContainerConnectionDetailsFactory
-        extends ContainerConnectionDetailsFactory<GenericContainer<?>, ChromaConnectionDetails> {
+        extends ContainerConnectionDetailsFactory<Container<?>, ChromaConnectionDetails> {
 
     ChromaContainerConnectionDetailsFactory() {
+        super("chroma");
     }
 
     @Override
     protected ChromaConnectionDetails getContainerConnectionDetails(
-            ContainerConnectionSource<GenericContainer<?>> source) {
+            ContainerConnectionSource<Container<?>> source) {
         return new ChromaContainerConnectionDetails(source);
     }
 
     /**
      * {@link ChromaConnectionDetails} backed by a {@link ContainerConnectionSource}.
      */
-    private static final class ChromaContainerConnectionDetails extends ContainerConnectionDetails<GenericContainer<?>>
+    private static final class ChromaContainerConnectionDetails extends ContainerConnectionDetails<Container<?>>
             implements ChromaConnectionDetails {
 
-        private ChromaContainerConnectionDetails(ContainerConnectionSource<GenericContainer<?>> source) {
+        private ChromaContainerConnectionDetails(ContainerConnectionSource<Container<?>> source) {
             super(source);
         }
 

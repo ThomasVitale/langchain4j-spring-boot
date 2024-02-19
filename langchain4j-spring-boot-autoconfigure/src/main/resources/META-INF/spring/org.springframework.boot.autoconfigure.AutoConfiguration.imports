@@ -1,3 +1,3 @@
 io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaAutoConfiguration
 io.thomasvitale.langchain4j.autoconfigure.models.openai.OpenAiAutoConfiguration
-io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaVectorStoreAutoConfiguration
+io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaAutoConfiguration
