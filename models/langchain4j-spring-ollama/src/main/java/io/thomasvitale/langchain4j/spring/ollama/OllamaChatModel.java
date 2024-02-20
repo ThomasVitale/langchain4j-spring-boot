@@ -9,6 +9,7 @@ import dev.langchain4j.data.message.ChatMessageType;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.output.Response;
 
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.thomasvitale.langchain4j.spring.ollama.api.ChatRequest;
@@ -31,15 +32,20 @@ public class OllamaChatModel implements ChatLanguageModel {
 
     private final String model;
 
+    @Nullable
     private final String format;
 
     private final Options options;
 
-    private OllamaChatModel(Builder builder) {
-        this.ollamaClient = builder.ollamaClient;
-        this.model = builder.model;
-        this.format = builder.format;
-        this.options = builder.options;
+    private OllamaChatModel(OllamaClient ollamaClient, String model, @Nullable String format, Options options) {
+        Assert.notNull(ollamaClient, "ollamaClient cannot be null");
+        Assert.hasText(model, "model cannot be null or empty");
+        Assert.notNull(ollamaClient, "ollamaClient cannot be null");
+
+        this.ollamaClient = ollamaClient;
+        this.model = model;
+        this.format = format;
+        this.options = options;
     }
 
     @Override
@@ -71,37 +77,39 @@ public class OllamaChatModel implements ChatLanguageModel {
 
         private String model = DEFAULT_MODEL;
 
+        @Nullable
         private String format;
 
-        private Options options;
+        private Options options = Options.create();
 
         private Builder() {
         }
 
-        public Builder withClient(OllamaClient ollamaClient) {
+        public Builder client(OllamaClient ollamaClient) {
             Assert.notNull(ollamaClient, "ollamaClient cannot be null");
             this.ollamaClient = ollamaClient;
             return this;
         }
 
-        public Builder withModel(String model) {
+        public Builder model(String model) {
             Assert.hasText(model, "model cannot be empty");
             this.model = model;
             return this;
         }
 
-        public Builder withFormat(String format) {
+        public Builder format(String format) {
             this.format = format;
             return this;
         }
 
-        public Builder withOptions(Options options) {
+        public Builder options(Options options) {
+            Assert.notNull(ollamaClient, "options cannot be null");
             this.options = options;
             return this;
         }
 
         public OllamaChatModel build() {
-            return new OllamaChatModel(this);
+            return new OllamaChatModel(ollamaClient, model, format, options);
         }
 
     }

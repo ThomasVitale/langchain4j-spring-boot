@@ -40,7 +40,7 @@ public class ChromaEmbeddingStore implements EmbeddingStore<TextSegment>, Initia
 
     private String collectionId;
 
-    public ChromaEmbeddingStore(ChromaClient chromaClient, @Nullable String collectionName) {
+    private ChromaEmbeddingStore(ChromaClient chromaClient, @Nullable String collectionName) {
         Assert.notNull(chromaClient, "chromaClient cannot be null");
         this.chromaClient = chromaClient;
         this.collectionName = StringUtils.hasText(collectionName) ? collectionName : DEFAULT_COLLECTION_NAME;

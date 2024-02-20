@@ -32,10 +32,14 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
 
     private final Options options;
 
-    private OllamaEmbeddingModel(Builder builder) {
-        this.ollamaClient = builder.ollamaClient;
-        this.model = builder.model;
-        this.options = builder.options;
+    private OllamaEmbeddingModel(OllamaClient ollamaClient, String model, Options options) {
+        Assert.notNull(ollamaClient, "ollamaClient cannot be null");
+        Assert.hasText(model, "model cannot be null or empty");
+        Assert.notNull(ollamaClient, "ollamaClient cannot be null");
+
+        this.ollamaClient = ollamaClient;
+        this.model = model;
+        this.options = options;
     }
 
     @Override
@@ -67,30 +71,31 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
 
         private String model = DEFAULT_MODEL;
 
-        private Options options;
+        private Options options = Options.create();
 
         private Builder() {
         }
 
-        public Builder withClient(OllamaClient ollamaClient) {
+        public Builder client(OllamaClient ollamaClient) {
             Assert.notNull(ollamaClient, "ollamaClient cannot be null");
             this.ollamaClient = ollamaClient;
             return this;
         }
 
-        public Builder withModel(String model) {
+        public Builder model(String model) {
             Assert.hasText(model, "model cannot be empty");
             this.model = model;
             return this;
         }
 
-        public Builder withOptions(Options options) {
+        public Builder options(Options options) {
+            Assert.notNull(options, "options cannot be null");
             this.options = options;
             return this;
         }
 
         public OllamaEmbeddingModel build() {
-            return new OllamaEmbeddingModel(this);
+            return new OllamaEmbeddingModel(ollamaClient, model, options);
         }
 
     }

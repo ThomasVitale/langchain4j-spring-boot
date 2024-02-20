@@ -1,6 +1,7 @@
 package io.thomasvitale.langchain4j.spring.ollama;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.Duration;
 
 import dev.langchain4j.data.message.ImageContent;
@@ -17,9 +18,9 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import io.thomasvitale.langchain4j.spring.core.http.HttpClientConfig;
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
 import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,16 +50,18 @@ class OllamaChatModelVisionIT {
 
     @BeforeAll
     static void beforeAll() {
-        ollamaClient = new OllamaClient(getBaseUrl(), RestClient.builder(),
-                HttpClientConfig.create().withReadTimeout(Duration.ofMinutes(5)));
+        ollamaClient = new OllamaClient(OllamaClientConfig.builder()
+            .baseUrl(URI.create(getBaseUrl()))
+            .readTimeout(Duration.ofMinutes(5))
+            .build(), RestClient.builder());
     }
 
     @Test
     void generateTextWithImageFromHttp() {
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withOptions(Options.create().withTemperature(0.0))
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .options(Options.create().withTemperature(0.0))
             .build();
 
         var userMessage = UserMessage.from(TextContent.from("What's in the picture? Answer in a short sentence."),
@@ -74,9 +77,9 @@ class OllamaChatModelVisionIT {
     @Test
     void generateTextWithImageFromFile() throws IOException {
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withOptions(Options.create().withTemperature(0.0))
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .options(Options.create().withTemperature(0.0))
             .build();
 
         var imageFile = ResourceUtils.getFile("classpath:images/tabby-cat.png");

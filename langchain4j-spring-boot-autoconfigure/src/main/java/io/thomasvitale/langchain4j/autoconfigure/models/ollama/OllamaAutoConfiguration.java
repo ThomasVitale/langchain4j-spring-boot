@@ -1,8 +1,11 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.ollama;
 
+import java.net.URI;
+
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +14,7 @@ import org.springframework.web.client.RestClient;
 import io.thomasvitale.langchain4j.spring.ollama.OllamaChatModel;
 import io.thomasvitale.langchain4j.spring.ollama.OllamaEmbeddingModel;
 import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 
 /**
  * Auto-configuration for Ollama clients and models.
@@ -19,6 +23,8 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
  */
 @AutoConfiguration(after = RestClientAutoConfiguration.class)
 @ConditionalOnClass(OllamaChatModel.class)
+@ConditionalOnProperty(prefix = OllamaProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true",
+        matchIfMissing = true)
 @EnableConfigurationProperties({ OllamaProperties.class, OllamaChatProperties.class, OllamaEmbeddingProperties.class })
 public class OllamaAutoConfiguration {
 
@@ -32,28 +38,38 @@ public class OllamaAutoConfiguration {
     @ConditionalOnMissingBean(OllamaClient.class)
     OllamaClient ollamaClient(OllamaConnectionDetails ollamaConnectionDetails, OllamaProperties ollamaProperties,
             RestClient.Builder restClientBuilder) {
-        return new OllamaClient(ollamaConnectionDetails.getUrl(), restClientBuilder, ollamaProperties.getClient());
+
+        OllamaClientConfig ollamaClientConfig = OllamaClientConfig.builder()
+            .baseUrl(URI.create(ollamaConnectionDetails.getUrl()))
+            .connectTimeout(ollamaProperties.getClient().getConnectTimeout())
+            .readTimeout(ollamaProperties.getClient().getReadTimeout())
+            .sslBundle(ollamaProperties.getClient().getSslBundle())
+            .logRequests(ollamaProperties.getClient().isLogRequests())
+            .logResponses(ollamaProperties.getClient().isLogResponses())
+            .build();
+
+        return new OllamaClient(ollamaClientConfig, restClientBuilder);
     }
 
     @Bean
-    @ConditionalOnMissingBean(OllamaChatModel.class)
+    @ConditionalOnMissingBean
     OllamaChatModel ollamaChatModel(OllamaClient ollamaClient, OllamaChatProperties ollamaChatProperties) {
         return OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(ollamaChatProperties.getModel())
-            .withFormat(ollamaChatProperties.getFormat())
-            .withOptions(ollamaChatProperties.getOptions())
+            .client(ollamaClient)
+            .model(ollamaChatProperties.getModel())
+            .format(ollamaChatProperties.getFormat())
+            .options(ollamaChatProperties.getOptions())
             .build();
     }
 
     @Bean
-    @ConditionalOnMissingBean(OllamaEmbeddingModel.class)
+    @ConditionalOnMissingBean
     OllamaEmbeddingModel ollamaEmbeddingModel(OllamaClient ollamaClient,
             OllamaEmbeddingProperties ollamaEmbeddingProperties) {
         return OllamaEmbeddingModel.builder()
-            .withClient(ollamaClient)
-            .withModel(ollamaEmbeddingProperties.getModel())
-            .withOptions(ollamaEmbeddingProperties.getOptions())
+            .client(ollamaClient)
+            .model(ollamaEmbeddingProperties.getModel())
+            .options(ollamaEmbeddingProperties.getOptions())
             .build();
     }
 
@@ -70,7 +86,7 @@ public class OllamaAutoConfiguration {
 
         @Override
         public String getUrl() {
-            return ollamaProperties.getBaseUrl().toString();
+            return ollamaProperties.getClient().getBaseUrl().toString();
         }
 
     }

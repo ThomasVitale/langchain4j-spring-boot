@@ -1,7 +1,5 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.ollama;
 
-import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaAutoConfiguration;
-import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionDetails;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
@@ -48,6 +46,13 @@ class OllamaAutoConfigurationTests {
     void embedding() {
         contextRunner.run(context -> {
             assertThat(context).hasSingleBean(OllamaEmbeddingModel.class);
+        });
+    }
+
+    @Test
+    void disabled() {
+        contextRunner.withPropertyValues("langchain4j.ollama.enabled=false").run(context -> {
+            assertThat(context).doesNotHaveBean(OllamaClient.class);
         });
     }
 

@@ -44,21 +44,23 @@ class OllamaAutoConfigurationIT {
 
     @Test
     void chat() {
-        contextRunner.withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl())).run(context -> {
-            OllamaChatModel model = context.getBean(OllamaChatModel.class);
-            String response = model.generate("What is the capital of Italy?");
-            logger.info("Response: " + response);
-            assertThat(response).containsIgnoringCase("Rome");
-        });
+        contextRunner.withPropertyValues("langchain4j.ollama.client.base-url=%s".formatted(getBaseUrl()))
+            .run(context -> {
+                OllamaChatModel model = context.getBean(OllamaChatModel.class);
+                String response = model.generate("What is the capital of Italy?");
+                logger.info("Response: " + response);
+                assertThat(response).containsIgnoringCase("Rome");
+            });
     }
 
     @Test
     void embedding() {
-        contextRunner.withPropertyValues("langchain4j.ollama.base-url=%s".formatted(getBaseUrl())).run(context -> {
-            OllamaEmbeddingModel model = context.getBean(OllamaEmbeddingModel.class);
-            Embedding embedding = model.embed("hi").content();
-            assertThat(embedding.dimension()).isEqualTo(3200);
-        });
+        contextRunner.withPropertyValues("langchain4j.ollama.client.base-url=%s".formatted(getBaseUrl()))
+            .run(context -> {
+                OllamaEmbeddingModel model = context.getBean(OllamaEmbeddingModel.class);
+                Embedding embedding = model.embed("hi").content();
+                assertThat(embedding.dimension()).isEqualTo(3200);
+            });
     }
 
 }

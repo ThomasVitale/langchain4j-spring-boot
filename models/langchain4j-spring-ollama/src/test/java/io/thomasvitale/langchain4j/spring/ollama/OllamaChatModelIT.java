@@ -1,11 +1,12 @@
 package io.thomasvitale.langchain4j.spring.ollama;
 
+import java.net.URI;
+import java.util.List;
+
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.SystemMessage;
 import dev.langchain4j.data.message.UserMessage;
-import io.thomasvitale.langchain4j.spring.core.http.HttpClientConfig;
-import io.thomasvitale.langchain4j.spring.ollama.api.Options;
-import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,9 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.List;
+import io.thomasvitale.langchain4j.spring.ollama.api.Options;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,15 +51,16 @@ class OllamaChatModelIT {
 
     @BeforeAll
     static void beforeAll() {
-        ollamaClient = new OllamaClient(getBaseUrl(), RestClient.builder(), HttpClientConfig.create());
+        ollamaClient = new OllamaClient(OllamaClientConfig.builder().baseUrl(URI.create(getBaseUrl())).build(),
+                RestClient.builder());
     }
 
     @Test
     void generateText() {
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withOptions(Options.create())
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .options(Options.create())
             .build();
 
         var userMessage = UserMessage.from("What is the capital of Italy?");
@@ -80,9 +84,9 @@ class OllamaChatModelIT {
     @Test
     void generateTextWithFewShots() {
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withOptions(Options.create())
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .options(Options.create())
             .build();
 
         var messages = List.of(UserMessage.from("1 + 1 ="), AiMessage.from(">>> 2"),
@@ -100,9 +104,9 @@ class OllamaChatModelIT {
     @Test
     void generateTextWithSystemMessage() {
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withOptions(Options.create())
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .options(Options.create())
             .build();
 
         var systemMessage = SystemMessage.from("Start every answer with Ahoy");
@@ -118,9 +122,9 @@ class OllamaChatModelIT {
     void generateTextWithNumPredict() {
         var maximumOutputTokens = 1;
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withOptions(Options.create().withNumPredict(maximumOutputTokens))
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .options(Options.create().withNumPredict(maximumOutputTokens))
             .build();
 
         var userMessage = UserMessage.from("What is the capital of Italy?");
@@ -136,10 +140,10 @@ class OllamaChatModelIT {
     @Test
     void generateTextAsJson() throws JSONException {
         var ollamaChatModel = OllamaChatModel.builder()
-            .withClient(ollamaClient)
-            .withModel(MODEL_NAME)
-            .withFormat("json")
-            .withOptions(Options.create())
+            .client(ollamaClient)
+            .model(MODEL_NAME)
+            .format("json")
+            .options(Options.create())
             .build();
 
         var response = ollamaChatModel

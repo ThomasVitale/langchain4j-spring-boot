@@ -9,6 +9,7 @@ import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.util.StringUtils;
@@ -20,6 +21,8 @@ import org.springframework.util.StringUtils;
  */
 @AutoConfiguration
 @ConditionalOnClass({ OpenAiChatModel.class })
+@ConditionalOnProperty(prefix = OpenAiProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true",
+        matchIfMissing = true)
 @EnableConfigurationProperties({ OpenAiProperties.class, OpenAiChatProperties.class, OpenAiEmbeddingProperties.class,
         OpenAiModerationProperties.class, OpenAiImageProperties.class })
 public class OpenAiAutoConfiguration {

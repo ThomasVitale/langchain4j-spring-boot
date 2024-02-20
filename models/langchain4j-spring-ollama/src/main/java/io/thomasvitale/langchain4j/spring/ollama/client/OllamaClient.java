@@ -1,9 +1,9 @@
 package io.thomasvitale.langchain4j.spring.ollama.client;
 
-import io.thomasvitale.langchain4j.spring.core.http.HttpClientConfig;
-import io.thomasvitale.langchain4j.spring.core.http.HttpLoggingInterceptor;
-import io.thomasvitale.langchain4j.spring.core.http.HttpResponseErrorHandler;
-import io.thomasvitale.langchain4j.spring.ollama.api.*;
+import java.net.http.HttpClient;
+import java.util.List;
+import java.util.function.Consumer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -11,12 +11,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClient;
 
-import java.net.http.HttpClient;
-import java.util.List;
-import java.util.function.Consumer;
+import io.thomasvitale.langchain4j.spring.core.http.HttpLoggingInterceptor;
+import io.thomasvitale.langchain4j.spring.core.http.HttpResponseErrorHandler;
+import io.thomasvitale.langchain4j.spring.ollama.api.ChatRequest;
+import io.thomasvitale.langchain4j.spring.ollama.api.ChatResponse;
+import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingRequest;
+import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingResponse;
+import io.thomasvitale.langchain4j.spring.ollama.api.GenerateRequest;
+import io.thomasvitale.langchain4j.spring.ollama.api.GenerateResponse;
 
 /**
  * Client for the Ollama API.
@@ -32,22 +38,26 @@ public class OllamaClient {
 
     private static final Logger logger = LoggerFactory.getLogger(OllamaClient.class);
 
-    private final static String DEFAULT_BASE_URL = "http://localhost:11434";
-
     private final HttpResponseErrorHandler responseErrorHandler;
 
     private final RestClient restClient;
 
-    public OllamaClient(String baseUrl, RestClient.Builder restClientBuilder, HttpClientConfig clientConfig) {
+    public OllamaClient(OllamaClientConfig clientConfig, RestClient.Builder restClientBuilder) {
+        Assert.notNull(clientConfig, "clientOptions must not be null");
+        Assert.notNull(restClientBuilder, "restClientBuilder must not be null");
+
         this.responseErrorHandler = new HttpResponseErrorHandler();
+        this.restClient = buildRestClient(clientConfig, restClientBuilder);
+    }
 
-        HttpClient httpClient = HttpClient.newBuilder().connectTimeout(clientConfig.getConnectTimeout()).build();
+    private RestClient buildRestClient(OllamaClientConfig clientConfig, RestClient.Builder restClientBuilder) {
+        HttpClient httpClient = HttpClient.newBuilder().connectTimeout(clientConfig.connectTimeout()).build();
 
-        JdkClientHttpRequestFactory jdkClientHttpRequestFactory = new JdkClientHttpRequestFactory(httpClient);
-        jdkClientHttpRequestFactory.setReadTimeout(clientConfig.getReadTimeout());
+        var jdkClientHttpRequestFactory = new JdkClientHttpRequestFactory(httpClient);
+        jdkClientHttpRequestFactory.setReadTimeout(clientConfig.readTimeout());
 
         ClientHttpRequestFactory requestFactory;
-        if (clientConfig.isLogRequests()) {
+        if (clientConfig.logRequests()) {
             requestFactory = new BufferingClientHttpRequestFactory(jdkClientHttpRequestFactory);
         }
         else {
@@ -59,18 +69,19 @@ public class OllamaClient {
             headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         };
 
-        this.restClient = restClientBuilder.requestFactory(requestFactory)
-            .baseUrl(baseUrl)
+        return restClientBuilder.requestFactory(requestFactory)
+            .baseUrl(clientConfig.baseUrl().toString())
             .defaultHeaders(defaultHeaders)
             .requestInterceptors(interceptors -> {
-                if (clientConfig.isLogRequests() || clientConfig.isLogResponses()) {
+                if (clientConfig.logRequests() || clientConfig.logResponses()) {
                     interceptors
-                        .add(new HttpLoggingInterceptor(clientConfig.isLogRequests(), clientConfig.isLogResponses()));
+                        .add(new HttpLoggingInterceptor(clientConfig.logRequests(), clientConfig.logResponses()));
                 }
             })
             .build();
     }
 
+    @Nullable
     public GenerateResponse generate(GenerateRequest completionRequest) {
         Assert.notNull(completionRequest, "completionRequest must not be null");
         Assert.isTrue(!completionRequest.stream(), "Stream mode must be disabled.");
@@ -85,6 +96,7 @@ public class OllamaClient {
             .body(GenerateResponse.class);
     }
 
+    @Nullable
     public ChatResponse chat(ChatRequest chatRequest) {
         Assert.notNull(chatRequest, "chatRequest must not be null");
         Assert.isTrue(!chatRequest.stream(), "Stream mode must be disabled.");
@@ -99,6 +111,7 @@ public class OllamaClient {
             .body(ChatResponse.class);
     }
 
+    @Nullable
     public EmbeddingResponse embeddings(EmbeddingRequest embeddingRequest) {
         Assert.notNull(embeddingRequest, "embeddingRequest must not be null");
 

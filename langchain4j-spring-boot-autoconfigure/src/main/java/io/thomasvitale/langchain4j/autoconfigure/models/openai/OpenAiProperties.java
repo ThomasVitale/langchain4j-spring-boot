@@ -16,6 +16,11 @@ public class OpenAiProperties {
     public static final String CONFIG_PREFIX = "langchain4j.openai";
 
     /**
+     * Whether to enable the OpenAI integration.
+     */
+    private boolean enabled = true;
+
+    /**
      * Base URL of the OpenAI API.
      */
     private URI baseUrl = URI.create("https://api.openai.com/v1/");
@@ -55,6 +60,14 @@ public class OpenAiProperties {
      * Enable logging for OpenAI responses.
      */
     private Boolean logResponses = false;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public URI getBaseUrl() {
         return baseUrl;
