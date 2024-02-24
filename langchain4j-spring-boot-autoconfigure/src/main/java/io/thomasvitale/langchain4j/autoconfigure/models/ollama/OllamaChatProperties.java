@@ -29,7 +29,7 @@ public class OllamaChatProperties {
      * Additional model parameters.
      */
     @NestedConfigurationProperty
-    private Options options = Options.create();
+    private Options options = Options.builder().build();
 
     public String getModel() {
         return model;

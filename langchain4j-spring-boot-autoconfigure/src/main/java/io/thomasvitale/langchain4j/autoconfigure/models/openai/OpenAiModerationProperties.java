@@ -1,6 +1,9 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.openai;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import io.thomasvitale.langchain4j.spring.openai.OpenAiModerationOptions;
 
 /**
  * Configuration properties for OpenAI moderation clients.
@@ -13,16 +16,17 @@ public class OpenAiModerationProperties {
     public static final String CONFIG_PREFIX = "langchain4j.openai.moderation";
 
     /**
-     * Name of the model to use.
+     * Model options.
      */
-    private String model = "text-moderation-latest";
+    @NestedConfigurationProperty
+    private OpenAiModerationOptions options = OpenAiModerationOptions.builder().build();
 
-    public String getModel() {
-        return model;
+    public OpenAiModerationOptions getOptions() {
+        return options;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setOptions(OpenAiModerationOptions options) {
+        this.options = options;
     }
 
 }

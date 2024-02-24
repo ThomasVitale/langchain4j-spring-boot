@@ -60,7 +60,7 @@ class OllamaChatModelIT {
         var ollamaChatModel = OllamaChatModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create())
+            .options(Options.builder().build())
             .build();
 
         var userMessage = UserMessage.from("What is the capital of Italy?");
@@ -86,7 +86,7 @@ class OllamaChatModelIT {
         var ollamaChatModel = OllamaChatModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create())
+            .options(Options.builder().build())
             .build();
 
         var messages = List.of(UserMessage.from("1 + 1 ="), AiMessage.from(">>> 2"),
@@ -106,7 +106,7 @@ class OllamaChatModelIT {
         var ollamaChatModel = OllamaChatModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create())
+            .options(Options.builder().build())
             .build();
 
         var systemMessage = SystemMessage.from("Start every answer with Ahoy");
@@ -124,7 +124,7 @@ class OllamaChatModelIT {
         var ollamaChatModel = OllamaChatModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create().withNumPredict(maximumOutputTokens))
+            .options(Options.builder().numPredict(maximumOutputTokens).build())
             .build();
 
         var userMessage = UserMessage.from("What is the capital of Italy?");
@@ -143,7 +143,7 @@ class OllamaChatModelIT {
             .client(ollamaClient)
             .model(MODEL_NAME)
             .format("json")
-            .options(Options.create())
+            .options(Options.builder().build())
             .build();
 
         var response = ollamaChatModel

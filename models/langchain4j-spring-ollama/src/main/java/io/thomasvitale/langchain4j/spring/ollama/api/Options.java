@@ -15,16 +15,13 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  * Ollama options for chat, image, and embedding clients.
  *
  * @see <a href="https://github.com/ollama/ollama/blob/main/api/types.go">Ollama Types</a>
- * @see <a href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md">Ollama
- * Model File</a>
- * <p>
+ * @see <a href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md">Ollama Model File</a>
+ *
  * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Options {
-
-// @formatter:off
 
     // Options API from https://github.com/ollama/ollama/blob/main/api/types.go
 
@@ -216,446 +213,453 @@ public class Options {
      */
     @JsonProperty("num_thread") private Integer numThread = 0;
 
-// @formatter:on
+    // Builders
 
-    // Getters
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private final Options options = new Options();
+
+        private Builder() {}
+
+        public Builder numKeep(Integer numKeep) {
+            this.options.numKeep = numKeep;
+            return this;
+        }
+
+        public Builder seed(Integer seed) {
+            this.options.seed = seed;
+            return this;
+        }
+
+        public Builder numPredict(Integer numPredict) {
+            this.options.numPredict = numPredict;
+            return this;
+        }
+
+        public Builder topK(Integer topK) {
+            this.options.topK = topK;
+            return this;
+        }
+
+        public Builder topP(Double topP) {
+            this.options.topP = topP;
+            return this;
+        }
+
+        public Builder tfsZ(Double tfsZ) {
+            this.options.tfsZ = tfsZ;
+            return this;
+        }
+
+        public Builder typicalP(Double typicalP) {
+            this.options.typicalP = typicalP;
+            return this;
+        }
+
+        public Builder repeatLastN(Integer repeatLastN) {
+            this.options.repeatLastN = repeatLastN;
+            return this;
+        }
+
+        public Builder temperature(Double temperature) {
+            this.options.temperature = temperature;
+            return this;
+        }
+
+        public Builder repeatPenalty(Double repeatPenalty) {
+            this.options.repeatPenalty = repeatPenalty;
+            return this;
+        }
+
+        public Builder presencePenalty(Double presencePenalty) {
+            this.options.presencePenalty = presencePenalty;
+            return this;
+        }
+
+        public Builder frequencyPenalty(Double frequencyPenalty) {
+            this.options.frequencyPenalty = frequencyPenalty;
+            return this;
+        }
+
+        public Builder mirostat(Integer mirostat) {
+            this.options.mirostat = mirostat;
+            return this;
+        }
+
+        public Builder mirostatTau(Double mirostatTau) {
+            this.options.mirostatTau = mirostatTau;
+            return this;
+        }
+
+        public Builder mirostatEta(Double mirostatEta) {
+            this.options.mirostatEta = mirostatEta;
+            return this;
+        }
+
+        public Builder penalizeNewline(Boolean penalizeNewline) {
+            this.options.penalizeNewline = penalizeNewline;
+            return this;
+        }
+
+        public Builder stop(List<String> stop) {
+            this.options.stop = stop;
+            return this;
+        }
+
+        public Builder useNUMA(Boolean useNUMA) {
+            this.options.useNUMA = useNUMA;
+            return this;
+        }
+
+        public Builder numCtx(Integer numCtx) {
+            this.options.numCtx = numCtx;
+            return this;
+        }
+
+        public Builder numBatch(Integer numBatch) {
+            this.options.numBatch = numBatch;
+            return this;
+        }
+
+        public Builder numGQA(Integer numGQA) {
+            this.options.numGQA = numGQA;
+            return this;
+        }
+
+        public Builder numGPU(Integer numGPU) {
+            this.options.numGPU = numGPU;
+            return this;
+        }
+
+        public Builder mainGPU(Integer mainGPU) {
+            this.options.mainGPU = mainGPU;
+            return this;
+        }
+
+        public Builder lowVRAM(Boolean lowVRAM) {
+            this.options.lowVRAM = lowVRAM;
+            return this;
+        }
+
+        public Builder f16KV(Boolean f16KV) {
+            this.options.f16KV = f16KV;
+            return this;
+        }
+
+        public Builder logitsAll(Boolean logitsAll) {
+            this.options.logitsAll = logitsAll;
+            return this;
+        }
+
+        public Builder vocabOnly(Boolean vocabOnly) {
+            this.options.vocabOnly = vocabOnly;
+            return this;
+        }
+
+        public Builder useMMap(Boolean useMMap) {
+            this.options.useMMap = useMMap;
+            return this;
+        }
+
+        public Builder useMLock(Boolean useMLock) {
+            this.options.useMLock = useMLock;
+            return this;
+        }
+
+        public Builder embeddingOnly(Boolean embeddingOnly) {
+            this.options.embeddingOnly = embeddingOnly;
+            return this;
+        }
+
+        public Builder ropeFrequencyBase(Double ropeFrequencyBase) {
+            this.options.ropeFrequencyBase = ropeFrequencyBase;
+            return this;
+        }
+
+        public Builder ropeFrequencyScale(Double ropeFrequencyScale) {
+            this.options.ropeFrequencyScale = ropeFrequencyScale;
+            return this;
+        }
+
+        public Builder numThread(Integer numThread) {
+            this.options.numThread = numThread;
+            return this;
+        }
+
+        public Options build() {
+            return options;
+        }
+    }
+
+    // Getters and Setters
 
     public Integer getNumKeep() {
         return numKeep;
+    }
+
+    public void setNumKeep(Integer numKeep) {
+        this.numKeep = numKeep;
     }
 
     public Integer getSeed() {
         return seed;
     }
 
-    public Integer getNumPredict() {
-        return numPredict;
-    }
-
-    public Integer getTopK() {
-        return topK;
-    }
-
-    public Double getTopP() {
-        return topP;
-    }
-
-    public Double getTfsZ() {
-        return tfsZ;
-    }
-
-    public Double getTypicalP() {
-        return typicalP;
-    }
-
-    public Integer getRepeatLastN() {
-        return repeatLastN;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public Double getRepeatPenalty() {
-        return repeatPenalty;
-    }
-
-    public Double getPresencePenalty() {
-        return presencePenalty;
-    }
-
-    public Double getFrequencyPenalty() {
-        return frequencyPenalty;
-    }
-
-    public Integer getMirostat() {
-        return mirostat;
-    }
-
-    public Double getMirostatTau() {
-        return mirostatTau;
-    }
-
-    public Double getMirostatEta() {
-        return mirostatEta;
-    }
-
-    public Boolean getPenalizeNewline() {
-        return penalizeNewline;
-    }
-
-    public List<String> getStop() {
-        return stop;
-    }
-
-    public Boolean getUseNUMA() {
-        return useNUMA;
-    }
-
-    public Integer getNumCtx() {
-        return numCtx;
-    }
-
-    public Integer getNumBatch() {
-        return numBatch;
-    }
-
-    public Integer getNumGQA() {
-        return numGQA;
-    }
-
-    public Integer getNumGPU() {
-        return numGPU;
-    }
-
-    public Integer getMainGPU() {
-        return mainGPU;
-    }
-
-    public Boolean getLowVRAM() {
-        return lowVRAM;
-    }
-
-    public Boolean getF16KV() {
-        return f16KV;
-    }
-
-    public Boolean getLogitsAll() {
-        return logitsAll;
-    }
-
-    public Boolean getVocabOnly() {
-        return vocabOnly;
-    }
-
-    public Boolean getUseMMap() {
-        return useMMap;
-    }
-
-    public Boolean getUseMLock() {
-        return useMLock;
-    }
-
-    public Boolean getEmbeddingOnly() {
-        return embeddingOnly;
-    }
-
-    public Double getRopeFrequencyBase() {
-        return ropeFrequencyBase;
-    }
-
-    public Double getRopeFrequencyScale() {
-        return ropeFrequencyScale;
-    }
-
-    public Integer getNumThread() {
-        return numThread;
-    }
-
-    // Setters
-
-    public void setNumKeep(Integer numKeep) {
-        this.numKeep = numKeep;
-    }
-
     public void setSeed(Integer seed) {
         this.seed = seed;
+    }
+
+    public Integer getNumPredict() {
+        return numPredict;
     }
 
     public void setNumPredict(Integer numPredict) {
         this.numPredict = numPredict;
     }
 
+    public Integer getTopK() {
+        return topK;
+    }
+
     public void setTopK(Integer topK) {
         this.topK = topK;
+    }
+
+    public Double getTopP() {
+        return topP;
     }
 
     public void setTopP(Double topP) {
         this.topP = topP;
     }
 
+    public Double getTfsZ() {
+        return tfsZ;
+    }
+
     public void setTfsZ(Double tfsZ) {
         this.tfsZ = tfsZ;
+    }
+
+    public Double getTypicalP() {
+        return typicalP;
     }
 
     public void setTypicalP(Double typicalP) {
         this.typicalP = typicalP;
     }
 
+    public Integer getRepeatLastN() {
+        return repeatLastN;
+    }
+
     public void setRepeatLastN(Integer repeatLastN) {
         this.repeatLastN = repeatLastN;
+    }
+
+    public Double getTemperature() {
+        return temperature;
     }
 
     public void setTemperature(Double temperature) {
         this.temperature = temperature;
     }
 
+    public Double getRepeatPenalty() {
+        return repeatPenalty;
+    }
+
     public void setRepeatPenalty(Double repeatPenalty) {
         this.repeatPenalty = repeatPenalty;
+    }
+
+    public Double getPresencePenalty() {
+        return presencePenalty;
     }
 
     public void setPresencePenalty(Double presencePenalty) {
         this.presencePenalty = presencePenalty;
     }
 
+    public Double getFrequencyPenalty() {
+        return frequencyPenalty;
+    }
+
     public void setFrequencyPenalty(Double frequencyPenalty) {
         this.frequencyPenalty = frequencyPenalty;
+    }
+
+    public Integer getMirostat() {
+        return mirostat;
     }
 
     public void setMirostat(Integer mirostat) {
         this.mirostat = mirostat;
     }
 
+    public Double getMirostatTau() {
+        return mirostatTau;
+    }
+
     public void setMirostatTau(Double mirostatTau) {
         this.mirostatTau = mirostatTau;
+    }
+
+    public Double getMirostatEta() {
+        return mirostatEta;
     }
 
     public void setMirostatEta(Double mirostatEta) {
         this.mirostatEta = mirostatEta;
     }
 
+    public Boolean getPenalizeNewline() {
+        return penalizeNewline;
+    }
+
     public void setPenalizeNewline(Boolean penalizeNewline) {
         this.penalizeNewline = penalizeNewline;
+    }
+
+    public List<String> getStop() {
+        return stop;
     }
 
     public void setStop(List<String> stop) {
         this.stop = stop;
     }
 
+    public Boolean getUseNUMA() {
+        return useNUMA;
+    }
+
     public void setUseNUMA(Boolean useNUMA) {
         this.useNUMA = useNUMA;
+    }
+
+    public Integer getNumCtx() {
+        return numCtx;
     }
 
     public void setNumCtx(Integer numCtx) {
         this.numCtx = numCtx;
     }
 
+    public Integer getNumBatch() {
+        return numBatch;
+    }
+
     public void setNumBatch(Integer numBatch) {
         this.numBatch = numBatch;
+    }
+
+    public Integer getNumGQA() {
+        return numGQA;
     }
 
     public void setNumGQA(Integer numGQA) {
         this.numGQA = numGQA;
     }
 
+    public Integer getNumGPU() {
+        return numGPU;
+    }
+
     public void setNumGPU(Integer numGPU) {
         this.numGPU = numGPU;
+    }
+
+    public Integer getMainGPU() {
+        return mainGPU;
     }
 
     public void setMainGPU(Integer mainGPU) {
         this.mainGPU = mainGPU;
     }
 
+    public Boolean getLowVRAM() {
+        return lowVRAM;
+    }
+
     public void setLowVRAM(Boolean lowVRAM) {
         this.lowVRAM = lowVRAM;
+    }
+
+    public Boolean getF16KV() {
+        return f16KV;
     }
 
     public void setF16KV(Boolean f16KV) {
         this.f16KV = f16KV;
     }
 
+    public Boolean getLogitsAll() {
+        return logitsAll;
+    }
+
     public void setLogitsAll(Boolean logitsAll) {
         this.logitsAll = logitsAll;
+    }
+
+    public Boolean getVocabOnly() {
+        return vocabOnly;
     }
 
     public void setVocabOnly(Boolean vocabOnly) {
         this.vocabOnly = vocabOnly;
     }
 
+    public Boolean getUseMMap() {
+        return useMMap;
+    }
+
     public void setUseMMap(Boolean useMMap) {
         this.useMMap = useMMap;
+    }
+
+    public Boolean getUseMLock() {
+        return useMLock;
     }
 
     public void setUseMLock(Boolean useMLock) {
         this.useMLock = useMLock;
     }
 
+    public Boolean getEmbeddingOnly() {
+        return embeddingOnly;
+    }
+
     public void setEmbeddingOnly(Boolean embeddingOnly) {
         this.embeddingOnly = embeddingOnly;
+    }
+
+    public Double getRopeFrequencyBase() {
+        return ropeFrequencyBase;
     }
 
     public void setRopeFrequencyBase(Double ropeFrequencyBase) {
         this.ropeFrequencyBase = ropeFrequencyBase;
     }
 
+    public Double getRopeFrequencyScale() {
+        return ropeFrequencyScale;
+    }
+
     public void setRopeFrequencyScale(Double ropeFrequencyScale) {
         this.ropeFrequencyScale = ropeFrequencyScale;
+    }
+
+    public Integer getNumThread() {
+        return numThread;
     }
 
     public void setNumThread(Integer numThread) {
         this.numThread = numThread;
     }
 
-    // Builders
-
-    public static Options create() {
-        return new Options();
-    }
-
-    public Options withNumKeep(Integer numKeep) {
-        this.numKeep = numKeep;
-        return this;
-    }
-
-    public Options withSeed(Integer seed) {
-        this.seed = seed;
-        return this;
-    }
-
-    public Options withNumPredict(Integer numPredict) {
-        this.numPredict = numPredict;
-        return this;
-    }
-
-    public Options withTopK(Integer topK) {
-        this.topK = topK;
-        return this;
-    }
-
-    public Options withTopP(Double topP) {
-        this.topP = topP;
-        return this;
-    }
-
-    public Options withTfsZ(Double tfsZ) {
-        this.tfsZ = tfsZ;
-        return this;
-    }
-
-    public Options withTypicalP(Double typicalP) {
-        this.typicalP = typicalP;
-        return this;
-    }
-
-    public Options withRepeatLastN(Integer repeatLastN) {
-        this.repeatLastN = repeatLastN;
-        return this;
-    }
-
-    public Options withTemperature(Double temperature) {
-        this.temperature = temperature;
-        return this;
-    }
-
-    public Options withRepeatPenalty(Double repeatPenalty) {
-        this.repeatPenalty = repeatPenalty;
-        return this;
-    }
-
-    public Options withPresencePenalty(Double presencePenalty) {
-        this.presencePenalty = presencePenalty;
-        return this;
-    }
-
-    public Options withFrequencyPenalty(Double frequencyPenalty) {
-        this.frequencyPenalty = frequencyPenalty;
-        return this;
-    }
-
-    public Options withMirostat(Integer mirostat) {
-        this.mirostat = mirostat;
-        return this;
-    }
-
-    public Options withMirostatTau(Double mirostatTau) {
-        this.mirostatTau = mirostatTau;
-        return this;
-    }
-
-    public Options withMirostatEta(Double mirostatEta) {
-        this.mirostatEta = mirostatEta;
-        return this;
-    }
-
-    public Options withPenalizeNewline(Boolean penalizeNewline) {
-        this.penalizeNewline = penalizeNewline;
-        return this;
-    }
-
-    public Options withStop(List<String> stop) {
-        this.stop = stop;
-        return this;
-    }
-
-    public Options withUseNUMA(Boolean useNUMA) {
-        this.useNUMA = useNUMA;
-        return this;
-    }
-
-    public Options withNumCtx(Integer numCtx) {
-        this.numCtx = numCtx;
-        return this;
-    }
-
-    public Options withNumBatch(Integer numBatch) {
-        this.numBatch = numBatch;
-        return this;
-    }
-
-    public Options withNumGQA(Integer numGQA) {
-        this.numGQA = numGQA;
-        return this;
-    }
-
-    public Options withNumGPU(Integer numGPU) {
-        this.numGPU = numGPU;
-        return this;
-    }
-
-    public Options withMainGPU(Integer mainGPU) {
-        this.mainGPU = mainGPU;
-        return this;
-    }
-
-    public Options withLowVRAM(Boolean lowVRAM) {
-        this.lowVRAM = lowVRAM;
-        return this;
-    }
-
-    public Options withF16KV(Boolean f16KV) {
-        this.f16KV = f16KV;
-        return this;
-    }
-
-    public Options withLogitsAll(Boolean logitsAll) {
-        this.logitsAll = logitsAll;
-        return this;
-    }
-
-    public Options withVocabOnly(Boolean vocabOnly) {
-        this.vocabOnly = vocabOnly;
-        return this;
-    }
-
-    public Options withUseMMap(Boolean useMMap) {
-        this.useMMap = useMMap;
-        return this;
-    }
-
-    public Options withUseMLock(Boolean useMLock) {
-        this.useMLock = useMLock;
-        return this;
-    }
-
-    public Options withEmbeddingOnly(Boolean embeddingOnly) {
-        this.embeddingOnly = embeddingOnly;
-        return this;
-    }
-
-    public Options withRopeFrequencyBase(Double ropeFrequencyBase) {
-        this.ropeFrequencyBase = ropeFrequencyBase;
-        return this;
-    }
-
-    public Options withRopeFrequencyScale(Double ropeFrequencyScale) {
-        this.ropeFrequencyScale = ropeFrequencyScale;
-        return this;
-    }
-
-    public Options withNumThread(Integer numThread) {
-        this.numThread = numThread;
-        return this;
-    }
 
     // Utilities
 

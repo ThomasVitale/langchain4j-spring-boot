@@ -61,7 +61,7 @@ class OllamaChatModelVisionIT {
         var ollamaChatModel = OllamaChatModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create().withTemperature(0.0))
+            .options(Options.builder().temperature(0.0).build())
             .build();
 
         var userMessage = UserMessage.from(TextContent.from("What's in the picture? Answer in a short sentence."),
@@ -79,7 +79,7 @@ class OllamaChatModelVisionIT {
         var ollamaChatModel = OllamaChatModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create().withTemperature(0.0))
+            .options(Options.builder().temperature(0.0).build())
             .build();
 
         var imageFile = ResourceUtils.getFile("classpath:images/tabby-cat.png");

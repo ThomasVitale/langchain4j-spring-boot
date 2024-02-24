@@ -1,10 +1,10 @@
 package io.thomasvitale.langchain4j.spring.ollama.client;
 
-import java.net.URI;
-import java.time.Duration;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+
+import java.net.URI;
+import java.time.Duration;
 
 /**
  * Options for configuring the Ollama client.
@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
  * @author Thomas Vitale
  */
 public record OllamaClientConfig(
-//@formatter:off
         URI baseUrl,
         Duration connectTimeout,
         Duration readTimeout,
@@ -20,7 +19,6 @@ public record OllamaClientConfig(
         String sslBundle,
         boolean logRequests,
         boolean logResponses
-//@formatter:on
 ) {
 
     public OllamaClientConfig {
@@ -34,22 +32,15 @@ public record OllamaClientConfig(
     }
 
     public static class Builder {
-
         private URI baseUrl = URI.create("http://localhost:11434");
-
         private Duration connectTimeout = Duration.ofSeconds(10);
-
         private Duration readTimeout = Duration.ofSeconds(60);
-
         @Nullable
         private String sslBundle;
-
         private boolean logRequests = false;
-
         private boolean logResponses = false;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder baseUrl(URI baseUrl) {
             this.baseUrl = baseUrl;
@@ -84,7 +75,6 @@ public record OllamaClientConfig(
         public OllamaClientConfig build() {
             return new OllamaClientConfig(baseUrl, connectTimeout, readTimeout, sslBundle, logRequests, logResponses);
         }
-
     }
 
 }

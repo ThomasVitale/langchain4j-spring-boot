@@ -51,17 +51,21 @@ public class OllamaChatModel implements ChatLanguageModel {
     @Override
     public Response<AiMessage> generate(List<ChatMessage> messages) {
         ChatRequest chatRequest = ChatRequest.builder()
-            .withMessages(messages.stream()
+            .messages(messages.stream()
                 .filter(OllamaChatModel::isMessageWithSupportedType)
                 .map(OllamaAdapters::toOllamaMessage)
                 .collect(Collectors.toList()))
-            .withModel(model)
-            .withFormat(format)
-            .withOptions(options.toMap())
-            .withStream(false)
+            .model(model)
+            .format(format)
+            .options(options.toMap())
+            .stream(false)
             .build();
 
         ChatResponse chatResponse = ollamaClient.chat(chatRequest);
+
+        if (chatResponse == null) {
+            throw new IllegalStateException("Chat completion response is empty");
+        }
 
         AiMessage aiMessage = AiMessage.from(chatResponse.message().content());
         return Response.from(aiMessage, OllamaAdapters.toTokenUsage(chatResponse));
@@ -72,18 +76,13 @@ public class OllamaChatModel implements ChatLanguageModel {
     }
 
     public static class Builder {
-
         private OllamaClient ollamaClient;
-
         private String model = DEFAULT_MODEL;
-
         @Nullable
         private String format;
+        private Options options = Options.builder().build();
 
-        private Options options = Options.create();
-
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder client(OllamaClient ollamaClient) {
             Assert.notNull(ollamaClient, "ollamaClient cannot be null");
@@ -111,7 +110,6 @@ public class OllamaChatModel implements ChatLanguageModel {
         public OllamaChatModel build() {
             return new OllamaChatModel(ollamaClient, model, format, options);
         }
-
     }
 
     private static boolean isMessageWithSupportedType(ChatMessage chatMessage) {

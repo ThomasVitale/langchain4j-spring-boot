@@ -1,22 +1,18 @@
 package io.thomasvitale.langchain4j.spring.ollama;
 
-import java.net.URI;
-import java.util.List;
-
 import dev.langchain4j.data.segment.TextSegment;
-
+import io.thomasvitale.langchain4j.spring.ollama.api.Options;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClient;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import io.thomasvitale.langchain4j.spring.ollama.api.Options;
-import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
-import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
+import java.net.URI;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,8 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Testcontainers
 class OllamaEmbeddingModelIT {
-
-    private static final Logger logger = LoggerFactory.getLogger(OllamaEmbeddingModelIT.class);
 
     private static final String MODEL_NAME = "orca-mini";
 
@@ -53,7 +47,7 @@ class OllamaEmbeddingModelIT {
         var ollamaEmbeddingModel = OllamaEmbeddingModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create())
+            .options(Options.builder().build())
             .build();
 
         var response = ollamaEmbeddingModel.embed("Welcome to the jungle");
@@ -68,7 +62,7 @@ class OllamaEmbeddingModelIT {
         var ollamaEmbeddingModel = OllamaEmbeddingModel.builder()
             .client(ollamaClient)
             .model(MODEL_NAME)
-            .options(Options.create())
+            .options(Options.builder().build())
             .build();
 
         var textSegment1 = TextSegment.from("Welcome to the jungle");

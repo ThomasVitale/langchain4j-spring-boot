@@ -50,10 +50,10 @@ public final class OllamaAdapters {
 
     public static Message toOllamaMessage(ChatMessage chatMessage) {
         if (chatMessage instanceof SystemMessage systemMessage) {
-            return Message.builder().withRole(toOllamaRole(chatMessage)).withContent(systemMessage.text()).build();
+            return Message.builder().role(toOllamaRole(chatMessage)).content(systemMessage.text()).build();
         }
         else if (chatMessage instanceof AiMessage aiMessage) {
-            return Message.builder().withRole(toOllamaRole(chatMessage)).withContent(aiMessage.text()).build();
+            return Message.builder().role(toOllamaRole(chatMessage)).content(aiMessage.text()).build();
         }
         else if (chatMessage instanceof UserMessage userMessage) {
             if (userMessage.contents().stream().anyMatch(content -> IMAGE.equals(content.type()))) {
@@ -89,16 +89,16 @@ public final class OllamaAdapters {
             .collect(Collectors.toList());
 
         return Message.builder()
-            .withRole(toOllamaRole(userMessage))
-            .withContent(textContents)
-            .withImages(toBase64EncodedImages(imageContents))
+            .role(toOllamaRole(userMessage))
+            .content(textContents)
+            .images(toBase64EncodedImages(imageContents))
             .build();
     }
 
     private static Message toMessageWithText(UserMessage userMessage) {
         return Message.builder()
-            .withRole(toOllamaRole(userMessage))
-            .withContent(userMessage.contents()
+            .role(toOllamaRole(userMessage))
+            .content(userMessage.contents()
                 .stream()
                 .map(content -> (TextContent) content)
                 .map(TextContent::text)

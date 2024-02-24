@@ -1,25 +1,27 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.openai;
 
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
-import dev.langchain4j.model.openai.OpenAiImageModel;
-import dev.langchain4j.model.openai.OpenAiModerationModel;
-import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
-
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.util.StringUtils;
+import org.springframework.web.client.RestClient;
+
+import io.thomasvitale.langchain4j.spring.openai.OpenAIModerationModel;
+import io.thomasvitale.langchain4j.spring.openai.OpenAiChatModel;
+import io.thomasvitale.langchain4j.spring.openai.OpenAiEmbeddingModel;
+import io.thomasvitale.langchain4j.spring.openai.OpenAiImageModel;
+import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
+import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClientConfig;
 
 /**
  * Auto-configuration for OpenAI clients and models.
  *
  * @author Thomas Vitale
  */
-@AutoConfiguration
+@AutoConfiguration(after = RestClientAutoConfiguration.class)
 @ConditionalOnClass({ OpenAiChatModel.class })
 @ConditionalOnProperty(prefix = OpenAiProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true",
         matchIfMissing = true)
@@ -29,114 +31,56 @@ public class OpenAiAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiChatModel openAiChatModel(OpenAiProperties openAiProperties, OpenAiChatProperties openAiChatProperties) {
-        validateApiKey(openAiProperties.getApiKey());
+    OpenAiClient openAiClient(OpenAiProperties openAiProperties, RestClient.Builder restClientBuilder) {
+        OpenAiClientConfig openAiClientConfig = OpenAiClientConfig.builder()
+                .baseUrl(openAiProperties.getClient().getBaseUrl())
+                .connectTimeout(openAiProperties.getClient().getConnectTimeout())
+                .readTimeout(openAiProperties.getClient().getReadTimeout())
+                .sslBundle(openAiProperties.getClient().getSslBundle())
+                .apiKey(openAiProperties.getClient().getApiKey())
+                .organizationId(openAiProperties.getClient().getOrganizationId())
+                .user(openAiProperties.getClient().getUser())
+                .logRequests(openAiProperties.getClient().isLogRequests())
+                .logResponses(openAiProperties.getClient().isLogResponses())
+                .build();
+
+        return new OpenAiClient(openAiClientConfig, restClientBuilder);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    OpenAiChatModel openAiChatModel(OpenAiClient openAiClient, OpenAiChatProperties openAiChatProperties) {
         return OpenAiChatModel.builder()
-            .apiKey(openAiProperties.getApiKey())
-            .baseUrl(openAiProperties.getBaseUrl().toString())
-            .organizationId(openAiProperties.getOrganizationId())
-            .modelName(openAiChatProperties.getModel())
-            .temperature(openAiChatProperties.getTemperature())
-            .topP(openAiChatProperties.getTopP())
-            .stop(openAiChatProperties.getStop())
-            .maxTokens(openAiChatProperties.getMaxTokens())
-            .presencePenalty(openAiChatProperties.getPresencePenalty())
-            .frequencyPenalty(openAiChatProperties.getFrequencyPenalty())
-            .seed(openAiChatProperties.getSeed())
-            .timeout(openAiProperties.getTimeout())
-            .maxRetries(openAiProperties.getMaxRetries())
-            .user(openAiProperties.getUser())
-            .logRequests(openAiProperties.getLogRequests())
-            .logResponses(openAiProperties.getLogResponses())
-            .build();
+                .client(openAiClient)
+                .options(openAiChatProperties.getOptions())
+                .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiStreamingChatModel openAiStreamingChatModel(OpenAiProperties openAiProperties,
-            OpenAiChatProperties openAiChatProperties) {
-        validateApiKey(openAiProperties.getApiKey());
-        return OpenAiStreamingChatModel.builder()
-            .apiKey(openAiProperties.getApiKey())
-            .baseUrl(openAiProperties.getBaseUrl().toString())
-            .organizationId(openAiProperties.getOrganizationId())
-            .modelName(openAiChatProperties.getModel())
-            .temperature(openAiChatProperties.getTemperature())
-            .topP(openAiChatProperties.getTopP())
-            .stop(openAiChatProperties.getStop())
-            .maxTokens(openAiChatProperties.getMaxTokens())
-            .presencePenalty(openAiChatProperties.getPresencePenalty())
-            .frequencyPenalty(openAiChatProperties.getFrequencyPenalty())
-            .seed(openAiChatProperties.getSeed())
-            .timeout(openAiProperties.getTimeout())
-            .user(openAiProperties.getUser())
-            .logRequests(openAiProperties.getLogRequests())
-            .logResponses(openAiProperties.getLogResponses())
-            .build();
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    OpenAiEmbeddingModel openAiEmbeddingModel(OpenAiProperties openAiProperties,
-            OpenAiEmbeddingProperties openAiEmbeddingProperties) {
-        validateApiKey(openAiProperties.getApiKey());
+    OpenAiEmbeddingModel openAiEmbeddingModel(OpenAiClient openAiClient, OpenAiEmbeddingProperties openAiEmbeddingProperties) {
         return OpenAiEmbeddingModel.builder()
-            .baseUrl(openAiProperties.getBaseUrl().toString())
-            .apiKey(openAiProperties.getApiKey())
-            .organizationId(openAiProperties.getOrganizationId())
-            .modelName(openAiEmbeddingProperties.getModel())
-            .timeout(openAiProperties.getTimeout())
-            .maxRetries(openAiProperties.getMaxRetries())
-            .user(openAiProperties.getUser())
-            .logRequests(openAiProperties.getLogRequests())
-            .logResponses(openAiProperties.getLogResponses())
-            .build();
+                .client(openAiClient)
+                .options(openAiEmbeddingProperties.getOptions())
+                .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiImageModel openAiImageModel(OpenAiProperties openAiProperties, OpenAiImageProperties openAiImageProperties) {
-        validateApiKey(openAiProperties.getApiKey());
+    OpenAiImageModel openAiImageModel(OpenAiClient openAiClient, OpenAiImageProperties openAiImageProperties) {
         return OpenAiImageModel.builder()
-            .baseUrl(openAiProperties.getBaseUrl().toString())
-            .apiKey(openAiProperties.getApiKey())
-            .organizationId(openAiProperties.getOrganizationId())
-            .modelName(openAiImageProperties.getModel())
-            .size(openAiImageProperties.getSize())
-            .quality(openAiImageProperties.getQuality())
-            .style(openAiImageProperties.getStyle())
-            .user(openAiProperties.getUser())
-            .responseFormat(openAiImageProperties.getResponseFormat())
-            .timeout(openAiProperties.getTimeout())
-            .maxRetries(openAiProperties.getMaxRetries())
-            .logRequests(openAiProperties.getLogRequests())
-            .logResponses(openAiProperties.getLogResponses())
-            .withPersisting(openAiImageProperties.getPersist())
-            .persistTo(openAiImageProperties.getPersistDirectory())
-            .build();
+                .client(openAiClient)
+                .options(openAiImageProperties.getOptions())
+                .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OpenAiModerationModel openAiModerationModel(OpenAiProperties openAiProperties,
-            OpenAiModerationProperties openAiModerationProperties) {
-        validateApiKey(openAiProperties.getApiKey());
-        return OpenAiModerationModel.builder()
-            .baseUrl(openAiProperties.getBaseUrl().toString())
-            .apiKey(openAiProperties.getApiKey())
-            .organizationId(openAiProperties.getOrganizationId())
-            .modelName(openAiModerationProperties.getModel())
-            .timeout(openAiProperties.getTimeout())
-            .maxRetries(openAiProperties.getMaxRetries())
-            .logRequests(openAiProperties.getLogRequests())
-            .logResponses(openAiProperties.getLogResponses())
-            .build();
-    }
-
-    private void validateApiKey(String apiKey) {
-        if (!StringUtils.hasText(apiKey)) {
-            throw new OpenAiConfigurationException("apiKey cannot be empty");
-        }
+    OpenAIModerationModel openAiModerationModel(OpenAiClient openAiClient, OpenAiModerationProperties openAiModerationProperties) {
+        return OpenAIModerationModel.builder()
+                .client(openAiClient)
+                .options(openAiModerationProperties.getOptions())
+                .build();
     }
 
 }

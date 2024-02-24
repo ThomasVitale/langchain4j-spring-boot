@@ -48,12 +48,16 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
 
         textSegments.forEach(textSegment -> {
             EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
-                .withModel(model)
-                .withPrompt(textSegment.text())
-                .withOptions(options)
+                .model(model)
+                .prompt(textSegment.text())
+                .options(options)
                 .build();
 
             EmbeddingResponse embeddingResponse = ollamaClient.embeddings(embeddingRequest);
+
+            if (embeddingResponse == null) {
+                throw new IllegalStateException("Embedding response is empty");
+            }
 
             embeddings.add(Embedding.from(embeddingResponse.embedding()));
         });
@@ -66,15 +70,11 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
     }
 
     public static class Builder {
-
         private OllamaClient ollamaClient;
-
         private String model = DEFAULT_MODEL;
+        private Options options = Options.builder().build();
 
-        private Options options = Options.create();
-
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder client(OllamaClient ollamaClient) {
             Assert.notNull(ollamaClient, "ollamaClient cannot be null");
@@ -97,7 +97,6 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
         public OllamaEmbeddingModel build() {
             return new OllamaEmbeddingModel(ollamaClient, model, options);
         }
-
     }
 
 }

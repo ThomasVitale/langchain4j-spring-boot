@@ -1,27 +1,22 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.openai;
 
-import java.util.concurrent.CompletableFuture;
-
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.image.Image;
-import dev.langchain4j.data.message.AiMessage;
-import dev.langchain4j.model.StreamingResponseHandler;
 import dev.langchain4j.model.moderation.Moderation;
-import dev.langchain4j.model.openai.OpenAiChatModel;
-import dev.langchain4j.model.openai.OpenAiEmbeddingModel;
-import dev.langchain4j.model.openai.OpenAiImageModel;
-import dev.langchain4j.model.openai.OpenAiModerationModel;
-import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
-import dev.langchain4j.model.output.Response;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
+import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
+import io.thomasvitale.langchain4j.spring.openai.OpenAIModerationModel;
+import io.thomasvitale.langchain4j.spring.openai.OpenAiChatModel;
+import io.thomasvitale.langchain4j.spring.openai.OpenAiEmbeddingModel;
+import io.thomasvitale.langchain4j.spring.openai.OpenAiImageModel;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -29,14 +24,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @author Thomas Vitale
  */
-@EnabledIfEnvironmentVariable(named = "LANGCHAIN4J_OPENAI_API_KEY", matches = ".*")
+@EnabledIfEnvironmentVariable(named = "LANGCHAIN4J_OPENAI_CLIENT_API_KEY", matches = ".*")
 class OpenAiAutoConfigurationIT {
 
     private static final Logger log = LoggerFactory.getLogger(OpenAiAutoConfigurationIT.class);
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-        .withPropertyValues("langchain4j.openai.apiKey=" + System.getenv("LANGCHAIN4J_OPENAI_API_KEY"))
-        .withConfiguration(AutoConfigurations.of(OpenAiAutoConfiguration.class));
+        .withPropertyValues("langchain4j.openai.client.apiKey=" + System.getenv("LANGCHAIN4J_OPENAI_CLIENT_API_KEY"))
+        .withConfiguration(AutoConfigurations.of(RestClientAutoConfiguration.class, OpenAiAutoConfiguration.class));
 
     @Test
     void chat() {
@@ -44,32 +39,6 @@ class OpenAiAutoConfigurationIT {
             OpenAiChatModel model = context.getBean(OpenAiChatModel.class);
             String response = model.generate("What is the capital of Italy?");
             assertThat(response).containsIgnoringCase("Rome");
-            log.info("Response: " + response);
-        });
-    }
-
-    @Test
-    void chatStreaming() {
-        contextRunner.run(context -> {
-            OpenAiStreamingChatModel model = context.getBean(OpenAiStreamingChatModel.class);
-            CompletableFuture<Response<AiMessage>> future = new CompletableFuture<>();
-            model.generate("What is the capital of Italy?", new StreamingResponseHandler<AiMessage>() {
-                @Override
-                public void onNext(String token) {
-                }
-
-                @Override
-                public void onComplete(Response<AiMessage> response) {
-                    future.complete(response);
-                }
-
-                @Override
-                public void onError(Throwable error) {
-                }
-            });
-
-            Response<AiMessage> response = future.get(30, SECONDS);
-            assertThat(response.content().text()).containsIgnoringCase("Rome");
             log.info("Response: " + response);
         });
     }
@@ -85,7 +54,7 @@ class OpenAiAutoConfigurationIT {
 
     @Test
     void image() {
-        contextRunner.withPropertyValues("langchain4j.openai.image.size=256x256").run(context -> {
+        contextRunner.withPropertyValues("langchain4j.openai.image.options.size=256x256").run(context -> {
             OpenAiImageModel model = context.getBean(OpenAiImageModel.class);
             Image image = model.generate("sun").content();
             assertThat(image.url()).isNotNull();
@@ -96,7 +65,7 @@ class OpenAiAutoConfigurationIT {
     @Test
     void moderation() {
         contextRunner.run(context -> {
-            OpenAiModerationModel model = context.getBean(OpenAiModerationModel.class);
+            OpenAIModerationModel model = context.getBean(OpenAIModerationModel.class);
             Moderation moderation = model.moderate("He wants to kill them").content();
             assertThat(moderation.flagged()).isTrue();
         });

@@ -3,6 +3,8 @@ package io.thomasvitale.langchain4j.autoconfigure.models.openai;
 import java.net.URI;
 import java.time.Duration;
 
+import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaProperties;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -21,45 +23,9 @@ public class OpenAiProperties {
     private boolean enabled = true;
 
     /**
-     * Base URL of the OpenAI API.
+     * Settings for the HTTP client.
      */
-    private URI baseUrl = URI.create("https://api.openai.com/v1/");
-
-    /**
-     * OpenAI APY Key.
-     */
-    private String apiKey;
-
-    /**
-     * Which organization to use for OpenAI requests.
-     */
-    private String organizationId;
-
-    /**
-     * Timeout for OpenAI calls.
-     */
-    private Duration timeout = Duration.ofSeconds(10);
-
-    /**
-     * Maximum number of times an OpenAI call will be retried.
-     */
-    private Integer maxRetries = 3;
-
-    /**
-     * Unique identifier representing your end-user, which can help OpenAI to monitor and
-     * detect abuse.
-     */
-    private String user;
-
-    /**
-     * Enable logging for OpenAI requests.
-     */
-    private Boolean logRequests = false;
-
-    /**
-     * Enable logging for OpenAI responses.
-     */
-    private Boolean logResponses = false;
+    private Client client = new Client();
 
     public boolean isEnabled() {
         return enabled;
@@ -69,68 +35,133 @@ public class OpenAiProperties {
         this.enabled = enabled;
     }
 
-    public URI getBaseUrl() {
-        return baseUrl;
+    public Client getClient() {
+        return client;
     }
 
-    public void setBaseUrl(URI baseUrl) {
-        this.baseUrl = baseUrl;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
-    public String getApiKey() {
-        return apiKey;
-    }
+    public static class Client {
 
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
+        /**
+         * Base URL of the OpenAI API.
+         */
+        private URI baseUrl = URI.create("https://api.openai.com");
 
-    public String getOrganizationId() {
-        return organizationId;
-    }
+        /**
+         * Maximum time to wait for a connection.
+         */
+        private Duration connectTimeout = Duration.ofSeconds(10);
 
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
+        /**
+         * Maximum time to wait for a response.
+         */
+        private Duration readTimeout = Duration.ofSeconds(60);
 
-    public Duration getTimeout() {
-        return timeout;
-    }
+        /**
+         * SSL certificate bundle to use to establish a secure connection.
+         */
+        private String sslBundle;
 
-    public void setTimeout(Duration timeout) {
-        this.timeout = timeout;
-    }
+        /**
+         * OpenAI APY Key.
+         */
+        private String apiKey;
 
-    public Integer getMaxRetries() {
-        return maxRetries;
-    }
+        /**
+         * Which organization to use for OpenAI requests.
+         */
+        private String organizationId;
 
-    public void setMaxRetries(Integer maxRetries) {
-        this.maxRetries = maxRetries;
-    }
+        /**
+         * Unique identifier representing your end-user, which can help OpenAI to monitor and
+         * detect abuse.
+         */
+        private String user;
 
-    public String getUser() {
-        return user;
-    }
+        /**
+         * Whether to log requests.
+         */
+        private boolean logRequests = false;
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+        /**
+         * Whether to log responses.
+         */
+        private boolean logResponses = false;
 
-    public Boolean getLogRequests() {
-        return logRequests;
-    }
+        public URI getBaseUrl() {
+            return baseUrl;
+        }
 
-    public void setLogRequests(Boolean logRequests) {
-        this.logRequests = logRequests;
-    }
+        public void setBaseUrl(URI baseUrl) {
+            this.baseUrl = baseUrl;
+        }
 
-    public Boolean getLogResponses() {
-        return logResponses;
-    }
+        public Duration getConnectTimeout() {
+            return connectTimeout;
+        }
 
-    public void setLogResponses(Boolean logResponses) {
-        this.logResponses = logResponses;
+        public void setConnectTimeout(Duration connectTimeout) {
+            this.connectTimeout = connectTimeout;
+        }
+
+        public Duration getReadTimeout() {
+            return readTimeout;
+        }
+
+        public void setReadTimeout(Duration readTimeout) {
+            this.readTimeout = readTimeout;
+        }
+
+        public String getSslBundle() {
+            return sslBundle;
+        }
+
+        public void setSslBundle(String sslBundle) {
+            this.sslBundle = sslBundle;
+        }
+
+        public String getApiKey() {
+            return apiKey;
+        }
+
+        public void setApiKey(String apiKey) {
+            this.apiKey = apiKey;
+        }
+
+        public String getOrganizationId() {
+            return organizationId;
+        }
+
+        public void setOrganizationId(String organizationId) {
+            this.organizationId = organizationId;
+        }
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public boolean isLogRequests() {
+            return logRequests;
+        }
+
+        public void setLogRequests(boolean logRequests) {
+            this.logRequests = logRequests;
+        }
+
+        public boolean isLogResponses() {
+            return logResponses;
+        }
+
+        public void setLogResponses(boolean logResponses) {
+            this.logResponses = logResponses;
+        }
     }
 
 }

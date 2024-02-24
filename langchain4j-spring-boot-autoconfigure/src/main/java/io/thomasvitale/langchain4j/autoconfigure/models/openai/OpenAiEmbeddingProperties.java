@@ -1,9 +1,12 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.openai;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+
+import io.thomasvitale.langchain4j.spring.openai.OpenAiEmbeddingOptions;
 
 /**
- * Configuration properties for OpenAI embedding clients.
+ * Configuration properties for OpenAI embedding models.
  *
  * @author Thomas Vitale
  */
@@ -13,16 +16,17 @@ public class OpenAiEmbeddingProperties {
     public static final String CONFIG_PREFIX = "langchain4j.openai.embedding";
 
     /**
-     * Name of the model to use.
+     * Model options.
      */
-    private String model = "text-embedding-ada-002";
+    @NestedConfigurationProperty
+    private OpenAiEmbeddingOptions options = OpenAiEmbeddingOptions.builder().build();
 
-    public String getModel() {
-        return model;
+    public OpenAiEmbeddingOptions getOptions() {
+        return options;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setOptions(OpenAiEmbeddingOptions options) {
+        this.options = options;
     }
 
 }

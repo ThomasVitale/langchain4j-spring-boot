@@ -20,12 +20,9 @@ dependencies {
     optional project(":langchain4j-spring-core")
 
     optional project(":models:langchain4j-spring-ollama")
+    optional project(":models:langchain4j-spring-openai")
 
     optional project(":vector-stores:langchain4j-spring-chroma")
-
-    optional('dev.langchain4j:langchain4j-open-ai') {
-        exclude group: 'dev.langchain4j', module: 'langchain4j-core'
-    }
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'

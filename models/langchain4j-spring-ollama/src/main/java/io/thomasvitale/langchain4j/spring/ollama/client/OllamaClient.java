@@ -28,10 +28,9 @@ import io.thomasvitale.langchain4j.spring.ollama.api.GenerateResponse;
  * Client for the Ollama API.
  * <p>
  * Based on the Spring AI implementation.
- * <p>
  *
  * @see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API</a>
- * <p>
+ *
  * @author Thomas Vitale
  */
 public class OllamaClient {
@@ -72,6 +71,7 @@ public class OllamaClient {
         return restClientBuilder.requestFactory(requestFactory)
             .baseUrl(clientConfig.baseUrl().toString())
             .defaultHeaders(defaultHeaders)
+                .defaultStatusHandler(this.responseErrorHandler)
             .requestInterceptors(interceptors -> {
                 if (clientConfig.logRequests() || clientConfig.logResponses()) {
                     interceptors
@@ -84,7 +84,7 @@ public class OllamaClient {
     @Nullable
     public GenerateResponse generate(GenerateRequest completionRequest) {
         Assert.notNull(completionRequest, "completionRequest must not be null");
-        Assert.isTrue(!completionRequest.stream(), "Stream mode must be disabled.");
+        Assert.isTrue(!completionRequest.stream(), "Stream mode must be disabled");
 
         logger.debug("Sending completion request: {}", completionRequest);
 
@@ -92,14 +92,13 @@ public class OllamaClient {
             .uri("/api/generate")
             .body(completionRequest)
             .retrieve()
-            .onStatus(this.responseErrorHandler)
             .body(GenerateResponse.class);
     }
 
     @Nullable
     public ChatResponse chat(ChatRequest chatRequest) {
         Assert.notNull(chatRequest, "chatRequest must not be null");
-        Assert.isTrue(!chatRequest.stream(), "Stream mode must be disabled.");
+        Assert.isTrue(!chatRequest.stream(), "Stream mode must be disabled");
 
         logger.debug("Sending chat request: {}", chatRequest);
 
@@ -107,7 +106,6 @@ public class OllamaClient {
             .uri("/api/chat")
             .body(chatRequest)
             .retrieve()
-            .onStatus(this.responseErrorHandler)
             .body(ChatResponse.class);
     }
 
@@ -121,7 +119,6 @@ public class OllamaClient {
             .uri("/api/embeddings")
             .body(embeddingRequest)
             .retrieve()
-            .onStatus(this.responseErrorHandler)
             .body(EmbeddingResponse.class);
     }
 
