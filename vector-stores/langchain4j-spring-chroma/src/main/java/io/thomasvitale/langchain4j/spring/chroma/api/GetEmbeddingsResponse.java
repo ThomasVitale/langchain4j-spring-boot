@@ -13,17 +13,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param embeddings A list of document embeddings for each returned document.
  * @param documents A list of document contents for each returned document.
  * @param metadata A list of document metadata for each returned document.
- * <p>
+ *
  * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record GetEmbeddingsResponse(
-//@formatter:off
         List<List<String>> ids,
         List<List<List<Float>>> embeddings,
         List<List<String>> documents,
         @JsonProperty("metadatas")
         List<List<Map<String, Object>>> metadata
-//@formatter:on
-) {
-}
+) {}

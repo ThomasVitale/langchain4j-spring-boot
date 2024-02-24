@@ -23,15 +23,12 @@ import io.thomasvitale.langchain4j.spring.chroma.api.QueryResponse;
 public final class ChromaAdapters {
 
     private record ChromaEmbedding(
-    //@formatter:off
             String id,
             List<Float> embedding,
             String document,
             Map<String, String> metadata,
             Double distance
-    //@formatter:on
-    ) {
-    }
+    ) {}
 
     public static List<EmbeddingMatch<TextSegment>> toEmbeddingMatches(QueryResponse queryResponse) {
         List<ChromaEmbedding> chromaEmbeddings = extractChromaEmbeddingsFromResponse(queryResponse);
@@ -51,7 +48,6 @@ public final class ChromaAdapters {
             return result;
         }
         for (int i = 0; i < queryResponse.ids().get(0).size(); i++) {
-            //@formatter:off
             var chromaEmbedding = new ChromaEmbedding(
                     queryResponse.ids().get(0).get(i),
                     queryResponse.embeddings().get(0).get(i),
@@ -59,7 +55,6 @@ public final class ChromaAdapters {
                     queryResponse.metadata().get(0).get(i),
                     queryResponse.distances().get(0).get(i));
             result.add(chromaEmbedding);
-            //@formatter:on
         }
 
         return result;

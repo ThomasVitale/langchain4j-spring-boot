@@ -10,22 +10,20 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 /**
  * A request to query a Chroma collection for similar embeddings.
  *
- * @param queryEmbeddings (optional) Query embeddings to use for the search.
- * @param nResults (optional) Number of results to return.
- * @param where (optional) Where clause to filter the results based on metadata values.
- * @param include (optional) List of fields to include in the response.
- * <p>
+ * @param queryEmbeddings Optional query embeddings to use for the search.
+ * @param nResults Optional number of results to return.
+ * @param where Optional where clause to filter the results based on metadata values.
+ * @param include Optional list of fields to include in the response.
+ *
  * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record QueryRequest(
-//@formatter:off
         List<List<Float>> queryEmbeddings,
         int nResults,
         Map<String, Object> where,
         List<Include> include
-//@formatter:on
 ) {
 
     private static final List<Include> DEFAULT_INCLUDES = List.of(Include.METADATAS, Include.DOCUMENTS,
@@ -36,17 +34,12 @@ public record QueryRequest(
     }
 
     public static class Builder {
-
         private List<List<Float>> queryEmbeddings;
-
         private int nResults = 10;
-
         private Map<String, Object> where;
-
         private List<Include> include = DEFAULT_INCLUDES;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder queryEmbeddings(List<List<Float>> queryEmbeddings) {
             this.queryEmbeddings = queryEmbeddings;
@@ -71,6 +64,6 @@ public record QueryRequest(
         public QueryRequest build() {
             return new QueryRequest(queryEmbeddings, nResults, where, include);
         }
-
     }
+
 }

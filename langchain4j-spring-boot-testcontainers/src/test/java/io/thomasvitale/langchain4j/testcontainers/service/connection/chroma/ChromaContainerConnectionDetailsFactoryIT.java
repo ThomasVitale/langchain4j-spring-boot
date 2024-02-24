@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.chromadb.ChromaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -25,9 +25,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ChromaContainerConnectionDetailsFactoryIT {
 
     @Container
-    @ServiceConnection("chroma")
-    static final GenericContainer<?> container = new GenericContainer<>("ghcr.io/chroma-core/chroma")
-        .withExposedPorts(8000);
+    @ServiceConnection
+    static final ChromaDBContainer container = new ChromaDBContainer("ghcr.io/chroma-core/chroma");
 
     @Autowired
     private ChromaConnectionDetails connectionDetails;

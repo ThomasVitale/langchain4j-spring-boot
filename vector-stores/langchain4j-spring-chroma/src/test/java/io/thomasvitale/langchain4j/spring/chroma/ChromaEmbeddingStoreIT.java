@@ -10,7 +10,7 @@ import dev.langchain4j.model.embedding.EmbeddingModel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClient;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.chromadb.ChromaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -31,8 +31,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 class ChromaEmbeddingStoreIT {
 
     @Container
-    static GenericContainer<?> chroma = new GenericContainer<>("ghcr.io/chroma-core/chroma:0.4.22")
-        .withExposedPorts(8000);
+    static ChromaDBContainer chroma = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.4.23");
 
     private static ChromaClient chromaClient;
 

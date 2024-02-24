@@ -186,12 +186,63 @@ public class TestChromaApplication {
     @Bean
     @RestartScope
     @ServiceConnection
-    GenericContainer<?> chroma() {
-        return new GenericContainer<>("ghcr.io/chroma-core/chroma").withExposedPorts(8000);
+    ChromaContainer chroma() {
+        return new ChromaContainer("ghcr.io/chroma-core/chroma");
     }
 
     public static void main(String[] args) {
         SpringApplication.from(ChromaApplication::main).with(TestChromaApplication.class).run(args);
+    }
+}
+```
+
+### Weaviate
+
+Gradle:
+
+```groovy
+implementation 'io.thomasvitale.langchain4j:langchain4j-weaviate-spring-boot-starter:0.7.0'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.7.0'
+```
+
+Example:
+
+```java
+class WeaviateDataIngestor {
+    private final WeaviateEmbeddingStore embeddingStore;
+    private final EmbeddingModel embeddingModel;
+
+    ChatController(WeaviateEmbeddingStore embeddingStore, EmbeddingModel embeddingModel) {
+        this.embeddingStore = embeddingStore;
+        this.embeddingModel = embeddingModel;
+    }
+
+    public void ingest(List<Document> documents) {
+        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()
+                .embeddingStore(embeddingStore)
+                .embeddingModel(embeddingModel)
+                .documentSplitter(recursive(300, 0))
+                .build();
+        ingestor.ingest(documents);
+    }
+}
+```
+
+Testcontainers:
+
+```java
+@TestConfiguration(proxyBeanMethods = false)
+public class TestWeaviateApplication {
+
+    @Bean
+    @RestartScope
+    @ServiceConnection
+    WeaviateContainer weaviate() {
+        return new WeaviateContainer("semitechnologies/weaviate");
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.from(WeaviateApplication::main).with(TestWeaviateApplication.class).run(args);
     }
 }
 ```

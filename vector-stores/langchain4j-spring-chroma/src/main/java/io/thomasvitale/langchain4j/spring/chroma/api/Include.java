@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Enumeration of the possible fields included in a response from Chroma when performing
- * operations on Collections. The @{code ids} field is always included.
+ * operations on Collections. The 'ids' field is always included.
  */
 public enum Include {
 

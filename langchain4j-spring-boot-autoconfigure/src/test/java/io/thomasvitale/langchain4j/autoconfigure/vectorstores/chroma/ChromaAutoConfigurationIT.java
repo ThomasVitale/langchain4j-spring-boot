@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.chromadb.ChromaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -24,12 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ChromaAutoConfigurationIT {
 
     @Container
-    static GenericContainer<?> chroma = new GenericContainer<>("ghcr.io/chroma-core/chroma:0.4.22")
-        .withExposedPorts(8000);
-
-    private static String getBaseUrl() {
-        return "http://%s:%s".formatted(chroma.getHost(), chroma.getMappedPort(8000));
-    }
+    static ChromaDBContainer chroma = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.4.23");
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(ChromaAutoConfiguration.class, RestClientAutoConfiguration.class));
@@ -37,7 +32,7 @@ class ChromaAutoConfigurationIT {
     @Test
     void chromaClient() {
         var collectionName = randomUUID();
-        contextRunner.withPropertyValues("langchain4j.vectorstore.chroma.client.url=%s".formatted(getBaseUrl()))
+        contextRunner.withPropertyValues("langchain4j.vectorstore.chroma.client.url=%s".formatted(chroma.getEndpoint()))
             .withPropertyValues("langchain4j.vectorstore.chroma.collection-name=%s".formatted(collectionName))
             .run(context -> {
                 ChromaClient chromaClient = context.getBean(ChromaClient.class);
@@ -50,7 +45,7 @@ class ChromaAutoConfigurationIT {
     @Test
     void chromaEmbeddingStore() {
         var collectionName = randomUUID();
-        contextRunner.withPropertyValues("langchain4j.vectorstore.chroma.client.url=%s".formatted(getBaseUrl()))
+        contextRunner.withPropertyValues("langchain4j.vectorstore.chroma.client.url=%s".formatted(chroma.getEndpoint()))
             .withPropertyValues("langchain4j.vectorstore.chroma.collection-name=%s".formatted(collectionName))
             .run(context -> {
                 ChromaEmbeddingStore chromaEmbeddingStore = context.getBean(ChromaEmbeddingStore.class);

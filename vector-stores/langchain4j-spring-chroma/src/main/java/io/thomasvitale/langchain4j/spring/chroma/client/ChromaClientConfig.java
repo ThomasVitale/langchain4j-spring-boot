@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
  * @author Thomas Vitale
  */
 public record ChromaClientConfig(
-//@formatter:off
         URI url,
         Duration connectTimeout,
         Duration readTimeout,
@@ -24,7 +23,6 @@ public record ChromaClientConfig(
         String username,
         @Nullable
         String password
-//@formatter:on
 ) {
 
     public ChromaClientConfig {
@@ -40,27 +38,19 @@ public record ChromaClientConfig(
     }
 
     public static class Builder {
-
         private URI url = URI.create("http://localhost:8000");
-
         private Duration connectTimeout = Duration.ofSeconds(10);
-
         private Duration readTimeout = Duration.ofSeconds(60);
-
         @Nullable
         private String sslBundle;
-
         @Nullable
         private String apiToken;
-
         @Nullable
         private String username;
-
         @Nullable
         private String password;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder url(URI url) {
             this.url = url;
@@ -100,7 +90,6 @@ public record ChromaClientConfig(
         public ChromaClientConfig build() {
             return new ChromaClientConfig(url, connectTimeout, readTimeout, sslBundle, apiToken, username, password);
         }
-
     }
 
 }

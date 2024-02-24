@@ -88,11 +88,11 @@ public class ChromaEmbeddingStore implements EmbeddingStore<TextSegment>, Initia
     private void sendAddEmbeddingsRequest(List<String> ids, List<Embedding> embeddings,
             @Nullable List<TextSegment> textSegments) {
         var addEmbeddingsRequest = AddEmbeddingsRequest.builder()
-            .withIds(ids)
-            .withEmbeddings(embeddings.stream().map(Embedding::vector).toList())
-            .withMetadata(CollectionUtils.isEmpty(textSegments) ? null
+            .ids(ids)
+            .embeddings(embeddings.stream().map(Embedding::vector).toList())
+            .metadata(CollectionUtils.isEmpty(textSegments) ? null
                     : textSegments.stream().map(TextSegment::metadata).map(Metadata::asMap).toList())
-            .withDocuments(CollectionUtils.isEmpty(textSegments) ? null
+            .documents(CollectionUtils.isEmpty(textSegments) ? null
                     : textSegments.stream().map(TextSegment::text).toList())
             .build();
 
@@ -142,13 +142,10 @@ public class ChromaEmbeddingStore implements EmbeddingStore<TextSegment>, Initia
     }
 
     public static class Builder {
-
         private ChromaClient chromaClient;
-
         private String collectionName;
 
-        private Builder() {
-        }
+        private Builder() {}
 
         public Builder client(ChromaClient chromaClient) {
             this.chromaClient = chromaClient;
@@ -163,7 +160,6 @@ public class ChromaEmbeddingStore implements EmbeddingStore<TextSegment>, Initia
         public ChromaEmbeddingStore build() {
             return new ChromaEmbeddingStore(chromaClient, collectionName);
         }
-
     }
 
 }

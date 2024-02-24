@@ -23,10 +23,13 @@ dependencies {
     optional project(":models:langchain4j-spring-openai")
 
     optional project(":vector-stores:langchain4j-spring-chroma")
+    optional project(":vector-stores:langchain4j-spring-weaviate")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
     testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:chromadb'
+    testImplementation 'org.testcontainers:weaviate'
 }
 
 publishing {

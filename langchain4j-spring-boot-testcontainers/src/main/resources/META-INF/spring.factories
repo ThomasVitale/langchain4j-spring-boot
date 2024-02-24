@@ -1,4 +1,6 @@
 # Connection Details Factories
 org.springframework.boot.autoconfigure.service.connection.ConnectionDetailsFactory=\
 io.thomasvitale.langchain4j.testcontainers.service.connection.ollama.OllamaContainerConnectionDetailsFactory,\
-io.thomasvitale.langchain4j.testcontainers.service.connection.chroma.ChromaContainerConnectionDetailsFactory
+io.thomasvitale.langchain4j.testcontainers.service.connection.chroma.ChromaContainerConnectionDetailsFactory,\
+io.thomasvitale.langchain4j.testcontainers.service.connection.weaviate.WeaviateContainerConnectionDetailsFactory
+

@@ -18,6 +18,9 @@ dependencies {
     api project(":langchain4j-spring-boot-autoconfigure")
     api 'org.springframework.boot:spring-boot-testcontainers'
 
+    optional 'org.testcontainers:chromadb'
+    optional 'org.testcontainers:weaviate'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.springframework:spring-web'

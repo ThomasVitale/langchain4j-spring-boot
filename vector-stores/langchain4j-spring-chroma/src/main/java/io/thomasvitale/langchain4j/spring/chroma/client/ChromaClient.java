@@ -34,7 +34,7 @@ import io.thomasvitale.langchain4j.spring.core.http.HttpResponseErrorHandler;
  * Based on the Spring AI implementation.
  *
  * @see <a href="https://docs.trychroma.com/api">Chroma API</a>
- * <p>
+ *
  * @author Thomas Vitale
  */
 public class ChromaClient {
@@ -170,8 +170,7 @@ public class ChromaClient {
      */
     @Nullable
     public List<Collection> listCollections() {
-        var typeReference = new ParameterizedTypeReference<List<Collection>>() {
-        };
+        var typeReference = new ParameterizedTypeReference<List<Collection>>() {};
 
         logger.debug("Sending list collections request");
 
@@ -236,8 +235,7 @@ public class ChromaClient {
         Assert.hasText(collectionName, "collectionName must not be empty");
         Assert.notNull(deleteEmbeddingsRequest, "deleteEmbeddingsRequest must not be null");
 
-        var typeReference = new ParameterizedTypeReference<List<String>>() {
-        };
+        var typeReference = new ParameterizedTypeReference<List<String>>() {};
 
         logger.debug("Sending delete embeddings request: {}", deleteEmbeddingsRequest);
 
