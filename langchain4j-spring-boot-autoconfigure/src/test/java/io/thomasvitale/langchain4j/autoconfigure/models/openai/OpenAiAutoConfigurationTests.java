@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class OpenAiAutoConfigurationTests {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-        .withPropertyValues("langchain4j.openai.apiKey=demo")
+        .withPropertyValues("langchain4j.openai.client.api-key=demo")
         .withConfiguration(AutoConfigurations.of(RestClientAutoConfiguration.class, OpenAiAutoConfiguration.class));
 
     @Test
