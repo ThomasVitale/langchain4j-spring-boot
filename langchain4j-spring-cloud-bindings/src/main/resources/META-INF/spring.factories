@@ -1,0 +1,6 @@
+# Binding Properties Factories
+org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
+io.thomasvitale.langchain4j.bindings.ChromaBindingsPropertiesProcessor,\
+io.thomasvitale.langchain4j.bindings.OllamaBindingsPropertiesProcessor,\
+io.thomasvitale.langchain4j.bindings.OpenAiBindingsPropertiesProcessor,\
+io.thomasvitale.langchain4j.bindings.WeaviateBindingsPropertiesProcessor
