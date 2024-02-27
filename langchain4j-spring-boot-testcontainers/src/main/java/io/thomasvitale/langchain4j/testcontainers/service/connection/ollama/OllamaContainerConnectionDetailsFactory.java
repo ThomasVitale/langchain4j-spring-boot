@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.testcontainers.service.connection.ollama;
 
+import java.net.URI;
+
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionDetailsFactory;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionSource;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -37,8 +39,8 @@ class OllamaContainerConnectionDetailsFactory
         }
 
         @Override
-        public String getUrl() {
-            return "http://%s:%s".formatted(getContainer().getHost(), getContainer().getFirstMappedPort());
+        public URI getUrl() {
+            return URI.create("http://%s:%s".formatted(getContainer().getHost(), getContainer().getFirstMappedPort()));
         }
 
     }

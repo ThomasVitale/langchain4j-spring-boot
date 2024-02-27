@@ -18,6 +18,11 @@ public class ChromaProperties {
     public static final String CONFIG_PREFIX = "langchain4j.vectorstore.chroma";
 
     /**
+     * Whether to enable the Chroma integration.
+     */
+    private boolean enabled = true;
+
+    /**
      * Chroma collection to use.
      */
     private String collectionName = ChromaEmbeddingStore.DEFAULT_COLLECTION_NAME;
@@ -26,6 +31,14 @@ public class ChromaProperties {
      * Chroma Client configuration.
      */
     private Client client = new Client();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getCollectionName() {
         return collectionName;

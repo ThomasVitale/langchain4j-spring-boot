@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.testcontainers.service.connection.weaviate;
 
+import java.net.URI;
+
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionDetailsFactory;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionSource;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
@@ -37,13 +39,8 @@ class WeaviateContainerConnectionDetailsFactory
         }
 
         @Override
-        public String getScheme() {
-            return "http";
-        }
-
-        @Override
-        public String getHost() {
-            return getContainer().getHttpHostAddress();
+        public URI getUrl() {
+            return URI.create("http://%s".formatted(getContainer().getHttpHostAddress()));
         }
 
         @Override

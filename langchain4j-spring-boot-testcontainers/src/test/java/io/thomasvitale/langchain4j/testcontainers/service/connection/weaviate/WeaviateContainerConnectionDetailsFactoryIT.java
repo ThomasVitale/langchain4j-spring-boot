@@ -33,8 +33,9 @@ class WeaviateContainerConnectionDetailsFactoryIT {
 
     @Test
     void connectionEstablishedWithWeaviateContainer() {
-        assertThat(this.connectionDetails.getScheme()).isEqualTo("http");
-        assertThat(this.connectionDetails.getHost()).isEqualTo(container.getHttpHostAddress());
+        assertThat(this.connectionDetails.getUrl().getScheme()).isEqualTo("http");
+        assertThat(this.connectionDetails.getUrl().getHost()).isEqualTo(container.getHost());
+        assertThat(this.connectionDetails.getUrl().getPort()).isEqualTo(container.getFirstMappedPort());
     }
 
     @Configuration(proxyBeanMethods = false)

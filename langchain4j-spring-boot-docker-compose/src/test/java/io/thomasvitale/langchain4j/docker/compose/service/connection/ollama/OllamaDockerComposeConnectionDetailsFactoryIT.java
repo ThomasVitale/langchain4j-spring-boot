@@ -25,7 +25,7 @@ class OllamaDockerComposeConnectionDetailsFactoryIT extends DockerComposeIntegra
     @Test
     void createConnectionDetails() {
         OllamaConnectionDetails connectionDetails = run(OllamaConnectionDetails.class);
-        assertThat(connectionDetails.getUrl()).startsWith("http://127.0.0.1");
+        assertThat(connectionDetails.getUrl().getHost()).isEqualTo("127.0.0.1");
     }
 
 }

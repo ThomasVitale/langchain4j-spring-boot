@@ -1,5 +1,6 @@
 package io.thomasvitale.langchain4j.spring.weaviate.client;
 
+import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
 
@@ -12,8 +13,7 @@ import org.springframework.util.Assert;
  * @author Thomas Vitale
  */
 public record WeaviateClientConfig(
-        String scheme,
-        String host,
+        URI url,
         Duration connectTimeout,
         Duration readTimeout,
         @Nullable
@@ -25,8 +25,7 @@ public record WeaviateClientConfig(
 ){
 
     public WeaviateClientConfig {
-        Assert.hasText(scheme, "scheme must not be null or empty");
-        Assert.hasText(host, "host must not be null or empty");
+        Assert.notNull(url, "url must not be null");
         Assert.notNull(connectTimeout, "connectTimeout must not be null");
         Assert.notNull(readTimeout, "readTimeout must not be null");
     }
@@ -36,8 +35,7 @@ public record WeaviateClientConfig(
     }
 
     public static class Builder {
-        private String scheme = "http";
-        private String host = "localhost:8080";
+        private URI url = URI.create("http://localhost:8080");
         private Duration connectTimeout = Duration.ofSeconds(10);
         private Duration readTimeout = Duration.ofSeconds(60);
         @Nullable
@@ -49,13 +47,8 @@ public record WeaviateClientConfig(
 
         private Builder() {}
 
-        public Builder scheme(String scheme) {
-            this.scheme = scheme;
-            return this;
-        }
-
-        public Builder host(String host) {
-            this.host = host;
+        public Builder url(URI url) {
+            this.url = url;
             return this;
         }
 
@@ -85,7 +78,7 @@ public record WeaviateClientConfig(
         }
 
         public WeaviateClientConfig build() {
-            return new WeaviateClientConfig(scheme, host, connectTimeout, readTimeout, sslBundle, apiKey, headers);
+            return new WeaviateClientConfig(url, connectTimeout, readTimeout, sslBundle, apiKey, headers);
         }
     }
 

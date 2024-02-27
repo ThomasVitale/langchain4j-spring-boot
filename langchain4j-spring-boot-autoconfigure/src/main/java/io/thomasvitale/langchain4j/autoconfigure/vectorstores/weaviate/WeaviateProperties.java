@@ -1,5 +1,6 @@
 package io.thomasvitale.langchain4j.autoconfigure.vectorstores.weaviate;
 
+import java.net.URI;
 import java.time.Duration;
 import java.util.Map;
 
@@ -18,6 +19,11 @@ public class WeaviateProperties {
     public static final String CONFIG_PREFIX = "langchain4j.vectorstore.weaviate";
 
     /**
+     * Whether to enable the Weaviate integration.
+     */
+    private boolean enabled = true;
+
+    /**
      * Weaviate object class to use.
      */
     private String objectClassName = WeaviateEmbeddingStore.DEFAULT_OBJECT_CLASS_NAME;
@@ -31,6 +37,14 @@ public class WeaviateProperties {
      * Chroma Client configuration.
      */
     private Client client = new Client();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getObjectClassName() {
         return objectClassName;
@@ -59,14 +73,9 @@ public class WeaviateProperties {
     public static class Client {
 
         /**
-         * Schema to interact with the Weaviate server.
+         * URL where the Weaviate server is running.
          */
-        private String schema = "http";
-
-        /**
-         * Host (and port) where the Weaviate server is running.
-         */
-        private String host = "localhost:8080";
+        private URI url = URI.create("http://localhost:8080");
 
         /**
          * Maximum time to wait for a connection.
@@ -93,20 +102,12 @@ public class WeaviateProperties {
          */
         Map<String, String> headers = Map.of();
 
-        public String getSchema() {
-            return schema;
+        public URI getUrl() {
+            return url;
         }
 
-        public void setSchema(String schema) {
-            this.schema = schema;
-        }
-
-        public String getHost() {
-            return host;
-        }
-
-        public void setHost(String host) {
-            this.host = host;
+        public void setUrl(URI url) {
+            this.url = url;
         }
 
         public Duration getConnectTimeout() {

@@ -24,7 +24,7 @@ class WeaviateDockerComposeConnectionDetailsFactoryIT extends DockerComposeInteg
     @Test
     void createConnectionDetails() {
         WeaviateConnectionDetails connectionDetails = run(WeaviateConnectionDetails.class);
-        assertThat(connectionDetails.getHost()).startsWith("127.0.0.1");
+        assertThat(connectionDetails.getUrl().getHost()).isEqualTo("127.0.0.1");
     }
 
 }

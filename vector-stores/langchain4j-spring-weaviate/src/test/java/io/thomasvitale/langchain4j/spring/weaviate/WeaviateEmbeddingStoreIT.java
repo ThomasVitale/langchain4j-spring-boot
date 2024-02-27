@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.spring.weaviate;
 
+import java.net.URI;
+
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.AllMiniLmL6V2QuantizedEmbeddingModel;
 import dev.langchain4j.model.embedding.EmbeddingModel;
@@ -34,7 +36,7 @@ class WeaviateEmbeddingStoreIT {
 
     @BeforeAll
     static void beforeAll() {
-        WeaviateClientConfig clientConfig = WeaviateClientConfig.builder().host(weaviate.getHttpHostAddress()).build();
+        WeaviateClientConfig clientConfig = WeaviateClientConfig.builder().url(URI.create("http://" + weaviate.getHttpHostAddress())).build();
         weaviateEmbeddingStore = WeaviateEmbeddingStore.builder()
                 .clientConfig(clientConfig)
                 .objectClassName("LangChain4jTestObject")

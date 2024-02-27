@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.ollama;
 
+import java.net.URI;
+
 import org.springframework.boot.autoconfigure.service.connection.ConnectionDetails;
 
 /**
@@ -12,6 +14,6 @@ public interface OllamaConnectionDetails extends ConnectionDetails {
     /**
      * URL where to contact the Ollama server.
      */
-    String getUrl();
+    URI getUrl();
 
 }

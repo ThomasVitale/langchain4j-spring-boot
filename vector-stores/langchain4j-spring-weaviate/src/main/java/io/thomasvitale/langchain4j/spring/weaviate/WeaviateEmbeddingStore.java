@@ -1,5 +1,6 @@
 package io.thomasvitale.langchain4j.spring.weaviate;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -74,8 +75,8 @@ public class WeaviateEmbeddingStore implements EmbeddingStore<TextSegment> {
         Assert.notNull(clientConfig, "clientConfig cannot be null");
 
         Config weaviateVectorStoreConfig = new Config(
-                clientConfig.scheme(),
-                clientConfig.host(),
+                clientConfig.url().getScheme(),
+                computeFullHostFromUrl(clientConfig.url()),
                 Objects.requireNonNullElse(clientConfig.headers(), Map.of()),
                 (int) clientConfig.connectTimeout().toSeconds(),
                 (int) clientConfig.readTimeout().toSeconds(),
@@ -91,6 +92,14 @@ public class WeaviateEmbeddingStore implements EmbeddingStore<TextSegment> {
         this.objectClassName = StringUtils.hasText(objectClassName) ? objectClassName : DEFAULT_OBJECT_CLASS_NAME;
 
         this.consistencyLevel = StringUtils.hasText(consistencyLevel) ? consistencyLevel : ConsistencyLevel.ALL;
+    }
+
+    private static String computeFullHostFromUrl(URI url) {
+        if (url.getPort() == -1) {
+            return url.getHost();
+        } else {
+            return url.getHost() + ":" + url.getPort();
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.ollama;
 
+import java.net.URI;
+
 import dev.langchain4j.data.embedding.Embedding;
 
 import org.junit.jupiter.api.Test;
@@ -33,8 +35,8 @@ class OllamaAutoConfigurationIT {
     static GenericContainer<?> ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama-%s".formatted(MODEL_NAME))
         .withExposedPorts(11434);
 
-    private static String getBaseUrl() {
-        return "http://%s:%s".formatted(ollama.getHost(), ollama.getMappedPort(11434));
+    private static URI getBaseUrl() {
+        return URI.create("http://%s:%s".formatted(ollama.getHost(), ollama.getMappedPort(11434)));
     }
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()

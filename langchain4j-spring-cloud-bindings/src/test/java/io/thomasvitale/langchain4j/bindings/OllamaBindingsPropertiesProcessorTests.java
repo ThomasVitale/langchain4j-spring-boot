@@ -37,7 +37,7 @@ class OllamaBindingsPropertiesProcessorTests {
 
     @Test
     void whenDisabledThenPropertiesAreNotContributed() {
-        environment.setProperty("%s.ollama.enable".formatted(CONFIG_PATH), "false");
+        environment.setProperty("%s.ollama.enabled".formatted(CONFIG_PATH), "false");
 
         new OllamaBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

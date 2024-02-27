@@ -14,7 +14,7 @@ final class BindingsValidator {
      */
     static boolean isTypeEnabled(Environment environment, String type) {
         return environment.getProperty(
-                "%s.%s.enable".formatted(CONFIG_PATH, type),
+                "%s.%s.enabled".formatted(CONFIG_PATH, type),
                 Boolean.class, true);
     }
 

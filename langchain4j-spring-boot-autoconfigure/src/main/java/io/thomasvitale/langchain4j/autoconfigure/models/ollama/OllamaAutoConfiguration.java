@@ -23,8 +23,7 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
  */
 @AutoConfiguration(after = RestClientAutoConfiguration.class)
 @ConditionalOnClass(OllamaChatModel.class)
-@ConditionalOnProperty(prefix = OllamaProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true",
-        matchIfMissing = true)
+@ConditionalOnProperty(prefix = OllamaProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties({ OllamaProperties.class, OllamaChatProperties.class, OllamaEmbeddingProperties.class })
 public class OllamaAutoConfiguration {
 
@@ -40,7 +39,7 @@ public class OllamaAutoConfiguration {
             RestClient.Builder restClientBuilder) {
 
         OllamaClientConfig ollamaClientConfig = OllamaClientConfig.builder()
-            .baseUrl(URI.create(ollamaConnectionDetails.getUrl()))
+            .baseUrl(ollamaConnectionDetails.getUrl())
             .connectTimeout(ollamaProperties.getClient().getConnectTimeout())
             .readTimeout(ollamaProperties.getClient().getReadTimeout())
             .sslBundle(ollamaProperties.getClient().getSslBundle())
@@ -85,8 +84,8 @@ public class OllamaAutoConfiguration {
         }
 
         @Override
-        public String getUrl() {
-            return ollamaProperties.getClient().getBaseUrl().toString();
+        public URI getUrl() {
+            return ollamaProperties.getClient().getBaseUrl();
         }
 
     }

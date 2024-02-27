@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.docker.compose.service.connection.weaviate;
 
+import java.net.URI;
+
 import org.springframework.boot.docker.compose.core.RunningService;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionDetailsFactory;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionSource;
@@ -34,25 +36,18 @@ public class WeaviateDockerComposeConnectionDetailsFactory
     private static final class WeaviateDockerComposeConnectionDetails extends DockerComposeConnectionDetails
             implements WeaviateConnectionDetails {
 
-        private final String scheme;
-        private final String host;
+        private final URI url;
         private final String apiKey;
 
         private WeaviateDockerComposeConnectionDetails(RunningService service) {
             super(service);
-            this.scheme = "http";
-            this.host = service.host() + ":" + service.ports().get(WEAVIATE_PORT);
+            this.url = URI.create("http://" + service.host() + ":" + service.ports().get(WEAVIATE_PORT));
             this.apiKey = "";
         }
 
         @Override
-        public String getScheme() {
-            return scheme;
-        }
-
-        @Override
-        public String getHost() {
-            return host;
+        public URI getUrl() {
+            return url;
         }
 
         @Override

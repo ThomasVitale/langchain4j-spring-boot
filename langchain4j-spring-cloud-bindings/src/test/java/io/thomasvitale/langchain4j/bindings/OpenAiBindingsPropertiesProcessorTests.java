@@ -44,7 +44,7 @@ class OpenAiBindingsPropertiesProcessorTests {
 
     @Test
     void whenDisabledThenPropertiesAreNotContributed() {
-        environment.setProperty("%s.open-ai.enable".formatted(CONFIG_PATH), "false");
+        environment.setProperty("%s.open-ai.enabled".formatted(CONFIG_PATH), "false");
 
         new OpenAiBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

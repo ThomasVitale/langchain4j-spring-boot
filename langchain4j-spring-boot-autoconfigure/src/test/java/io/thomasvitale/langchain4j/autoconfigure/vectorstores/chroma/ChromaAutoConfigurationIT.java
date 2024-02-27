@@ -53,4 +53,11 @@ class ChromaAutoConfigurationIT {
             });
     }
 
+    @Test
+    void disabled() {
+        contextRunner.withPropertyValues("langchain4j.vectorstore.chroma.enabled=false").run(context -> {
+            assertThat(context).doesNotHaveBean(ChromaEmbeddingStore.class);
+        });
+    }
+
 }

@@ -23,8 +23,7 @@ import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClientConfig;
  */
 @AutoConfiguration(after = RestClientAutoConfiguration.class)
 @ConditionalOnClass({ OpenAiChatModel.class })
-@ConditionalOnProperty(prefix = OpenAiProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true",
-        matchIfMissing = true)
+@ConditionalOnProperty(prefix = OpenAiProperties.CONFIG_PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @EnableConfigurationProperties({ OpenAiProperties.class, OpenAiChatProperties.class, OpenAiEmbeddingProperties.class,
         OpenAiModerationProperties.class, OpenAiImageProperties.class })
 public class OpenAiAutoConfiguration {

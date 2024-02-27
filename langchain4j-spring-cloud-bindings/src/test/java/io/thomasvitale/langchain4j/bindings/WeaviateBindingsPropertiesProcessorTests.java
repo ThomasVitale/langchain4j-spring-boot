@@ -23,8 +23,7 @@ class WeaviateBindingsPropertiesProcessorTests {
             new Binding("test-name", Paths.get("test-path"),
             new FluentMap()
                     .withEntry(Binding.TYPE, WeaviateBindingsPropertiesProcessor.TYPE)
-                    .withEntry("schema", "https")
-                    .withEntry("host", "kadras.io/weaviate:8000")
+                    .withEntry("uri", "https://kadras.io/weaviate:8000")
                     .withEntry("api-key", "demo")
             ));
 
@@ -36,13 +35,12 @@ class WeaviateBindingsPropertiesProcessorTests {
     void propertiesAreContributed() {
         new WeaviateBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).containsEntry("langchain4j.vectorstore.weaviate.client.api-key", "demo");
-        assertThat(properties).containsEntry("langchain4j.vectorstore.weaviate.client.schema", "https");
-        assertThat(properties).containsEntry("langchain4j.vectorstore.weaviate.client.host", "kadras.io/weaviate:8000");
+        assertThat(properties).containsEntry("langchain4j.vectorstore.weaviate.client.url", "https://kadras.io/weaviate:8000");
     }
 
     @Test
     void whenDisabledThenPropertiesAreNotContributed() {
-        environment.setProperty("%s.weaviate.enable".formatted(CONFIG_PATH), "false");
+        environment.setProperty("%s.weaviate.enabled".formatted(CONFIG_PATH), "false");
 
         new WeaviateBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

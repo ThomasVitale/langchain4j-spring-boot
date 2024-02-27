@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.docker.compose.service.connection.ollama;
 
+import java.net.URI;
+
 import org.springframework.boot.docker.compose.core.RunningService;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionDetailsFactory;
 import org.springframework.boot.docker.compose.service.connection.DockerComposeConnectionSource;
@@ -32,15 +34,15 @@ public class OllamaDockerComposeConnectionDetailsFactory
     private static final class OllamaDockerComposeConnectionDetails extends DockerComposeConnectionDetails
             implements OllamaConnectionDetails {
 
-        private final String url;
+        private final URI url;
 
         private OllamaDockerComposeConnectionDetails(RunningService service) {
             super(service);
-            this.url = "http://" + service.host() + ":" + service.ports().get(OLLAMA_PORT);
+            this.url = URI.create("http://" + service.host() + ":" + service.ports().get(OLLAMA_PORT));
         }
 
         @Override
-        public String getUrl() {
+        public URI getUrl() {
             return url;
         }
 

@@ -32,13 +32,20 @@ class WeaviateAutoConfigurationIT {
     void weaviateEmbeddingStore() {
         var objectClassName = randomUUID();
         var consistencyLevel = ConsistencyLevel.ALL;
-        contextRunner.withPropertyValues("langchain4j.vectorstore.weaviate.client.host=%s".formatted(weaviate.getHttpHostAddress()))
+        contextRunner.withPropertyValues("langchain4j.vectorstore.weaviate.client.url=http://%s".formatted(weaviate.getHttpHostAddress()))
             .withPropertyValues("langchain4j.vectorstore.weaviate.object-class-name=%s".formatted(objectClassName))
             .withPropertyValues("langchain4j.vectorstore.weaviate.consistency-level=%s".formatted(consistencyLevel))
             .run(context -> {
                 WeaviateEmbeddingStore weaviateEmbeddingStore = context.getBean(WeaviateEmbeddingStore.class);
                 assertThat(weaviateEmbeddingStore).isNotNull();
             });
+    }
+
+    @Test
+    void disabled() {
+        contextRunner.withPropertyValues("langchain4j.vectorstore.weaviate.enabled=false").run(context -> {
+            assertThat(context).doesNotHaveBean(WeaviateEmbeddingStore.class);
+        });
     }
 
 }

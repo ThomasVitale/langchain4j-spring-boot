@@ -42,7 +42,7 @@ class ChromaBindingsPropertiesProcessorTests {
 
     @Test
     void whenDisabledThenPropertiesAreNotContributed() {
-        environment.setProperty("%s.chroma.enable".formatted(CONFIG_PATH), "false");
+        environment.setProperty("%s.chroma.enabled".formatted(CONFIG_PATH), "false");
 
         new ChromaBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

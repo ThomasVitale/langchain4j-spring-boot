@@ -1,5 +1,7 @@
 package io.thomasvitale.langchain4j.autoconfigure.vectorstores.weaviate;
 
+import java.net.URI;
+
 import org.springframework.boot.autoconfigure.service.connection.ConnectionDetails;
 
 /**
@@ -10,14 +12,9 @@ import org.springframework.boot.autoconfigure.service.connection.ConnectionDetai
 public interface WeaviateConnectionDetails extends ConnectionDetails {
 
     /**
-     * Schema to interact with the Weaviate server.
+     * URL where the Weaviate server is running.
      */
-    String getScheme();
-
-    /**
-     * Host (and port) where the Weaviate server is running.
-     */
-    String getHost();
+    URI getUrl();
 
     /**
      * API key to authenticate with the Weaviate server when using the API Token method.

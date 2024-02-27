@@ -33,7 +33,7 @@ class OllamaContainerConnectionDetailsFactoryIT {
 
     @Test
     void connectionEstablishedWithOllamaContainer() {
-        assertThat(this.connectionDetails.getUrl())
+        assertThat(this.connectionDetails.getUrl().toString())
             .isEqualTo("http://" + container.getHost() + ":" + container.getMappedPort(OllamaContainer.OLLAMA_PORT));
     }
 
