@@ -10,7 +10,8 @@ using the vanilla LangChain4j libraries in Spring Boot:
 * Autoconfiguration and unified configuration properties for models and vector stores
 * HTTP infrastructure with RestClient, WebClient, and Jackson for all integrations
 * Built-in observability with Micrometer, including LLM-specific metrics and traces
-* Dev services with Docker Compose and Testcontainers for models and vector stores.
+* Dev services with Docker Compose and Testcontainers for models and vector stores
+* Service bindings for automatic connection configuration when running on Kubernetes.
 
 ## 🚀&nbsp; Quick Start
 
@@ -59,7 +60,7 @@ http :8080/ai/chat message=="What is the capital of Italy?"
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.6.1'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.7.0'
 ```
 
 Configuration:
@@ -93,8 +94,8 @@ class ChatController {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.6.1'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.6.1'
+implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.7.0'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.7.0'
 ```
 
 Configuration:
@@ -150,8 +151,8 @@ public class TestChatModelsOllamaApplication {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-chroma-spring-boot-starter:0.6.1'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.6.1'
+implementation 'io.thomasvitale.langchain4j:langchain4j-chroma-spring-boot-starter:0.7.0'
+testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.7.0'
 ```
 
 Example:
