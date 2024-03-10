@@ -8,8 +8,6 @@ import org.springframework.util.Assert;
 
 /**
  * Options for configuring the OpenAI client.
- *
- * @author Thomas Vitale
  */
 public record OpenAiClientConfig(
         URI baseUrl,

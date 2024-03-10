@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link MetadataMixin}.
- *
- * @author Thomas Vitale
  */
 class MetadataMixinTests {
 

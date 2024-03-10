@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.core.chat.messages.jackson.JacksonChat
 
 /**
  * A factory for creating a {@link ChatMessageJsonCodec} instance.
- *
- * @author Thomas Vitale
  */
 public class SpringChatMessageJsonCodecFactory implements ChatMessageJsonCodecFactory {
 

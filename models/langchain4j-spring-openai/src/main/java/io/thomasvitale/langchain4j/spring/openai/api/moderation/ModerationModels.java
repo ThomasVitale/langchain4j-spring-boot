@@ -2,8 +2,6 @@ package io.thomasvitale.langchain4j.spring.openai.api.moderation;
 
 /**
  * Enum representing the available OpenAI moderation models.
- *
- * @author Thomas Vitale
  */
 public enum ModerationModels {
 

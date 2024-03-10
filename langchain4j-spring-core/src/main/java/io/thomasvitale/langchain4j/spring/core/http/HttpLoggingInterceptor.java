@@ -15,8 +15,6 @@ import org.springframework.util.StreamUtils;
 
 /**
  * HTTP interceptor for logging requests and responses.
- *
- * @author Thomas Vitale
  */
 public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
 

@@ -19,8 +19,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  *                          to understand when backend changes have been made that might impact
  *                          determinism.
  * @param object The object type, which is always 'chat.completion.chunk'.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

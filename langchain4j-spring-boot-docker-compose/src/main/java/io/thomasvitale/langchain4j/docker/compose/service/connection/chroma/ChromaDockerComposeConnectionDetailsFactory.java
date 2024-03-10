@@ -11,8 +11,6 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaConne
 /**
  * {@link DockerComposeConnectionDetailsFactory} to create {@link ChromaConnectionDetails}
  * for a {@code "chroma"} service.
- *
- * @author Thomas Vitale
  */
 public class ChromaDockerComposeConnectionDetailsFactory
         extends DockerComposeConnectionDetailsFactory<ChromaConnectionDetails> {

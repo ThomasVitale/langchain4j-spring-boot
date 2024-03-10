@@ -45,8 +45,6 @@ import static dev.langchain4j.internal.Utils.randomUUID;
  * Represents a store for embeddings using the Weaviate vector store.
  * <p>
  * Based on the LangChain4j and Spring AI implementations.
- *
- * @author Thomas Vitale
  */
 public class WeaviateEmbeddingStore implements EmbeddingStore<TextSegment> {
 

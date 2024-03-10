@@ -12,8 +12,6 @@ import org.springframework.web.client.ResponseErrorHandler;
  * Handles errors from HTTP interactions with the OpenAI API.
  * <p>
  * Based on the Spring AI implementation.
- *
- * @author Thomas Vitale
  */
 public class OpenAiResponseErrorHandler implements ResponseErrorHandler {
 

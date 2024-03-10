@@ -13,8 +13,6 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaConne
  * {@link ContainerConnectionDetailsFactory} to create {@link ChromaConnectionDetails}
  * from a {@link ServiceConnection @ServiceConnection}-annotated {@link ChromaDBContainer}
  * using the {@code "chroma"} image.
- *
- * @author Thomas Vitale
  */
 public class ChromaContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<ChromaDBContainer, ChromaConnectionDetails> {

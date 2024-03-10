@@ -24,7 +24,6 @@ import io.thomasvitale.langchain4j.spring.core.json.jackson.LangChain4jJacksonMo
  * <b>Note: use {@link LangChain4jJacksonModules#getModules()} to get the list of all
  * LangChain4j Jackson modules.</b>
  *
- * @author Thomas Vitale
  * @see LangChain4jJacksonModules
  */
 public class ChatMessageJacksonModule extends SimpleModule {

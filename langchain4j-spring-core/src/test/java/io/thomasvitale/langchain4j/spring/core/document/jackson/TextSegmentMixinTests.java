@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Mixin used to serialize / deserialize {@link TextSegmentMixin}.
- *
- * @author Thomas Vitale
  */
 class TextSegmentMixinTests {
 

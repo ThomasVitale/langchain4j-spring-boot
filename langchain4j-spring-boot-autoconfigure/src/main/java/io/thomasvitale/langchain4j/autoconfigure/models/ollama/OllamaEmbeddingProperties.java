@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.ollama.api.Options;
 
 /**
  * Configuration properties for Ollama embedding models.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(prefix = OllamaEmbeddingProperties.CONFIG_PREFIX)
 public class OllamaEmbeddingProperties {

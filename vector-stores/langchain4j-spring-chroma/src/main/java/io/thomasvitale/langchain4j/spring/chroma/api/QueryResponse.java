@@ -14,8 +14,6 @@ import java.util.Map;
  * @param documents A list of document contents for each returned document.
  * @param metadata A list of document metadata for each returned document.
  * @param distances A list of search distances for each returned document.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record QueryResponse(

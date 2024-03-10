@@ -32,8 +32,6 @@ import static dev.langchain4j.data.message.ContentType.IMAGE;
  * Utility class to convert between Ollama and Langchain4j types.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public final class OllamaAdapters {
 

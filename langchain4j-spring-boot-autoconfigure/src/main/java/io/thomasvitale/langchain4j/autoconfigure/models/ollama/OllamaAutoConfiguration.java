@@ -24,8 +24,6 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 
 /**
  * Auto-configuration for Ollama clients and models.
- *
- * @author Thomas Vitale
  */
 @AutoConfiguration(after = RestClientAutoConfiguration.class)
 @ConditionalOnClass(OllamaChatModel.class)

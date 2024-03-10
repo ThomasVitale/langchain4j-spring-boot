@@ -17,8 +17,6 @@ import io.thomasvitale.langchain4j.spring.chroma.api.QueryResponse;
  * Utility class to convert between Chroma and Langchain4j types.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public final class ChromaAdapters {
 

@@ -19,8 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * {@link InMemoryEmbeddingStore#fromJson(String)}}.
  * <p>
  * Adapted from InMemoryEmbeddingStoreTest in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 public class InMemoryEmbeddingStoreJsonTests {
 

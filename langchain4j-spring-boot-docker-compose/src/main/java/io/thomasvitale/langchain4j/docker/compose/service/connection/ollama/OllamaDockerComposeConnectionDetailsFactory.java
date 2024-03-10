@@ -11,8 +11,6 @@ import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionD
 /**
  * {@link DockerComposeConnectionDetailsFactory} to create {@link OllamaConnectionDetails}
  * for an {@code "ollama"} service.
- *
- * @author Thomas Vitale
  */
 public class OllamaDockerComposeConnectionDetailsFactory
         extends DockerComposeConnectionDetailsFactory<OllamaConnectionDetails> {

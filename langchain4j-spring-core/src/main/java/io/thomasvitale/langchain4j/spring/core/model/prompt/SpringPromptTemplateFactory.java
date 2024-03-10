@@ -20,8 +20,6 @@ import org.stringtemplate.v4.compiler.STLexer;
  * Template variables support the following formats: {var} and {{var}}.
  * <p>
  * Adapted from the Spring AI implementation.
- *
- * @author Thomas Vitale
  */
 public class SpringPromptTemplateFactory implements PromptTemplateFactory {
 

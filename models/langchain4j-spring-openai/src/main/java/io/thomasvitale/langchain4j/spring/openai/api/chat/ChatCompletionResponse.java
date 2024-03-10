@@ -21,8 +21,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.shared.Usage;
  *                          determinism.
  * @param object The object type, which is always 'chat.completion'.
  * @param usage Usage statistics for the completion request.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

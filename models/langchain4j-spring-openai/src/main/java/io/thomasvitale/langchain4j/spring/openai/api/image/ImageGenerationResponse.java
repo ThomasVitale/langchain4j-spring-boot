@@ -11,8 +11,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  *
  * @param created Creation date.
  * @param data List of image objects.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ImageGenerationResponse(

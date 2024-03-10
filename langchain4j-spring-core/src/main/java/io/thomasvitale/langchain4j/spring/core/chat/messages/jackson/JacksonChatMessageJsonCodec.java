@@ -19,8 +19,6 @@ import org.springframework.util.StringUtils;
  * A codec for serializing/deserializing {@link ChatMessage} objects using Jackson.
  * <p>
  * Adapted from GsonChatMessageJsonCodec in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 public class JacksonChatMessageJsonCodec implements ChatMessageJsonCodec {
 

@@ -16,8 +16,6 @@ import io.thomasvitale.langchain4j.spring.core.json.JsonSerializationException;
  * A codec for serializing/deserializing objects using Jackson.
  * <p>
  * Adapted from GsonJsonCodec in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 public class JacksonJsonCodec implements Json.JsonCodec {
 

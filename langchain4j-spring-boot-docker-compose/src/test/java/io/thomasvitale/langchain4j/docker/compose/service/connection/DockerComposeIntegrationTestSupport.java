@@ -26,8 +26,6 @@ import static org.assertj.core.api.Assertions.fail;
  * Base class for integration tests that use Docker Compose.
  * <p>
  * Based on the AbstractDockerComposeIntegrationTests class from the Spring Boot project.
- *
- * @author Thomas Vitale
  */
 public abstract class DockerComposeIntegrationTestSupport {
 

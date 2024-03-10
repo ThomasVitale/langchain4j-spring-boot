@@ -21,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link OpenAiAutoConfiguration}.
- *
- * @author Thomas Vitale
  */
 @EnabledIfEnvironmentVariable(named = "LANGCHAIN4J_OPENAI_CLIENT_API_KEY", matches = ".*")
 class OpenAiAutoConfigurationIT {

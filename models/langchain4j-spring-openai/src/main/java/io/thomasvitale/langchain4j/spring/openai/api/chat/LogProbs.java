@@ -10,8 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  * Log probability information for the choice.
  *
  * @param content A list of message content tokens with log probability information.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record LogProbs(

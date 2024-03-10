@@ -14,8 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link WeaviateBindingsPropertiesProcessor}.
- *
- * @author Thomas Vitale
  */
 class WeaviateBindingsPropertiesProcessorTests {
 

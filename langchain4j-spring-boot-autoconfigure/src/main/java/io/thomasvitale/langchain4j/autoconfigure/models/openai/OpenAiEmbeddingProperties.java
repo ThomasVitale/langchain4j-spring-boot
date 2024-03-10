@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.openai.OpenAiEmbeddingOptions;
 
 /**
  * Configuration properties for OpenAI embedding models.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(prefix = OpenAiEmbeddingProperties.CONFIG_PREFIX)
 public class OpenAiEmbeddingProperties {

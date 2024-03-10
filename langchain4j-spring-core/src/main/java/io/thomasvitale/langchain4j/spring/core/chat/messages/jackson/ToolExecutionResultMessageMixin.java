@@ -11,8 +11,6 @@ import dev.langchain4j.data.message.ToolExecutionResultMessage;
 
 /**
  * Mixin used to serialize / deserialize {@link ToolExecutionResultMessage}.
- *
- * @author Thomas Vitale
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)

@@ -25,8 +25,6 @@ import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClientConfig;
 
 /**
  * Auto-configuration for OpenAI clients and models.
- *
- * @author Thomas Vitale
  */
 @AutoConfiguration(after = {RestClientAutoConfiguration.class})
 @ConditionalOnClass({ OpenAiChatModel.class })

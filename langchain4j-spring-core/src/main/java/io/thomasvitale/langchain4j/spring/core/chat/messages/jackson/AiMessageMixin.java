@@ -23,8 +23,6 @@ import io.thomasvitale.langchain4j.spring.core.json.JsonDeserializationException
 
 /**
  * Mixin used to serialize / deserialize {@link AiMessage}.
- *
- * @author Thomas Vitale
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)

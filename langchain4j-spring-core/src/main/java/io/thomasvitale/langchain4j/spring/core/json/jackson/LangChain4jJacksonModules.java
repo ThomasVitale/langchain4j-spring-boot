@@ -18,8 +18,6 @@ import io.thomasvitale.langchain4j.spring.core.vectorstore.inmemory.jackson.Vect
  *     ObjectMapper mapper = new ObjectMapper();
  *     mapper.registerModules(LangChain4jJacksonModules.getModules());
  * </pre>
- *
- * @author Thomas Vitale
  */
 public class LangChain4jJacksonModules {
 

@@ -9,8 +9,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.embedding.EmbeddingModels;
 
 /**
  * Options for customizing interactions with the OpenAI Embedding API.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

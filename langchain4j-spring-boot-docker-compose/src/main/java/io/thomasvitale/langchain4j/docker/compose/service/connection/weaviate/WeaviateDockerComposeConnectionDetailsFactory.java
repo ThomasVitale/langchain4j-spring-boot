@@ -11,8 +11,6 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.weaviate.WeaviateC
 /**
  * {@link DockerComposeConnectionDetailsFactory} to create {@link WeaviateConnectionDetails}
  * for a {@code "weaviate"} service.
- *
- * @author Thomas Vitale
  */
 public class WeaviateDockerComposeConnectionDetailsFactory
         extends DockerComposeConnectionDetailsFactory<WeaviateConnectionDetails> {

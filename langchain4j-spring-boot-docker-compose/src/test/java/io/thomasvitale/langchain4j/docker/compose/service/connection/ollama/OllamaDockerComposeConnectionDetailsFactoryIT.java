@@ -10,8 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link OllamaDockerComposeConnectionDetailsFactory}.
- *
- * @author Thomas Vitale
  */
 class OllamaDockerComposeConnectionDetailsFactoryIT extends DockerComposeIntegrationTestSupport {
 

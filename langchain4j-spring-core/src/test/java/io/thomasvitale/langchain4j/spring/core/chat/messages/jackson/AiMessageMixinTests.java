@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link AiMessageMixin}.
- *
- * @author Thomas Vitale
  */
 class AiMessageMixinTests {
 

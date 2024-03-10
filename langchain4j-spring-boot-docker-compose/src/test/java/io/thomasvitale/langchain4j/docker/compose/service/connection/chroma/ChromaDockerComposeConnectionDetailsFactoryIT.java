@@ -10,8 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link ChromaDockerComposeConnectionDetailsFactory}.
- *
- * @author Thomas Vitale
  */
 class ChromaDockerComposeConnectionDetailsFactoryIT extends DockerComposeIntegrationTestSupport {
 

@@ -11,8 +11,6 @@ import dev.langchain4j.data.document.Metadata;
 
 /**
  * Mixin used to serialize / deserialize {@link Metadata}.
- *
- * @author Thomas Vitale
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)

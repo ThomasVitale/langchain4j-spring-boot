@@ -19,8 +19,6 @@ import static io.thomasvitale.langchain4j.spring.weaviate.WeaviateEmbeddingStore
  * Utility class to convert between Weaviate and Langchain4j types.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class WeaviateAdapters {
 

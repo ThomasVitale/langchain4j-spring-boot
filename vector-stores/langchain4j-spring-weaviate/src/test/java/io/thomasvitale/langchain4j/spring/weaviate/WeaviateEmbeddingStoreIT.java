@@ -21,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration tests for {@link WeaviateEmbeddingStore}.
  * <p>
  * Adapted from WeaviateEmbeddingStoreIT in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 @Testcontainers
 class WeaviateEmbeddingStoreIT {

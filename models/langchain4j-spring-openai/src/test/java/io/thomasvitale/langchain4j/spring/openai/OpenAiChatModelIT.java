@@ -38,8 +38,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration tests for {@link OpenAiChatModel}.
  * <p>
  * Adapted from OpenAiChatModelIT in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 @EnabledIfEnvironmentVariable(named = "LANGCHAIN4J_OPENAI_CLIENT_API_KEY", matches = ".*")
 class OpenAiChatModelIT {

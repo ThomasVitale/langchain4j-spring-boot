@@ -12,8 +12,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.chat.Tool;
 
 /**
  * Options for customizing interactions with the OpenAI Chat Completion API.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OpenAiChatOptions {

@@ -12,8 +12,6 @@ import org.springframework.util.Assert;
  * @param name The name of the collection to create.
  * @param metadata Metadata to associate with the collection. For example, you can use it
  *                 to customize the distance method of the embedding space.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record CreateCollectionRequest(

@@ -10,8 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ObservationsAutoConfiguration}.
- *
- * @author Thomas Vitale
  */
 class ObservationsAutoConfigurationTests {
 

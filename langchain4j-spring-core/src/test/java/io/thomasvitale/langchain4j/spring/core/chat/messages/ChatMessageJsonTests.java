@@ -20,8 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Unit tests for {@link ChatMessageSerializer} and {@link ChatMessageDeserializer}.
  * <p>
  * Adapted from ChatMessageSerializerTest in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 class ChatMessageJsonTests {
 

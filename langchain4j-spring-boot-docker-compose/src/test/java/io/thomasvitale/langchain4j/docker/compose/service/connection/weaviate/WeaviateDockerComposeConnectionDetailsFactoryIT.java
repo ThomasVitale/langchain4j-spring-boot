@@ -10,8 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link WeaviateDockerComposeConnectionDetailsFactory}.
- *
- * @author Thomas Vitale
  */
 class WeaviateDockerComposeConnectionDetailsFactoryIT extends DockerComposeIntegrationTestSupport {
 

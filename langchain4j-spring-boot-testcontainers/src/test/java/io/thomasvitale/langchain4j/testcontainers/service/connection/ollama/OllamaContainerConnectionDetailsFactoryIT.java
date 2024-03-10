@@ -19,8 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link OllamaContainerConnectionDetailsFactory}.
- *
- * @author Thomas Vitale
  */
 @SpringJUnitConfig
 @Testcontainers

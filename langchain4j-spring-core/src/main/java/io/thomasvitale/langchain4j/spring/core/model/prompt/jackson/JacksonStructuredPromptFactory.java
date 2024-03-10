@@ -17,8 +17,6 @@ import io.thomasvitale.langchain4j.spring.core.json.jackson.LangChain4jJacksonPr
  * Jackson.
  * <p>
  * Adapted from DefaultStructuredPromptFactory in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 public class JacksonStructuredPromptFactory implements StructuredPromptFactory {
 

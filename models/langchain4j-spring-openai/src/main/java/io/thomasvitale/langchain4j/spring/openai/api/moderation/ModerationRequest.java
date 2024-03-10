@@ -16,8 +16,6 @@ import org.springframework.util.Assert;
  *              our most accurate model. If you use 'text-moderation-stable', we will provide
  *              advanced notice before updating the model. Accuracy of 'text-moderation-stable'
  *              may be slightly lower than for 'text-moderation-latest'.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ModerationRequest(

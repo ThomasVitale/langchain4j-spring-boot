@@ -24,8 +24,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * Unit tests for {@link SpringPromptTemplateFactory}.
  * <p>
  * Adapted from PromptTemplateTest in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 class SpringPromptTemplateFactoryTests {
 

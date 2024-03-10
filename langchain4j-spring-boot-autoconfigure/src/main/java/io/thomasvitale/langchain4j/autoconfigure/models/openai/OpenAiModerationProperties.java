@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.openai.OpenAiModerationOptions;
 
 /**
  * Configuration properties for OpenAI moderation clients.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(prefix = OpenAiModerationProperties.CONFIG_PREFIX)
 public class OpenAiModerationProperties {

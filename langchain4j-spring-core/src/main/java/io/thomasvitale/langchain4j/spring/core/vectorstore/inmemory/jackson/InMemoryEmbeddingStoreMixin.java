@@ -18,8 +18,6 @@ import dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;
  * Mixin used to serialize / deserialize {@link InMemoryEmbeddingStore}.
  * <p>
  * Adapted from the Quarkus LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)

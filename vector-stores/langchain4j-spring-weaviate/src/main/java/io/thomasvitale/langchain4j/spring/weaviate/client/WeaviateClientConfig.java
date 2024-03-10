@@ -9,8 +9,6 @@ import org.springframework.util.Assert;
 
 /**
  * Options for configuring the Weaviate client.
- *
- * @author Thomas Vitale
  */
 public record WeaviateClientConfig(
         URI url,

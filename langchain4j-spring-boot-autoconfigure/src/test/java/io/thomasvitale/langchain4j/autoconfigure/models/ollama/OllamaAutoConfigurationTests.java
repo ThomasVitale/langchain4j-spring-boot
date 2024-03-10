@@ -13,8 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link OllamaAutoConfiguration}.
- *
- * @author Thomas Vitale
  */
 class OllamaAutoConfigurationTests {
 

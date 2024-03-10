@@ -14,8 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link OpenAiBindingsPropertiesProcessor}.
- *
- * @author Thomas Vitale
  */
 class OpenAiBindingsPropertiesProcessorTests {
 

@@ -9,8 +9,6 @@ import dev.langchain4j.data.message.ImageContent;
 
 /**
  * Mixin used to serialize / deserialize {@link ImageContent}.
- *
- * @author Thomas Vitale
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class ImageContentMixin {

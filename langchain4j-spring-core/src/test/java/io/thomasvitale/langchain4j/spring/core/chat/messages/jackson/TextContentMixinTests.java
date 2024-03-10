@@ -18,8 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link TextContentMixin}.
- *
- * @author Thomas Vitale
  */
 class TextContentMixinTests {
 

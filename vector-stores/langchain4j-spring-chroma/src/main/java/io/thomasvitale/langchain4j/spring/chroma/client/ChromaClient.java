@@ -34,8 +34,6 @@ import io.thomasvitale.langchain4j.spring.core.http.HttpResponseErrorHandler;
  * Based on the Spring AI implementation.
  *
  * @see <a href="https://docs.trychroma.com/api">Chroma API</a>
- *
- * @author Thomas Vitale
  */
 public class ChromaClient {
 

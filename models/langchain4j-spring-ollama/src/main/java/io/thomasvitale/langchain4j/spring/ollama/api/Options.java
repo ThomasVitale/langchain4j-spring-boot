@@ -16,8 +16,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  *
  * @see <a href="https://github.com/ollama/ollama/blob/main/api/types.go">Ollama Types</a>
  * @see <a href="https://github.com/ollama/ollama/blob/main/docs/modelfile.md">Ollama Model File</a>
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

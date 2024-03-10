@@ -8,8 +8,6 @@ import dev.langchain4j.data.message.TextContent;
 
 /**
  * Mixin used to serialize / deserialize {@link TextContent}.
- *
- * @author Thomas Vitale
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class TextContentMixin {

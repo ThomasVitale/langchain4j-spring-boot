@@ -13,8 +13,6 @@ import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionD
  * {@link ContainerConnectionDetailsFactory} to create {@link OllamaConnectionDetails}
  * from a {@link ServiceConnection @ServiceConnection}-annotated {@link OllamaContainer}
  * using the {@code "ollama"} image.
- *
- * @author Thomas Vitale
  */
 public class OllamaContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<OllamaContainer, OllamaConnectionDetails> {

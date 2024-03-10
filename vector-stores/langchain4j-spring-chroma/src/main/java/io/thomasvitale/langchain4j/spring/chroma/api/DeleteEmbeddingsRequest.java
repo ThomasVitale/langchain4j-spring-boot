@@ -12,8 +12,6 @@ import org.springframework.util.Assert;
  *
  * @param ids The ids of the embeddings to delete.
  * @param where Optional where clause to filter the embeddings to delete based on metadata values.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record DeleteEmbeddingsRequest(

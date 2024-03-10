@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The reason the model stopped generating tokens.
- *
- * @author Thomas Vitale
  */
 public enum ChatCompletionFinishReason {
     /**

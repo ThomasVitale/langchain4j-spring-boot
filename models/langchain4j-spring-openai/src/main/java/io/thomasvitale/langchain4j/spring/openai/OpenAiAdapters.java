@@ -38,8 +38,6 @@ import static java.util.stream.Collectors.toList;
  * Utility class to convert between OpenAI and Langchain4j types.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public final class OpenAiAdapters {
 

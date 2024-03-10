@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link WeaviateContainerConnectionDetailsFactory}.
- *
- * @author Thomas Vitale
  */
 @SpringJUnitConfig
 @Testcontainers

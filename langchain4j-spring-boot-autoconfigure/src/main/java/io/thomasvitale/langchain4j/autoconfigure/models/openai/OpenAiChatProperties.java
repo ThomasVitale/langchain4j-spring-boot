@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.openai.OpenAiChatOptions;
 
 /**
  * Configuration properties for OpenAI chat models.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(prefix = OpenAiChatProperties.CONFIG_PREFIX)
 public class OpenAiChatProperties {

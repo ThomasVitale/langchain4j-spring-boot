@@ -10,8 +10,6 @@ import dev.langchain4j.data.segment.TextSegment;
 
 /**
  * Mixin used to serialize / deserialize {@link TextSegment}.
- *
- * @author Thomas Vitale
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)

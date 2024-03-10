@@ -28,8 +28,6 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
  * Model for chat-based language generation using Ollama.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class OllamaChatModel implements ChatLanguageModel {
 

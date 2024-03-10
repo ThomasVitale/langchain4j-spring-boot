@@ -21,8 +21,6 @@ import org.springframework.util.Assert;
  *                   in text-embedding-3 and later models.
  * @param user A unique identifier representing your end-user, which can help OpenAI to monitor
  *             and detect abuse.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

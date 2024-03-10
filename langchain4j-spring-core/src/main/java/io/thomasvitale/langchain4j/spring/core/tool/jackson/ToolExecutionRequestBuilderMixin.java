@@ -8,8 +8,6 @@ import dev.langchain4j.agent.tool.ToolExecutionRequest;
 /**
  * Mixin used to configure {@link ToolExecutionRequest.Builder} for
  * serialization/deserialization.
- *
- * @author Thomas Vitale
  */
 @JsonPOJOBuilder(withPrefix = "")
 @JsonIgnoreProperties(ignoreUnknown = true)

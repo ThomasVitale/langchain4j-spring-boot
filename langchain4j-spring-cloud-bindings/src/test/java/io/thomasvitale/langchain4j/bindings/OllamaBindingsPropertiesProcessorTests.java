@@ -14,8 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link OllamaBindingsPropertiesProcessor}.
- *
- * @author Thomas Vitale
  */
 class OllamaBindingsPropertiesProcessorTests {
 

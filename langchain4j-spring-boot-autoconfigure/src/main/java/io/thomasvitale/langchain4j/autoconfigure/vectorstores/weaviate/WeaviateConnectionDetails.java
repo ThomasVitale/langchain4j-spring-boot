@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.service.connection.ConnectionDetai
 
 /**
  * Details required to establish a connection to a Weaviate server.
- *
- * @author Thomas Vitale
  */
 public interface WeaviateConnectionDetails extends ConnectionDetails {
 

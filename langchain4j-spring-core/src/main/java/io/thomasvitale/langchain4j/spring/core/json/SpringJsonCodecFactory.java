@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.core.json.jackson.JacksonJsonCodec;
 
 /**
  * A factory for creating a {@link Json.JsonCodec} instance.
- *
- * @author Thomas Vitale
  */
 public class SpringJsonCodecFactory implements JsonCodecFactory {
 

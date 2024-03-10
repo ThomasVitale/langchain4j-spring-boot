@@ -14,8 +14,6 @@ import org.springframework.util.Assert;
  *
  * @param type The type of the tool. Currently, only 'function' is supported.
  * @param function The function definition.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record Tool(

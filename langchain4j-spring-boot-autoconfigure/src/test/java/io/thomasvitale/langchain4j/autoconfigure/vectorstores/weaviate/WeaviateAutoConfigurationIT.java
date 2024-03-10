@@ -16,8 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link WeaviateAutoConfiguration}.
- *
- * @author Thomas Vitale
  */
 @Testcontainers
 class WeaviateAutoConfigurationIT {

@@ -25,8 +25,6 @@ import static java.util.stream.Collectors.toList;
  * Model for moderating content using OpenAI.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class OpenAIModerationModel implements ModerationModel {
 

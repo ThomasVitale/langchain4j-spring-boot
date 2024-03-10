@@ -18,8 +18,6 @@ import org.springframework.util.CollectionUtils;
  * @param metadata The metadata to associate with the embeddings, enabling filtering at query time.
  * @param documents The documents to associate with the embeddings.
  *                  Optional if embeddings are provided.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record AddEmbeddingsRequest(

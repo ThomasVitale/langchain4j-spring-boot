@@ -23,8 +23,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
  * Unit tests for {@link JacksonJsonCodec}.
  * <p>
  * Adapted from GsonJsonCodecTest in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 class JacksonJsonCodecTests {
 

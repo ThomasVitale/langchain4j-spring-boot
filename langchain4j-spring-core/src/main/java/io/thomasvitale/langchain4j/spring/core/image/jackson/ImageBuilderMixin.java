@@ -7,8 +7,6 @@ import dev.langchain4j.data.image.Image;
 
 /**
  * Mixin used to configure {@link Image.Builder} for serialization/deserialization.
- *
- * @author Thomas Vitale
  */
 @JsonPOJOBuilder(withPrefix = "")
 @JsonIgnoreProperties(ignoreUnknown = true)

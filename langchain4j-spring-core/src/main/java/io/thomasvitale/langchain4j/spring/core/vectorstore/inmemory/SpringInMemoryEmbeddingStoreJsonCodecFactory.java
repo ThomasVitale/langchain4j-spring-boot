@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.core.vectorstore.inmemory.jackson.Jack
 
 /**
  * A factory for creating a {@link InMemoryEmbeddingStoreJsonCodec} instance.
- *
- * @author Thomas Vitale
  */
 public class SpringInMemoryEmbeddingStoreJsonCodecFactory implements InMemoryEmbeddingStoreJsonCodecFactory {
 

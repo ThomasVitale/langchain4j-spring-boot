@@ -30,8 +30,6 @@ import io.thomasvitale.langchain4j.spring.ollama.api.GenerateResponse;
  * Based on the Spring AI implementation.
  *
  * @see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API</a>
- *
- * @author Thomas Vitale
  */
 public class OllamaClient {
 

@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.openai.OpenAiImageOptions;
 
 /**
  * Configuration properties for OpenAI image clients.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(prefix = OpenAiImageProperties.CONFIG_PREFIX)
 public class OpenAiImageProperties {

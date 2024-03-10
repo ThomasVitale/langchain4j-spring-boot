@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.ollama.api.Options;
 
 /**
  * Configuration properties for Ollama chat models.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(prefix = OllamaChatProperties.CONFIG_PREFIX)
 public class OllamaChatProperties {

@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link UserMessageMixin}.
- *
- * @author Thomas Vitale
  */
 class UserMessageMixinTests {
 

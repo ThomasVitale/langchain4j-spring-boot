@@ -4,8 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Configuration properties for LangChain4j observations.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(ObservationsProperties.CONFIG_PREFIX)
 public class ObservationsProperties {

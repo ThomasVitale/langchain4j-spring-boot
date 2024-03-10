@@ -7,8 +7,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.image.ImageModels;
 
 /**
  * Options for customizing interactions with the OpenAI Image Generation API.
- *
- * @author Thomas Vitale
  */
 public class OpenAiImageOptions {
 

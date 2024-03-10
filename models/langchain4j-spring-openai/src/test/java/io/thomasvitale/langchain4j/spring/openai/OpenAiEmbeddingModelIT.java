@@ -22,8 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration tests for {@link OpenAiEmbeddingModel}.
  * <p>
  * Adapted from OpenAiEmbeddingModelIT in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 @EnabledIfEnvironmentVariable(named = "LANGCHAIN4J_OPENAI_CLIENT_API_KEY", matches = ".*")
 class OpenAiEmbeddingModelIT {

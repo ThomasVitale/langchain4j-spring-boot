@@ -10,8 +10,6 @@ import io.thomasvitale.langchain4j.spring.weaviate.WeaviateEmbeddingStore;
 
 /**
  * Configuration properties for Weaviate.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(WeaviateProperties.CONFIG_PREFIX)
 public class WeaviateProperties {

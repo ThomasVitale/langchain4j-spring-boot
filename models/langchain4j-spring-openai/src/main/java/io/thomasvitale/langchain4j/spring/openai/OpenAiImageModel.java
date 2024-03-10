@@ -22,8 +22,6 @@ import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
  * Model for generating images using OpenAI.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class OpenAiImageModel implements ImageModel {
 

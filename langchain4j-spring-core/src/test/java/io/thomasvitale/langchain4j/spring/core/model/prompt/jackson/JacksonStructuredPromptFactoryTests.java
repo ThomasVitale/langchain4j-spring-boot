@@ -11,8 +11,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Unit tests for {@link JacksonStructuredPromptFactory}.
  * <p>
  * Adapted from DefaultStructuredPromptFactoryTest in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 class JacksonStructuredPromptFactoryTests {
 

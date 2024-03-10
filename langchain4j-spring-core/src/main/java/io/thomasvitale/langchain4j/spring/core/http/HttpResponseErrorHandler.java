@@ -13,8 +13,6 @@ import org.springframework.web.client.ResponseErrorHandler;
  * Handles errors from HTTP interactions.
  * <p>
  * Based on the Spring AI implementation.
- *
- * @author Thomas Vitale
  */
 public class HttpResponseErrorHandler implements ResponseErrorHandler {
 

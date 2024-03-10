@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link ChromaAutoConfiguration}.
- *
- * @author Thomas Vitale
  */
 @Testcontainers
 class ChromaAutoConfigurationIT {

@@ -12,8 +12,6 @@ import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatPromptObserv
 
 /**
  * Auto-configuration for LangChain4j observations.
- *
- * @author Thomas Vitale
  */
 @AutoConfiguration
 @EnableConfigurationProperties({ ObservationsProperties.class })

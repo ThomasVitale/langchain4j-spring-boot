@@ -9,8 +9,6 @@ import io.thomasvitale.langchain4j.spring.chroma.ChromaEmbeddingStore;
 
 /**
  * Configuration properties for Chroma.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(ChromaProperties.CONFIG_PREFIX)
 public class ChromaProperties {

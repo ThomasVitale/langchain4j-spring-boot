@@ -30,8 +30,6 @@ import static java.util.Collections.singletonList;
  * Model for chat completions using OpenAI.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class OpenAiChatModel implements ChatLanguageModel {
 

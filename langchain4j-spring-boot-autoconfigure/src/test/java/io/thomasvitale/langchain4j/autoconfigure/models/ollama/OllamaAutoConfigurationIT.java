@@ -21,8 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link OllamaAutoConfiguration}.
- *
- * @author Thomas Vitale
  */
 @Testcontainers
 class OllamaAutoConfigurationIT {

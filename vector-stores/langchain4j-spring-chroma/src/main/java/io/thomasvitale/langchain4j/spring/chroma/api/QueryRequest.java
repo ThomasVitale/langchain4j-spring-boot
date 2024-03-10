@@ -14,8 +14,6 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
  * @param nResults Optional number of results to return.
  * @param where Optional where clause to filter the results based on metadata values.
  * @param include Optional list of fields to include in the response.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)

@@ -7,8 +7,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Common configuration properties for Ollama.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(OllamaProperties.CONFIG_PREFIX)
 public class OllamaProperties {

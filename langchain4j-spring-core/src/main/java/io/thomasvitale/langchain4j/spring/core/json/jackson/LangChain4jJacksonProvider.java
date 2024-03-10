@@ -11,8 +11,6 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 
 /**
  * Provides Jackson support for LangChain4j.
- *
- * @author Thomas Vitale
  */
 public final class LangChain4jJacksonProvider {
 

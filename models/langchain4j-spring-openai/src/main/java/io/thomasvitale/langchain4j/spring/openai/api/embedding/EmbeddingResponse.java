@@ -13,8 +13,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.shared.Usage;
  * @param data List of embedding objects.
  * @param model The model used for generating the embeddings.
  * @param usage Usage statistics for the embedding request.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EmbeddingResponse(

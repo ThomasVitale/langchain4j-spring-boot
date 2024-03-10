@@ -27,8 +27,6 @@ import static java.util.stream.Collectors.toList;
  * Represents a store for embeddings using the Chroma vector store.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class ChromaEmbeddingStore implements EmbeddingStore<TextSegment>, InitializingBean {
 

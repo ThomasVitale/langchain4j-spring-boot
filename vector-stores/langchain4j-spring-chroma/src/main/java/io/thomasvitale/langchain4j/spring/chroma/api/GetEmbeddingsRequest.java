@@ -13,8 +13,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * @param limit Optional limit on the number of embeddings to retrieve.
  * @param offset Optional offset on the number of embeddings to retrieve.
  * @param include Optional list of fields to include in the response.
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record GetEmbeddingsRequest( // TODO: Add support for whereDocument

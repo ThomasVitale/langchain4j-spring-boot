@@ -11,8 +11,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  *
  * @see <a href="https://github.com/ollama/ollama/blob/main/api/types.go">Ollama Types</a>
  * @see <a href="https://github.com/ollama/ollama/blob/main/docs/api.md">Ollama API</a>
- *
- * @author Thomas Vitale
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EmbeddingResponse(

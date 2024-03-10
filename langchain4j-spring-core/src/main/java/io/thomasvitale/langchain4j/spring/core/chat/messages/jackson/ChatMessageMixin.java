@@ -14,8 +14,6 @@ import dev.langchain4j.data.message.UserMessage;
 
 /**
  * Mixin used to serialize / deserialize {@link ChatMessage}.
- *
- * @author Thomas Vitale
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
 @JsonSubTypes(value = { @JsonSubTypes.Type(value = AiMessage.class, name = "AI"),

@@ -23,8 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Unit tests for {@link Json}.
  * <p>
  * Adapted from JsonTest in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 class JsonTests {
 

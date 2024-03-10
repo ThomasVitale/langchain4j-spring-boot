@@ -4,8 +4,6 @@ import java.util.HashMap;
 
 /**
  * From https://github.com/spring-cloud/spring-cloud-bindings to simplify the tests.
- *
- * @author Thomas Vitale
  */
 public final class FluentMap extends HashMap<String, String> {
 

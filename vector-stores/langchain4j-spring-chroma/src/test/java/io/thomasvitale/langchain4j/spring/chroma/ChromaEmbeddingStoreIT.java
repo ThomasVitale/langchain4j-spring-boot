@@ -24,8 +24,6 @@ import static org.assertj.core.data.Percentage.withPercentage;
  * Integration tests for {@link ChromaEmbeddingStore}.
  * <p>
  * Adapted from ChromaEmbeddingStoreIT in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 @Testcontainers
 class ChromaEmbeddingStoreIT {

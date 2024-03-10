@@ -9,8 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Common configuration properties for the OpenAI clients.
- *
- * @author Thomas Vitale
  */
 @ConfigurationProperties(OpenAiProperties.CONFIG_PREFIX)
 public class OpenAiProperties {

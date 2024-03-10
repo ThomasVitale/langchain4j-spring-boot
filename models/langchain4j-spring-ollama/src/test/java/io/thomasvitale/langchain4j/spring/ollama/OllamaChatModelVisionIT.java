@@ -28,8 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration tests for {@link OllamaChatModel}.
  * <p>
  * Adapted from OllamaChatModeVisionModellIT in the LangChain4j project.
- *
- * @author Thomas Vitale
  */
 @Testcontainers
 class OllamaChatModelVisionIT {

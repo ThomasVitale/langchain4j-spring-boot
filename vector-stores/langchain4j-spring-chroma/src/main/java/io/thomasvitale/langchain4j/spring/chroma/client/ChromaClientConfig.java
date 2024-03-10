@@ -8,8 +8,6 @@ import org.springframework.util.Assert;
 
 /**
  * Options for configuring the Chroma client.
- *
- * @author Thomas Vitale
  */
 public record ChromaClientConfig(
         URI url,

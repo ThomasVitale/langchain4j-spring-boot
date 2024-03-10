@@ -26,8 +26,6 @@ import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
  * Model for embedding documents using OpenAI.
  * <p>
  * Based on the original LangChain4j implementation.
- *
- * @author Thomas Vitale
  */
 public class OpenAiEmbeddingModel implements EmbeddingModel {
 

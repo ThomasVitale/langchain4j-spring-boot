@@ -14,8 +14,6 @@ import io.thomasvitale.langchain4j.spring.weaviate.client.WeaviateClientConfig;
 
 /**
  * Auto-configuration for Weaviate vector store.
- *
- * @author Thomas Vitale
  */
 @AutoConfiguration
 @ConditionalOnClass(WeaviateEmbeddingStore.class)

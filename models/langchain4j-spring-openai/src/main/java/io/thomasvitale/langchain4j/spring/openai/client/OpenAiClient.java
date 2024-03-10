@@ -33,8 +33,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.moderation.ModerationRespon
  * <p>
  *
  * @see <a href="https://platform.openai.com/docs/api-reference/chat">OpenAI API</a>
- * <p>
- * @author Thomas Vitale
  */
 public class OpenAiClient {
 

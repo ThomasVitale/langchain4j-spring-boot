@@ -9,8 +9,6 @@ import dev.langchain4j.data.embedding.Embedding;
 
 /**
  * Mixin used to serialize / deserialize {@link Embedding}.
- *
- * @author Thomas Vitale
  */
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)

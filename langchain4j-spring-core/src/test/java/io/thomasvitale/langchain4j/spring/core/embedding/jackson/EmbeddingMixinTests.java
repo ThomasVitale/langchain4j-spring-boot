@@ -16,8 +16,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link EmbeddingMixin}.
- *
- * @author Thomas Vitale
  */
 class EmbeddingMixinTests {
 

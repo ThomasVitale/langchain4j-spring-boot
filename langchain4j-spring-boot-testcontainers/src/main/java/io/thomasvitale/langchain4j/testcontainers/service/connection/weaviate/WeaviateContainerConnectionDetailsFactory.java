@@ -14,8 +14,6 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.weaviate.WeaviateC
  * {@link ContainerConnectionDetailsFactory} to create {@link WeaviateConnectionDetails}
  * from a {@link ServiceConnection @ServiceConnection}-annotated {@link WeaviateContainer}
  * using the {@code "weaviate"} image.
- *
- * @author Thomas Vitale
  */
 public class WeaviateContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<WeaviateContainer, WeaviateConnectionDetails> {

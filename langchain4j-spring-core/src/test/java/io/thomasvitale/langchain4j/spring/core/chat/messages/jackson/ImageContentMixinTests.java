@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Unit tests for {@link ImageContentMixin}.
- *
- * @author Thomas Vitale
  */
 class ImageContentMixinTests {
 

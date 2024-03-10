@@ -19,8 +19,6 @@ import io.thomasvitale.langchain4j.spring.chroma.client.ChromaClientConfig;
 
 /**
  * Auto-configuration for ChromaDB vector store.
- *
- * @author Thomas Vitale
  */
 @AutoConfiguration(after = RestClientAutoConfiguration.class)
 @ConditionalOnClass(ChromaEmbeddingStore.class)

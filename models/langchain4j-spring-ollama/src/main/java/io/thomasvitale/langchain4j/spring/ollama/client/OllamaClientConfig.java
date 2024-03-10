@@ -8,8 +8,6 @@ import java.time.Duration;
 
 /**
  * Options for configuring the Ollama client.
- *
- * @author Thomas Vitale
  */
 public record OllamaClientConfig(
         URI baseUrl,

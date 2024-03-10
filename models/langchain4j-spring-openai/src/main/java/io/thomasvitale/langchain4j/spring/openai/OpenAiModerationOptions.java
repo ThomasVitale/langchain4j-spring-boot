@@ -4,8 +4,6 @@ import io.thomasvitale.langchain4j.spring.openai.api.moderation.ModerationModels
 
 /**
  * Options for customizing interactions with the OpenAI Moderation API.
- *
- * @author Thomas Vitale
  */
 public class OpenAiModerationOptions {
 

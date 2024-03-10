@@ -2,8 +2,6 @@ package io.thomasvitale.langchain4j.spring.openai.api.image;
 
 /**
  * Enum representing the available OpenAI image models.
- *
- * @author Thomas Vitale
  */
 public enum ImageModels {
 
