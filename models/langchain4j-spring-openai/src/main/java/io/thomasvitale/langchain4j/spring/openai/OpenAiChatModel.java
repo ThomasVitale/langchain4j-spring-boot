@@ -6,12 +6,20 @@ import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.data.message.AiMessage;
 import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.model.chat.ChatLanguageModel;
+import dev.langchain4j.model.output.FinishReason;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.output.TokenUsage;
+
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatModelObservationContext;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.DefaultChatModelObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.chat.ChatCompletionRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.chat.ChatCompletionResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -31,12 +39,18 @@ public class OpenAiChatModel implements ChatLanguageModel {
 
     private final OpenAiChatOptions options;
 
-    private OpenAiChatModel(OpenAiClient openAiClient, OpenAiChatOptions options) {
+    private final ObservationRegistry observationRegistry;
+
+    private final ChatModelObservationConvention observationConvention = new DefaultChatModelObservationConvention();
+
+    private OpenAiChatModel(OpenAiClient openAiClient, OpenAiChatOptions options, ObservationRegistry observationRegistry) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
+        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -82,17 +96,32 @@ public class OpenAiChatModel implements ChatLanguageModel {
 
         ChatCompletionRequest request = chatCompletionRequestBuilder.build();
 
-        ChatCompletionResponse response = openAiClient.chatCompletion(request);
+        ChatModelObservationContext observationContext = new ChatModelObservationContext("openai");
+        observationContext.setModel(options.getModel());
+        observationContext.setMessages(messages);
+        observationContext.setTemperature(options.getTemperature());
 
-        if (response == null) {
-            throw new IllegalStateException("Chat completion response is empty");
+        Response<AiMessage> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            ChatCompletionResponse response = openAiClient.chatCompletion(request);
+
+            if (response == null) {
+                return null;
+            }
+
+            TokenUsage tokenUsage = OpenAiAdapters.toTokenUsage(response.usage());
+            FinishReason finishReason = OpenAiAdapters.toFinishReason(response.choices().get(0).finishReason());
+
+            observationContext.setTokenUsage(tokenUsage);
+            observationContext.setFinishReason(finishReason);
+
+            return Response.from(OpenAiAdapters.toAiMessage(response), tokenUsage, finishReason);
+        });
+
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
         }
 
-        return Response.from(
-                OpenAiAdapters.toAiMessage(response),
-                OpenAiAdapters.toTokenUsage(response.usage()),
-                OpenAiAdapters.toFinishReason(response.choices().get(0).finishReason())
-        );
+        return modelResponse;
     }
 
     public static Builder builder() {
@@ -102,6 +131,7 @@ public class OpenAiChatModel implements ChatLanguageModel {
     public static class Builder {
         private OpenAiClient openAiClient;
         private OpenAiChatOptions options;
+        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
         public Builder client(OpenAiClient openAiClient) {
             this.openAiClient = openAiClient;
@@ -113,8 +143,13 @@ public class OpenAiChatModel implements ChatLanguageModel {
             return this;
         }
 
+        public Builder observationRegistry(ObservationRegistry observationRegistry) {
+            this.observationRegistry = observationRegistry;
+            return this;
+        }
+
         public OpenAiChatModel build() {
-            return new OpenAiChatModel(openAiClient, options);
+            return new OpenAiChatModel(openAiClient, options, observationRegistry);
         }
     }
 

@@ -1,7 +1,13 @@
 package io.thomasvitale.langchain4j.autoconfigure.models.ollama;
 
 import java.net.URI;
+import java.util.Objects;
 
+import io.micrometer.observation.ObservationRegistry;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -27,6 +33,8 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 @EnableConfigurationProperties({ OllamaProperties.class, OllamaChatProperties.class, OllamaEmbeddingProperties.class })
 public class OllamaAutoConfiguration {
 
+    private static final Logger logger = LoggerFactory.getLogger(OllamaAutoConfiguration.class);
+
     @Bean
     @ConditionalOnMissingBean(OllamaConnectionDetails.class)
     PropertiesOllamaConnectionDetails propertiesOllamaConnectionDetails(OllamaProperties ollamaProperties) {
@@ -47,28 +55,38 @@ public class OllamaAutoConfiguration {
             .logResponses(ollamaProperties.getClient().isLogResponses())
             .build();
 
+        if (ollamaProperties.getClient().isLogRequests()) {
+            logger.warn("You have enabled logging of the request body sent to the model, with the risk of exposing sensitive or private information. Please, be careful!");
+        }
+
+        if (ollamaProperties.getClient().isLogResponses()) {
+            logger.warn("You have enabled logging of the response body from a model, with the risk of exposing sensitive or private information. Please, be careful!");
+        }
+
         return new OllamaClient(ollamaClientConfig, restClientBuilder);
     }
 
     @Bean
     @ConditionalOnMissingBean
-    OllamaChatModel ollamaChatModel(OllamaClient ollamaClient, OllamaChatProperties ollamaChatProperties) {
+    OllamaChatModel ollamaChatModel(OllamaClient ollamaClient, OllamaChatProperties ollamaChatProperties, ObjectProvider<ObservationRegistry> observationRegistry) {
         return OllamaChatModel.builder()
             .client(ollamaClient)
             .model(ollamaChatProperties.getModel())
             .format(ollamaChatProperties.getFormat())
             .options(ollamaChatProperties.getOptions())
+            .observationRegistry(Objects.requireNonNullElse(observationRegistry.getIfUnique(), ObservationRegistry.NOOP))
             .build();
     }
 
     @Bean
     @ConditionalOnMissingBean
     OllamaEmbeddingModel ollamaEmbeddingModel(OllamaClient ollamaClient,
-            OllamaEmbeddingProperties ollamaEmbeddingProperties) {
+            OllamaEmbeddingProperties ollamaEmbeddingProperties, ObjectProvider<ObservationRegistry> observationRegistry) {
         return OllamaEmbeddingModel.builder()
             .client(ollamaClient)
             .model(ollamaEmbeddingProperties.getModel())
             .options(ollamaEmbeddingProperties.getOptions())
+            .observationRegistry(Objects.requireNonNullElse(observationRegistry.getIfUnique(), ObservationRegistry.NOOP))
             .build();
     }
 

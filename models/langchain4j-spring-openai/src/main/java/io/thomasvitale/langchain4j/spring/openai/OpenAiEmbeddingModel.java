@@ -10,8 +10,14 @@ import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
 import dev.langchain4j.model.output.TokenUsage;
 
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
+
 import org.springframework.util.Assert;
 
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.DefaultEmbeddingModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationContext;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.embedding.EmbeddingRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.embedding.EmbeddingResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -29,12 +35,18 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
 
     private final OpenAiEmbeddingOptions options;
 
-    private OpenAiEmbeddingModel(OpenAiClient openAiClient, OpenAiEmbeddingOptions options) {
+    private final ObservationRegistry observationRegistry;
+
+    private final EmbeddingModelObservationConvention observationConvention = new DefaultEmbeddingModelObservationConvention();
+
+    private OpenAiEmbeddingModel(OpenAiClient openAiClient, OpenAiEmbeddingOptions options, ObservationRegistry observationRegistry) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
+        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -42,29 +54,44 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
         List<Embedding> embeddings = new ArrayList<>();
         AtomicInteger promptTokens = new AtomicInteger();
 
-        textSegments.forEach(textSegment -> {
-            EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
-                    .input(List.of(textSegment.text()))
-                    .model(options.getModel())
-                    .encodingFormat(options.getEncodingFormat())
-                    .dimensions(options.getDimensions())
-                    .user(options.getUser())
-                    .build();
+        EmbeddingModelObservationContext observationContext = new EmbeddingModelObservationContext("openai");
+        observationContext.setModel(options.getModel());
 
-            EmbeddingResponse embeddingResponse = openAiClient.embeddings(embeddingRequest);
+        Response<List<Embedding>> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            textSegments.forEach(textSegment -> {
+                EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
+                        .input(List.of(textSegment.text()))
+                        .model(options.getModel())
+                        .encodingFormat(options.getEncodingFormat())
+                        .dimensions(options.getDimensions())
+                        .user(options.getUser())
+                        .build();
 
-            if (embeddingResponse == null) {
-                throw new IllegalStateException("Embedding response is empty");
-            }
+                EmbeddingResponse embeddingResponse = openAiClient.embeddings(embeddingRequest);
 
-            promptTokens.addAndGet(embeddingResponse.usage().promptTokens());
+                if (embeddingResponse == null) {
+                    throw new IllegalStateException("Embedding response is empty");
+                }
 
-            embeddings.addAll(embeddingResponse.data().stream()
-                    .map(OpenAiAdapters::toEmbedding)
-                    .toList());
+                promptTokens.addAndGet(embeddingResponse.usage().promptTokens());
+
+                embeddings.addAll(embeddingResponse.data().stream()
+                        .map(OpenAiAdapters::toEmbedding)
+                        .toList());
+            });
+
+            TokenUsage tokenUsage = new TokenUsage(promptTokens.get());
+
+            observationContext.setTokenUsage(tokenUsage);
+
+            return Response.from(embeddings, tokenUsage);
         });
 
-        return Response.from(embeddings, new TokenUsage(promptTokens.get()));
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
+        }
+
+        return modelResponse;
     }
 
     public static Builder builder() {
@@ -72,30 +99,31 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
     }
 
     public static class Builder {
-
         private OpenAiClient openAiClient;
-
         private OpenAiEmbeddingOptions options = OpenAiEmbeddingOptions.builder().build();
+        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;;
 
         private Builder() {
         }
 
         public Builder client(OpenAiClient openAiClient) {
-            Assert.notNull(openAiClient, "openAiClient cannot be null");
             this.openAiClient = openAiClient;
             return this;
         }
 
         public Builder options(OpenAiEmbeddingOptions options) {
-            Assert.notNull(options, "options cannot be null");
             this.options = options;
             return this;
         }
 
-        public OpenAiEmbeddingModel build() {
-            return new OpenAiEmbeddingModel(openAiClient, options);
+        public Builder observationRegistry(ObservationRegistry observationRegistry) {
+            this.observationRegistry = observationRegistry;
+            return this;
         }
 
+        public OpenAiEmbeddingModel build() {
+            return new OpenAiEmbeddingModel(openAiClient, options, observationRegistry);
+        }
     }
 
 }

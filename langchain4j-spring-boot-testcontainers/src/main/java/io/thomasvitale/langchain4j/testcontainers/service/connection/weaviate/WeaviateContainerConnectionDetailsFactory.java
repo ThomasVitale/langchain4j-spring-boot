@@ -17,7 +17,7 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.weaviate.WeaviateC
  *
  * @author Thomas Vitale
  */
-class WeaviateContainerConnectionDetailsFactory
+public class WeaviateContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<WeaviateContainer, WeaviateConnectionDetails> {
 
     WeaviateContainerConnectionDetailsFactory() {

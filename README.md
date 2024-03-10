@@ -68,7 +68,8 @@ Configuration:
 ```yaml
 langchain4j:
   open-ai:
-    api-key: ${OPENAI_API_KEY}
+    client:
+      api-key: ${OPENAI_API_KEY}
 ```
 
 Example:
@@ -95,7 +96,6 @@ Gradle:
 
 ```groovy
 implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.8.0'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.8.0'
 ```
 
 Configuration:
@@ -125,25 +125,6 @@ class ChatController {
 }
 ```
 
-Testcontainers:
-
-```java
-@TestConfiguration(proxyBeanMethods = false)
-public class TestChatModelsOllamaApplication {
-
-    @Bean
-    @RestartScope
-    @ServiceConnection
-    OllamaContainer ollama() {
-        return new OllamaContainer("ghcr.io/thomasvitale/ollama-llama2");
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.from(ChatModelsOllamaApplication::main).with(TestChatModelsOllamaApplication.class).run(args);
-    }
-}
-```
-
 ## 🫙 Vector Stores
 
 ### Chroma
@@ -152,7 +133,6 @@ Gradle:
 
 ```groovy
 implementation 'io.thomasvitale.langchain4j:langchain4j-chroma-spring-boot-starter:0.8.0'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.8.0'
 ```
 
 Example:
@@ -178,32 +158,12 @@ class ChromaDataIngestor {
 }
 ```
 
-Testcontainers:
-
-```java
-@TestConfiguration(proxyBeanMethods = false)
-public class TestChromaApplication {
-
-    @Bean
-    @RestartScope
-    @ServiceConnection
-    ChromaContainer chroma() {
-        return new ChromaContainer("ghcr.io/chroma-core/chroma");
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.from(ChromaApplication::main).with(TestChromaApplication.class).run(args);
-    }
-}
-```
-
 ### Weaviate
 
 Gradle:
 
 ```groovy
 implementation 'io.thomasvitale.langchain4j:langchain4j-weaviate-spring-boot-starter:0.8.0'
-testImplementation 'io.thomasvitale.langchain4j:langchain4j-spring-boot-testcontainers:0.8.0'
 ```
 
 Example:
@@ -225,25 +185,6 @@ class WeaviateDataIngestor {
                 .documentSplitter(recursive(300, 0))
                 .build();
         ingestor.ingest(documents);
-    }
-}
-```
-
-Testcontainers:
-
-```java
-@TestConfiguration(proxyBeanMethods = false)
-public class TestWeaviateApplication {
-
-    @Bean
-    @RestartScope
-    @ServiceConnection
-    WeaviateContainer weaviate() {
-        return new WeaviateContainer("semitechnologies/weaviate");
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.from(WeaviateApplication::main).with(TestWeaviateApplication.class).run(args);
     }
 }
 ```

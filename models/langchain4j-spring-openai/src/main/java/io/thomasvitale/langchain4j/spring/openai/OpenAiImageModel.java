@@ -6,8 +6,14 @@ import dev.langchain4j.data.image.Image;
 import dev.langchain4j.model.image.ImageModel;
 import dev.langchain4j.model.output.Response;
 
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
+
 import org.springframework.util.Assert;
 
+import io.thomasvitale.langchain4j.spring.core.image.observation.DefaultImageModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.image.observation.ImageModelObservationContext;
+import io.thomasvitale.langchain4j.spring.core.image.observation.ImageModelObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.image.ImageGenerationRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.image.ImageGenerationResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -25,38 +31,68 @@ public class OpenAiImageModel implements ImageModel {
 
     private final OpenAiImageOptions options;
 
-    private OpenAiImageModel(OpenAiClient openAiClient, OpenAiImageOptions options) {
+    private final ObservationRegistry observationRegistry;
+
+    private final ImageModelObservationConvention observationConvention = new DefaultImageModelObservationConvention();
+
+    private OpenAiImageModel(OpenAiClient openAiClient, OpenAiImageOptions options, ObservationRegistry observationRegistry) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
+        this.observationRegistry = observationRegistry;
     }
 
     @Override
     public Response<Image> generate(String prompt) {
         ImageGenerationRequest request = imageGenerationRequestBuilder(prompt).build();
 
-        ImageGenerationResponse response = openAiClient.imageGeneration(request);
+        ImageModelObservationContext observationContext = new ImageModelObservationContext("openai");
+        observationContext.setModel(options.getModel());
+        observationContext.setNumber(1);
 
-        if (response == null) {
-            throw new IllegalStateException("Image response is empty");
+        Response<Image> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            ImageGenerationResponse response = openAiClient.imageGeneration(request);
+
+            if (response == null) {
+                return null;
+            }
+
+            return Response.from(OpenAiAdapters.toImage(response.data().get(0)));
+        });
+
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
         }
 
-        return Response.from(OpenAiAdapters.toImage(response.data().get(0)));
+        return modelResponse;
     }
 
     @Override
     public Response<List<Image>> generate(String prompt, int n) {
         ImageGenerationRequest request = imageGenerationRequestBuilder(prompt).n(n).build();
 
-        ImageGenerationResponse response = openAiClient.imageGeneration(request);
+        ImageModelObservationContext observationContext = new ImageModelObservationContext("openai");
+        observationContext.setModel(options.getModel());
+        observationContext.setNumber(n);
 
-        if (response == null) {
-            throw new IllegalStateException("Image response is empty");
+        Response<List<Image>> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            ImageGenerationResponse response = openAiClient.imageGeneration(request);
+
+            if (response == null) {
+                return null;
+            }
+
+            return Response.from(response.data().stream().map(OpenAiAdapters::toImage).toList());
+        });
+
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
         }
 
-        return Response.from(response.data().stream().map(OpenAiAdapters::toImage).toList());
+        return modelResponse;
     }
 
     private ImageGenerationRequest.Builder imageGenerationRequestBuilder(String prompt) {
@@ -78,6 +114,7 @@ public class OpenAiImageModel implements ImageModel {
     public static class Builder {
         private OpenAiClient openAiClient;
         private OpenAiImageOptions options = new OpenAiImageOptions();
+        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;;
 
         private Builder() {}
 
@@ -91,8 +128,13 @@ public class OpenAiImageModel implements ImageModel {
             return this;
         }
 
+        public Builder observationRegistry(ObservationRegistry observationRegistry) {
+            this.observationRegistry = observationRegistry;
+            return this;
+        }
+
         public OpenAiImageModel build() {
-            return new OpenAiImageModel(openAiClient, options);
+            return new OpenAiImageModel(openAiClient, options, observationRegistry);
         }
     }
 

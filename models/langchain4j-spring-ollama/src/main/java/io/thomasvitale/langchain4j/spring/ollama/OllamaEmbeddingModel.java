@@ -8,8 +8,14 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.model.output.Response;
 
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
+
 import org.springframework.util.Assert;
 
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.DefaultEmbeddingModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationContext;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationConvention;
 import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingRequest;
 import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingResponse;
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
@@ -32,37 +38,54 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
 
     private final Options options;
 
-    private OllamaEmbeddingModel(OllamaClient ollamaClient, String model, Options options) {
+    private final ObservationRegistry observationRegistry;
+
+    private final EmbeddingModelObservationConvention observationConvention = new DefaultEmbeddingModelObservationConvention();
+
+    private OllamaEmbeddingModel(OllamaClient ollamaClient, String model, Options options, ObservationRegistry observationRegistry) {
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
         Assert.hasText(model, "model cannot be null or empty");
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.ollamaClient = ollamaClient;
         this.model = model;
         this.options = options;
+        this.observationRegistry = observationRegistry;
     }
 
     @Override
     public Response<List<Embedding>> embedAll(List<TextSegment> textSegments) {
         List<Embedding> embeddings = new ArrayList<>();
 
-        textSegments.forEach(textSegment -> {
-            EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
-                .model(model)
-                .prompt(textSegment.text())
-                .options(options)
-                .build();
+        EmbeddingModelObservationContext observationContext = new EmbeddingModelObservationContext("ollama");
+        observationContext.setModel(model);
 
-            EmbeddingResponse embeddingResponse = ollamaClient.embeddings(embeddingRequest);
+        Response<List<Embedding>> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            textSegments.forEach(textSegment -> {
+                EmbeddingRequest embeddingRequest = EmbeddingRequest.builder()
+                        .model(model)
+                        .prompt(textSegment.text())
+                        .options(options)
+                        .build();
 
-            if (embeddingResponse == null) {
-                throw new IllegalStateException("Embedding response is empty");
-            }
+                EmbeddingResponse embeddingResponse = ollamaClient.embeddings(embeddingRequest);
 
-            embeddings.add(Embedding.from(embeddingResponse.embedding()));
+                if (embeddingResponse == null) {
+                    throw new IllegalStateException("Embedding response is empty");
+                }
+
+                embeddings.add(Embedding.from(embeddingResponse.embedding()));
+            });
+
+            return Response.from(embeddings);
         });
 
-        return Response.from(embeddings);
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
+        }
+
+        return modelResponse;
     }
 
     public static Builder builder() {
@@ -73,29 +96,32 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
         private OllamaClient ollamaClient;
         private String model = DEFAULT_MODEL;
         private Options options = Options.builder().build();
+        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
         private Builder() {}
 
         public Builder client(OllamaClient ollamaClient) {
-            Assert.notNull(ollamaClient, "ollamaClient cannot be null");
             this.ollamaClient = ollamaClient;
             return this;
         }
 
         public Builder model(String model) {
-            Assert.hasText(model, "model cannot be empty");
             this.model = model;
             return this;
         }
 
         public Builder options(Options options) {
-            Assert.notNull(options, "options cannot be null");
             this.options = options;
             return this;
         }
 
+        public Builder observationRegistry(ObservationRegistry observationRegistry) {
+            this.observationRegistry = observationRegistry;
+            return this;
+        }
+
         public OllamaEmbeddingModel build() {
-            return new OllamaEmbeddingModel(ollamaClient, model, options);
+            return new OllamaEmbeddingModel(ollamaClient, model, options, observationRegistry);
         }
     }
 

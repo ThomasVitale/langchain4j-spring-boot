@@ -17,10 +17,12 @@ import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionD
 public class OllamaDockerComposeConnectionDetailsFactory
         extends DockerComposeConnectionDetailsFactory<OllamaConnectionDetails> {
 
+    private static final String[] OLLAMA_CONTAINER_NAMES = { "docker.io/ollama/ollama", "ollama/ollama", "ollama" };
+
     private static final Integer OLLAMA_PORT = 11434;
 
     OllamaDockerComposeConnectionDetailsFactory() {
-        super("ollama");
+        super(OLLAMA_CONTAINER_NAMES);
     }
 
     @Override

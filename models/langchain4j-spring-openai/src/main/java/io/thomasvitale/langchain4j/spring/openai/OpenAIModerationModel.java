@@ -7,8 +7,14 @@ import dev.langchain4j.model.moderation.Moderation;
 import dev.langchain4j.model.moderation.ModerationModel;
 import dev.langchain4j.model.output.Response;
 
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
+
 import org.springframework.util.Assert;
 
+import io.thomasvitale.langchain4j.spring.core.moderation.observation.DefaultModerationModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.moderation.observation.ModerationModelObservationContext;
+import io.thomasvitale.langchain4j.spring.core.moderation.observation.ModerationModelObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.moderation.ModerationRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.moderation.ModerationResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -28,12 +34,18 @@ public class OpenAIModerationModel implements ModerationModel {
 
     private final OpenAiModerationOptions options;
 
-    private OpenAIModerationModel(OpenAiClient openAiClient, OpenAiModerationOptions options) {
+    private final ObservationRegistry observationRegistry;
+
+    private final ModerationModelObservationConvention observationConvention = new DefaultModerationModelObservationConvention();
+
+    private OpenAIModerationModel(OpenAiClient openAiClient, OpenAiModerationOptions options, ObservationRegistry observationRegistry) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
+        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -56,21 +68,32 @@ public class OpenAIModerationModel implements ModerationModel {
                 .input(inputs)
                 .build();
 
-        ModerationResponse response = openAiClient.moderation(request);
+        ModerationModelObservationContext observationContext = new ModerationModelObservationContext("openai");
+        observationContext.setModel(options.getModel());
 
-        if (response == null) {
-            throw new IllegalStateException("Moderation response is empty");
-        }
+        Response<Moderation> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            ModerationResponse response = openAiClient.moderation(request);
 
-        int i = 0;
-        for (ModerationResponse.ModerationData moderationData : response.results()) {
-            if (moderationData.flagged()) {
-                return Response.from(Moderation.flagged(inputs.get(i)));
+            if (response == null) {
+                return null;
             }
-            i++;
+
+            int i = 0;
+            for (ModerationResponse.ModerationData moderationData : response.results()) {
+                if (moderationData.flagged()) {
+                    return Response.from(Moderation.flagged(inputs.get(i)));
+                }
+                i++;
+            }
+
+            return Response.from(Moderation.notFlagged());
+        });
+
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
         }
 
-        return Response.from(Moderation.notFlagged());
+        return modelResponse;
     }
 
     public static Builder builder() {
@@ -80,6 +103,7 @@ public class OpenAIModerationModel implements ModerationModel {
     public static class Builder {
         private OpenAiClient openAiClient;
         private OpenAiModerationOptions options = new OpenAiModerationOptions();
+        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;;
 
         private Builder() {}
 
@@ -93,8 +117,13 @@ public class OpenAIModerationModel implements ModerationModel {
             return this;
         }
 
+        public Builder observationRegistry(ObservationRegistry observationRegistry) {
+            this.observationRegistry = observationRegistry;
+            return this;
+        }
+
         public OpenAIModerationModel build() {
-            return new OpenAIModerationModel(openAiClient, options);
+            return new OpenAIModerationModel(openAiClient, options, observationRegistry);
         }
     }
 

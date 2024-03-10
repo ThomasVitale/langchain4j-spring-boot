@@ -8,10 +8,17 @@ import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.data.message.ChatMessageType;
 import dev.langchain4j.model.chat.ChatLanguageModel;
 import dev.langchain4j.model.output.Response;
+import dev.langchain4j.model.output.TokenUsage;
+
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
+import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatModelObservationContext;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.DefaultChatModelObservationConvention;
 import io.thomasvitale.langchain4j.spring.ollama.api.ChatRequest;
 import io.thomasvitale.langchain4j.spring.ollama.api.ChatResponse;
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
@@ -37,15 +44,21 @@ public class OllamaChatModel implements ChatLanguageModel {
 
     private final Options options;
 
-    private OllamaChatModel(OllamaClient ollamaClient, String model, @Nullable String format, Options options) {
+    private final ObservationRegistry observationRegistry;
+
+    private final ChatModelObservationConvention observationConvention = new DefaultChatModelObservationConvention();
+
+    private OllamaChatModel(OllamaClient ollamaClient, String model, @Nullable String format, Options options, ObservationRegistry observationRegistry) {
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
         Assert.hasText(model, "model cannot be null or empty");
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.ollamaClient = ollamaClient;
         this.model = model;
         this.format = format;
         this.options = options;
+        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -61,14 +74,31 @@ public class OllamaChatModel implements ChatLanguageModel {
             .stream(false)
             .build();
 
-        ChatResponse chatResponse = ollamaClient.chat(chatRequest);
+        ChatModelObservationContext observationContext = new ChatModelObservationContext("ollama");
+        observationContext.setModel(model);
+        observationContext.setMessages(messages);
+        observationContext.setTemperature(options.getTemperature());
 
-        if (chatResponse == null) {
-            throw new IllegalStateException("Chat completion response is empty");
+        Response<AiMessage> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
+            ChatResponse chatResponse = ollamaClient.chat(chatRequest);
+
+            if (chatResponse == null) {
+                return null;
+            }
+
+            TokenUsage tokenUsage = OllamaAdapters.toTokenUsage(chatResponse);
+
+            observationContext.setTokenUsage(tokenUsage);
+
+            AiMessage aiMessage = AiMessage.from(chatResponse.message().content());
+            return Response.from(aiMessage, tokenUsage);
+        });
+
+        if (modelResponse == null) {
+            throw new IllegalStateException("Model response is empty");
         }
 
-        AiMessage aiMessage = AiMessage.from(chatResponse.message().content());
-        return Response.from(aiMessage, OllamaAdapters.toTokenUsage(chatResponse));
+        return modelResponse;
     }
 
     public static Builder builder() {
@@ -81,17 +111,16 @@ public class OllamaChatModel implements ChatLanguageModel {
         @Nullable
         private String format;
         private Options options = Options.builder().build();
+        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
         private Builder() {}
 
         public Builder client(OllamaClient ollamaClient) {
-            Assert.notNull(ollamaClient, "ollamaClient cannot be null");
             this.ollamaClient = ollamaClient;
             return this;
         }
 
         public Builder model(String model) {
-            Assert.hasText(model, "model cannot be empty");
             this.model = model;
             return this;
         }
@@ -102,13 +131,17 @@ public class OllamaChatModel implements ChatLanguageModel {
         }
 
         public Builder options(Options options) {
-            Assert.notNull(ollamaClient, "options cannot be null");
             this.options = options;
             return this;
         }
 
+        public Builder observationRegistry(ObservationRegistry observationRegistry) {
+            this.observationRegistry = observationRegistry;
+            return this;
+        }
+
         public OllamaChatModel build() {
-            return new OllamaChatModel(ollamaClient, model, format, options);
+            return new OllamaChatModel(ollamaClient, model, format, options, observationRegistry);
         }
     }
 

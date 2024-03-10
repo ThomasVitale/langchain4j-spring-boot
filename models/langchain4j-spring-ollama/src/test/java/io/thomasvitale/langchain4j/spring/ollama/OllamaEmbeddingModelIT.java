@@ -1,9 +1,10 @@
 package io.thomasvitale.langchain4j.spring.ollama;
 
+import java.net.URI;
+import java.util.List;
+
 import dev.langchain4j.data.segment.TextSegment;
-import io.thomasvitale.langchain4j.spring.ollama.api.Options;
-import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
-import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClient;
@@ -11,8 +12,9 @@ import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.net.URI;
-import java.util.List;
+import io.thomasvitale.langchain4j.spring.ollama.api.Options;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
+import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClientConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -55,7 +55,6 @@ public record Tool(
     ) {
 
         public Function {
-            Assert.hasText(description, "description cannot be null or empty");
             Assert.hasText(name, "name cannot be null or empty");
         }
 

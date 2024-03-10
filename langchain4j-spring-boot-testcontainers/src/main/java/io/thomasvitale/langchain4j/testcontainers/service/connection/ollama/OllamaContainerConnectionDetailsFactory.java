@@ -5,19 +5,18 @@ import java.net.URI;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionDetailsFactory;
 import org.springframework.boot.testcontainers.service.connection.ContainerConnectionSource;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.ollama.OllamaContainer;
 
 import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionDetails;
-import io.thomasvitale.langchain4j.testcontainers.service.containers.OllamaContainer;
 
 /**
  * {@link ContainerConnectionDetailsFactory} to create {@link OllamaConnectionDetails}
- * from a {@link ServiceConnection @ServiceConnection}-annotated {@link GenericContainer}
+ * from a {@link ServiceConnection @ServiceConnection}-annotated {@link OllamaContainer}
  * using the {@code "ollama"} image.
  *
  * @author Thomas Vitale
  */
-class OllamaContainerConnectionDetailsFactory
+public class OllamaContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<OllamaContainer, OllamaConnectionDetails> {
 
     OllamaContainerConnectionDetailsFactory() {

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -52,6 +53,7 @@ public class HttpLoggingInterceptor implements ClientHttpRequestInterceptor {
                     .toSingleValueMap()
                     .entrySet()
                     .stream()
+                    .filter(e -> !e.getKey().equals(HttpHeaders.AUTHORIZATION))
                     .map(e -> e.getKey() + ":" + e.getValue())
                     .collect(Collectors.joining(", ")),
                 new String(requestBody, StandardCharsets.UTF_8));

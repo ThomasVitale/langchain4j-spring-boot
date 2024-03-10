@@ -16,7 +16,7 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.chroma.ChromaConne
  *
  * @author Thomas Vitale
  */
-class ChromaContainerConnectionDetailsFactory
+public class ChromaContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<ChromaDBContainer, ChromaConnectionDetails> {
 
     ChromaContainerConnectionDetailsFactory() {
