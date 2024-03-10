@@ -21,7 +21,7 @@ project-repositories:
       - "ai"
       - "embedding"
   - name: "langchain4j-rag"
-    description: "LangChain4j Spring with RAG pattern based on Chroma and Ollama."
+    description: "LangChain4j Spring with RAG pattern based on Ollama and Weaviate."
     url: "https://github.com/ThomasVitale/langchain4j-spring-boot-catalog?subPath=langchain4j-rag"
     tags:
       - "java-17"
