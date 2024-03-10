@@ -60,7 +60,7 @@ http :8080/ai/chat message=="What is the capital of Italy?"
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.8.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-openai-spring-boot-starter:0.9.0'
 ```
 
 Configuration:
@@ -95,7 +95,7 @@ class ChatController {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.8.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-ollama-spring-boot-starter:0.9.0'
 ```
 
 Configuration:
@@ -132,7 +132,7 @@ class ChatController {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-chroma-spring-boot-starter:0.8.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-chroma-spring-boot-starter:0.9.0'
 ```
 
 Example:
@@ -163,7 +163,7 @@ class ChromaDataIngestor {
 Gradle:
 
 ```groovy
-implementation 'io.thomasvitale.langchain4j:langchain4j-weaviate-spring-boot-starter:0.8.0'
+implementation 'io.thomasvitale.langchain4j:langchain4j-weaviate-spring-boot-starter:0.9.0'
 ```
 
 Example:
