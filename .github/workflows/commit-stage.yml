@@ -39,7 +39,13 @@ jobs:
 
       - name: Deploy and release artifacts
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: ./gradlew jreleaserFullRelease
+        run: |
+          VERSION=$(./gradlew properties | grep 'version:' | awk '{print $2}')
+          if [[ $VERSION == *"SNAPSHOT"* ]]; then
+            ./gradlew jreleaserDeploy
+          else
+            ./gradlew jreleaserFullRelease
+          fi
         env:
           JRELEASER_NEXUS2_MAVEN_CENTRAL_USERNAME: ${{ secrets.JRELEASER_NEXUS2_MAVEN_CENTRAL_USERNAME }}
           JRELEASER_NEXUS2_MAVEN_CENTRAL_TOKEN: ${{ secrets.JRELEASER_NEXUS2_MAVEN_CENTRAL_TOKEN }}
