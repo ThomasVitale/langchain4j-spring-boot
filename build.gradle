@@ -1,0 +1,32 @@
+plugins {
+    id 'org.jreleaser' version '1.11.0'
+}
+
+// JReleaser requires this task in the root project.
+tasks.register("clean", Delete.class) {
+    group 'build'
+    delete 'build'
+}
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+
+    deploy {
+        maven {
+            nexus2 {
+                langchain4j {
+                    active = 'ALWAYS'
+                    applyMavenCentralRules = true
+                    url = 'https://s01.oss.sonatype.org/service/local'
+                    snapshotUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+                    closeRepository = false
+                    releaseRepository = false
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+        }
+    }
+}

@@ -1,18 +1,10 @@
 plugins {
     id 'maven-publish'
-    id 'signing'
 }
 
 java {
-    withSourcesJar()
     withJavadocJar()
-}
-
-javadoc {
-    if (JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
-    options.addStringOption("Xdoclint:none", "-quiet")
+    withSourcesJar()
 }
 
 publishing {
@@ -50,7 +42,7 @@ publishing {
                 }
 
                 scm {
-                    connection = "scm:git:git://github.com/ThomasVitale/langchain4j-spring-boot.git"
+                    connection = "scm:git:https://github.com/ThomasVitale/langchain4j-spring-boot.git"
                     developerConnection = "scm:git:ssh://github.com/ThomasVitale/langchain4j-spring-boot.git"
                     url = "https://github.com/ThomasVitale/langchain4j-spring-boot"
                 }
@@ -60,30 +52,8 @@ publishing {
 
     repositories {
         maven {
-            name = "SonatypeSnapshot"
-            url = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-
-            credentials {
-                username = findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
-                password = findProperty("mavenCentralToken") ?: System.getenv("MAVEN_CENTRAL_TOKEN")
-            }
-        }
-        maven {
-            name = "SonatypeStaging"
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-
-            credentials {
-                username = findProperty("mavenCentralUsername") ?: System.getenv("MAVEN_CENTRAL_USERNAME")
-                password = findProperty("mavenCentralToken") ?: System.getenv("MAVEN_CENTRAL_TOKEN")
-            }
+            url = rootProject.layout.buildDirectory.dir('staging-deploy')
         }
     }
-}
 
-signing {
-    required { gradle.taskGraph.hasTask("publishAllPublicationsToSonatypeStagingRepository") }
-    def signingSecretKey = findProperty('signingSecretKey') ?: System.getenv("SIGNING_SECRET_KEY")
-    def signingPassphrase = findProperty('signingPassphrase') ?: System.getenv("SIGNING_PASSPHRASE")
-    useInMemoryPgpKeys(signingSecretKey, signingPassphrase)
-    sign publishing.publications.mavenJava
 }

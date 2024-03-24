@@ -4,8 +4,6 @@ plugins {
     id 'io.thomasvitale.langchain4j.optional-dependencies'
 }
 
-group = 'io.thomasvitale.langchain4j'
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
