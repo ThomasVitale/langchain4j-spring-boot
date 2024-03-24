@@ -12,6 +12,7 @@ jobs:
     name: Build
     runs-on: ubuntu-22.04
     permissions:
+      discussions: write
       contents: read
       security-events: write
     steps:

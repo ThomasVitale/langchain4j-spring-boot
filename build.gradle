@@ -11,12 +11,31 @@ tasks.register("clean", Delete.class) {
 jreleaser {
     project {
         name = "langchain4j-spring-boot"
-        description = "LangChain4j support for Spring Boot."
+        description = "LangChain4j support for Spring Boot"
         authors = ["Thomas Vitale"]
+        tags = ['spring-boot', 'langchain4j', 'large-language-models', 'vector-stores']
         maintainers = ['ThomasVitale']
         license = 'Apache-2.0'
         inceptionYear = "2024"
         copyright = '#{project.inceptionYear} #{project.authors}'
+    }
+
+    catalog {
+        sbom {
+            cyclonedx {
+                active = 'RELEASE'
+                version = '0.25.0'
+                format('JSON')
+            }
+        }
+        slsa {
+            active = 'RELEASE'
+        }
+    }
+
+    checksum {
+        algorithm('SHA-256')
+        algorithm('SHA-512')
     }
 
     signing {
@@ -36,6 +55,18 @@ jreleaser {
                     releaseRepository = false
                     stagingRepository('build/staging-deploy')
                 }
+            }
+        }
+    }
+
+    release {
+        github {
+            repoOwner = 'ThomasVitale'
+            releaseName = '{{tagName}}'
+
+            changelog {
+                preset = 'conventional-commits'
+                extraProperties.put('categorizeScopes', true)
             }
         }
     }
