@@ -17,7 +17,7 @@ jreleaser {
     deploy {
         maven {
             nexus2 {
-                langchain4j {
+                'maven-central' {
                     active = 'ALWAYS'
                     applyMavenCentralRules = true
                     url = 'https://s01.oss.sonatype.org/service/local'
