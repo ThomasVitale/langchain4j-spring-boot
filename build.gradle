@@ -9,6 +9,16 @@ tasks.register("clean", Delete.class) {
 }
 
 jreleaser {
+    project {
+        name = "langchain4j-spring-boot"
+        description = "LangChain4j support for Spring Boot."
+        authors = "Thomas Vitale"
+        maintainers = ['ThomasVitale']
+        license = 'Apache-2.0'
+        inceptionYear = 2024
+        copyright = '#{project.inceptionYear} #{project.authors}'
+    }
+
     signing {
         active = 'ALWAYS'
         armored = true
