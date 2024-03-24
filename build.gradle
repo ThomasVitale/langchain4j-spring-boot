@@ -20,19 +20,6 @@ jreleaser {
         copyright = '#{project.inceptionYear} #{project.authors}'
     }
 
-    catalog {
-        sbom {
-            cyclonedx {
-                active = 'RELEASE'
-                version = '0.25.0'
-                format('JSON')
-            }
-        }
-        slsa {
-            active = 'RELEASE'
-        }
-    }
-
     checksum {
         algorithm('SHA-256')
         algorithm('SHA-512')
@@ -65,6 +52,7 @@ jreleaser {
             releaseName = '{{tagName}}'
 
             changelog {
+                formatted = 'ALWAYS'
                 preset = 'conventional-commits'
                 extraProperties.put('categorizeScopes', true)
             }
