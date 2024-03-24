@@ -10,9 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.ollama.OllamaContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import io.thomasvitale.langchain4j.spring.ollama.OllamaChatModel;
 import io.thomasvitale.langchain4j.spring.ollama.OllamaEmbeddingModel;
@@ -30,8 +31,9 @@ class OllamaAutoConfigurationIT {
     private static final String MODEL_NAME = "orca-mini";
 
     @Container
-    static GenericContainer<?> ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama-%s".formatted(MODEL_NAME))
-        .withExposedPorts(11434);
+    static OllamaContainer ollama = new OllamaContainer(DockerImageName
+            .parse("ghcr.io/thomasvitale/ollama-%s".formatted(MODEL_NAME))
+            .asCompatibleSubstituteFor("ollama/ollama"));
 
     private static URI getBaseUrl() {
         return URI.create("http://%s:%s".formatted(ollama.getHost(), ollama.getMappedPort(11434)));

@@ -8,9 +8,10 @@ import dev.langchain4j.data.segment.TextSegment;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.client.RestClient;
-import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.ollama.OllamaContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
 import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
@@ -27,8 +28,9 @@ class OllamaEmbeddingModelIT {
     private static final String MODEL_NAME = "orca-mini";
 
     @Container
-    static GenericContainer<?> ollama = new GenericContainer<>("ghcr.io/thomasvitale/ollama-%s".formatted(MODEL_NAME))
-        .withExposedPorts(11434);
+    static OllamaContainer ollama = new OllamaContainer(DockerImageName
+            .parse("ghcr.io/thomasvitale/ollama-%s".formatted(MODEL_NAME))
+            .asCompatibleSubstituteFor("ollama/ollama"));
 
     private static OllamaClient ollamaClient;
 

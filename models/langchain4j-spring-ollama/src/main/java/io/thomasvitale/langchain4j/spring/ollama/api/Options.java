@@ -190,11 +190,6 @@ public class Options {
     @JsonProperty("use_mlock") private Boolean useMLock = false;
 
     /**
-     * EmbeddingOnly
-     */
-    @JsonProperty("embedding_only") private Boolean embeddingOnly = true;
-
-    /**
      * RopeFrequencyBase
      */
     @JsonProperty("rope_frequency_base") private Double ropeFrequencyBase = 10000.0;
@@ -364,11 +359,6 @@ public class Options {
 
         public Builder useMLock(Boolean useMLock) {
             this.options.useMLock = useMLock;
-            return this;
-        }
-
-        public Builder embeddingOnly(Boolean embeddingOnly) {
-            this.options.embeddingOnly = embeddingOnly;
             return this;
         }
 
@@ -624,14 +614,6 @@ public class Options {
 
     public void setUseMLock(Boolean useMLock) {
         this.useMLock = useMLock;
-    }
-
-    public Boolean getEmbeddingOnly() {
-        return embeddingOnly;
-    }
-
-    public void setEmbeddingOnly(Boolean embeddingOnly) {
-        this.embeddingOnly = embeddingOnly;
     }
 
     public Double getRopeFrequencyBase() {
