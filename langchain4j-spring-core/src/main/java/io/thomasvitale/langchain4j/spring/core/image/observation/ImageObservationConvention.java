@@ -4,13 +4,13 @@ import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationConvention;
 
 /**
- * {@link ObservationConvention} for {@link ImageModelObservationContext}.
+ * {@link ObservationConvention} for {@link ImageObservationContext}.
  */
-public interface ImageModelObservationConvention extends ObservationConvention<ImageModelObservationContext> {
+public interface ImageObservationConvention extends ObservationConvention<ImageObservationContext> {
 
     @Override
     default boolean supportsContext(Observation.Context context) {
-        return context instanceof ImageModelObservationContext;
+        return context instanceof ImageObservationContext;
     }
 
 }

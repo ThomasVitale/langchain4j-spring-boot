@@ -13,9 +13,9 @@ import io.micrometer.observation.ObservationRegistry;
 
 import org.springframework.util.Assert;
 
-import io.thomasvitale.langchain4j.spring.core.embedding.observation.DefaultEmbeddingModelObservationConvention;
-import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationContext;
-import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.DefaultEmbeddingObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingObservationContext;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingObservationConvention;
 import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingRequest;
 import io.thomasvitale.langchain4j.spring.ollama.api.EmbeddingResponse;
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
@@ -36,27 +36,25 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
 
     private final Options options;
 
-    private final ObservationRegistry observationRegistry;
+    private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
-    private final EmbeddingModelObservationConvention observationConvention = new DefaultEmbeddingModelObservationConvention();
+    private EmbeddingObservationConvention observationConvention = new DefaultEmbeddingObservationConvention();
 
-    private OllamaEmbeddingModel(OllamaClient ollamaClient, String model, Options options, ObservationRegistry observationRegistry) {
+    private OllamaEmbeddingModel(OllamaClient ollamaClient, String model, Options options) {
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
         Assert.hasText(model, "model cannot be null or empty");
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
-        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.ollamaClient = ollamaClient;
         this.model = model;
         this.options = options;
-        this.observationRegistry = observationRegistry;
     }
 
     @Override
     public Response<List<Embedding>> embedAll(List<TextSegment> textSegments) {
         List<Embedding> embeddings = new ArrayList<>();
 
-        EmbeddingModelObservationContext observationContext = new EmbeddingModelObservationContext("ollama");
+        EmbeddingObservationContext observationContext = new EmbeddingObservationContext("ollama");
         observationContext.setModel(model);
 
         Response<List<Embedding>> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
@@ -86,6 +84,16 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
         return modelResponse;
     }
 
+    public void setObservationRegistry(ObservationRegistry observationRegistry) {
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
+        this.observationRegistry = observationRegistry;
+    }
+
+    public void setObservationConvention(EmbeddingObservationConvention observationConvention) {
+        Assert.notNull(observationConvention, "observationConvention cannot be null");
+        this.observationConvention = observationConvention;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -94,7 +102,8 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
         private OllamaClient ollamaClient;
         private String model = DEFAULT_MODEL;
         private Options options = Options.builder().build();
-        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
+        private ObservationRegistry observationRegistry;
+        private EmbeddingObservationConvention observationConvention;
 
         private Builder() {}
 
@@ -118,8 +127,20 @@ public class OllamaEmbeddingModel implements EmbeddingModel {
             return this;
         }
 
+        public Builder observationConvention(EmbeddingObservationConvention observationConvention) {
+            this.observationConvention = observationConvention;
+            return this;
+        }
+
         public OllamaEmbeddingModel build() {
-            return new OllamaEmbeddingModel(ollamaClient, model, options, observationRegistry);
+            var embeddingModel = new OllamaEmbeddingModel(ollamaClient, model, options);
+            if (observationConvention != null) {
+                embeddingModel.setObservationConvention(observationConvention);
+            }
+            if (observationRegistry != null) {
+                embeddingModel.setObservationRegistry(observationRegistry);
+            }
+            return embeddingModel;
         }
     }
 

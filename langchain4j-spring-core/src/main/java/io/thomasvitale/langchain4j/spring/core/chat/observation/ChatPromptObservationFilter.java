@@ -4,20 +4,19 @@ import java.util.List;
 
 import dev.langchain4j.data.message.ChatMessage;
 
-import io.micrometer.common.KeyValue;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationFilter;
 
 import org.springframework.util.CollectionUtils;
 
 /**
- * A {@link ObservationFilter} to populate chat prompt specific information.
+ * An {@link ObservationFilter} to populate chat prompt specific information.
  */
 public class ChatPromptObservationFilter implements ObservationFilter {
 
     @Override
     public Observation.Context map(Observation.Context context) {
-        if (!(context instanceof ChatModelObservationContext chatModelObservationContext)) {
+        if (!(context instanceof ChatObservationContext chatModelObservationContext)) {
             return context;
         }
 
@@ -25,8 +24,8 @@ public class ChatPromptObservationFilter implements ObservationFilter {
             return chatModelObservationContext;
         }
 
-        chatModelObservationContext.addHighCardinalityKeyValue(KeyValue.of(
-                "chat.prompt", buildPrompt(chatModelObservationContext.getMessages()))
+        chatModelObservationContext.addHighCardinalityKeyValue(
+            ChatObservation.ChatHighCardinalityTags.PROMPT.withValue(buildPrompt(chatModelObservationContext.getMessages()))
         );
 
         return chatModelObservationContext;

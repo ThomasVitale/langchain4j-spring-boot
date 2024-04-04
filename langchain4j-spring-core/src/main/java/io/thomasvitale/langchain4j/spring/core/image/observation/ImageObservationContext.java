@@ -1,21 +1,19 @@
 package io.thomasvitale.langchain4j.spring.core.image.observation;
 
-import io.micrometer.observation.Observation;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.thomasvitale.langchain4j.spring.core.model.observation.ModelObservationContext;
 
 /**
- * An {@link Observation.Context} used during interactions with an image model.
+ * Observation context for image model interactions.
  */
-public class ImageModelObservationContext extends ModelObservationContext {
+public class ImageObservationContext extends ModelObservationContext {
 
     @Nullable
     private Integer number;
 
-    public ImageModelObservationContext(String provider) {
+    public ImageObservationContext(String provider) {
         super(provider);
     }
 

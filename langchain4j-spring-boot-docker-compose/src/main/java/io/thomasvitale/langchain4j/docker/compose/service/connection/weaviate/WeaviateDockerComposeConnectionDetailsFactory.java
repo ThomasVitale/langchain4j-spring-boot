@@ -15,7 +15,7 @@ import io.thomasvitale.langchain4j.autoconfigure.vectorstores.weaviate.WeaviateC
 public class WeaviateDockerComposeConnectionDetailsFactory
         extends DockerComposeConnectionDetailsFactory<WeaviateConnectionDetails> {
 
-    private static final String[] WEAVIATE_CONTAINER_NAMES = { "docker.io/semitechnologies/weaviate", "semitechnologies/weaviate" };
+    private static final String[] WEAVIATE_CONTAINER_NAMES = { "docker.io/semitechnologies/weaviate", "semitechnologies/weaviate", "cr.weaviate.io/semitechnologies/weaviate" };
 
     private static final int WEAVIATE_PORT = 8080;
 

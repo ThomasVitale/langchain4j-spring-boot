@@ -24,7 +24,7 @@ class WeaviateContainerConnectionDetailsFactoryIT {
 
     @Container
     @ServiceConnection
-    static final WeaviateContainer container = new WeaviateContainer("semitechnologies/weaviate:1.23.10");
+    static final WeaviateContainer container = new WeaviateContainer("semitechnologies/weaviate:1.24.6");
 
     @Autowired
     private WeaviateConnectionDetails connectionDetails;

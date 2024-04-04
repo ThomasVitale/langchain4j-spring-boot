@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ChromaAutoConfigurationIT {
 
     @Container
-    static ChromaDBContainer chroma = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.4.23");
+    static ChromaDBContainer chroma = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.4.24");
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(ChromaAutoConfiguration.class, RestClientAutoConfiguration.class));

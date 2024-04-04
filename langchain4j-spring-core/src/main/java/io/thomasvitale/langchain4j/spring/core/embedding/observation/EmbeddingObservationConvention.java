@@ -4,13 +4,13 @@ import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationConvention;
 
 /**
- * {@link ObservationConvention} for {@link EmbeddingModelObservationContext}.
+ * {@link ObservationConvention} for {@link EmbeddingObservationContext}.
  */
-public interface EmbeddingModelObservationConvention extends ObservationConvention<EmbeddingModelObservationContext> {
+public interface EmbeddingObservationConvention extends ObservationConvention<EmbeddingObservationContext> {
 
     @Override
     default boolean supportsContext(Observation.Context context) {
-        return context instanceof EmbeddingModelObservationContext;
+        return context instanceof EmbeddingObservationContext;
     }
 
 }

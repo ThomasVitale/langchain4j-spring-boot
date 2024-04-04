@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class WeaviateAutoConfigurationIT {
 
     @Container
-    static WeaviateContainer weaviate = new WeaviateContainer("semitechnologies/weaviate:1.23.10");
+    static WeaviateContainer weaviate = new WeaviateContainer("semitechnologies/weaviate:1.24.6");
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
         .withConfiguration(AutoConfigurations.of(WeaviateAutoConfiguration.class));

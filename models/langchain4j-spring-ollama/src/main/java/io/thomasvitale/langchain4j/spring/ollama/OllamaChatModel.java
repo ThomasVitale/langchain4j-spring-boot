@@ -16,9 +16,9 @@ import io.micrometer.observation.ObservationRegistry;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
-import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatModelObservationContext;
-import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatModelObservationConvention;
-import io.thomasvitale.langchain4j.spring.core.chat.observation.DefaultChatModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatObservationContext;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.ChatObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.chat.observation.DefaultChatObservationConvention;
 import io.thomasvitale.langchain4j.spring.ollama.api.ChatRequest;
 import io.thomasvitale.langchain4j.spring.ollama.api.ChatResponse;
 import io.thomasvitale.langchain4j.spring.ollama.api.Options;
@@ -42,21 +42,19 @@ public class OllamaChatModel implements ChatLanguageModel {
 
     private final Options options;
 
-    private final ObservationRegistry observationRegistry;
+    private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
-    private final ChatModelObservationConvention observationConvention = new DefaultChatModelObservationConvention();
+    private ChatObservationConvention observationConvention = new DefaultChatObservationConvention();
 
-    private OllamaChatModel(OllamaClient ollamaClient, String model, @Nullable String format, Options options, ObservationRegistry observationRegistry) {
+    private OllamaChatModel(OllamaClient ollamaClient, String model, @Nullable String format, Options options) {
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
         Assert.hasText(model, "model cannot be null or empty");
         Assert.notNull(ollamaClient, "ollamaClient cannot be null");
-        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.ollamaClient = ollamaClient;
         this.model = model;
         this.format = format;
         this.options = options;
-        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -72,7 +70,7 @@ public class OllamaChatModel implements ChatLanguageModel {
             .stream(false)
             .build();
 
-        ChatModelObservationContext observationContext = new ChatModelObservationContext("ollama");
+        ChatObservationContext observationContext = new ChatObservationContext("ollama");
         observationContext.setModel(model);
         observationContext.setMessages(messages);
         observationContext.setTemperature(options.getTemperature());
@@ -99,6 +97,16 @@ public class OllamaChatModel implements ChatLanguageModel {
         return modelResponse;
     }
 
+    public void setObservationRegistry(ObservationRegistry observationRegistry) {
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
+        this.observationRegistry = observationRegistry;
+    }
+
+    public void setObservationConvention(ChatObservationConvention observationConvention) {
+        Assert.notNull(observationConvention, "observationConvention cannot be null");
+        this.observationConvention = observationConvention;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -106,10 +114,10 @@ public class OllamaChatModel implements ChatLanguageModel {
     public static class Builder {
         private OllamaClient ollamaClient;
         private String model = DEFAULT_MODEL;
-        @Nullable
         private String format;
         private Options options = Options.builder().build();
-        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
+        private ObservationRegistry observationRegistry;
+        private ChatObservationConvention observationConvention;
 
         private Builder() {}
 
@@ -138,8 +146,20 @@ public class OllamaChatModel implements ChatLanguageModel {
             return this;
         }
 
+        public Builder observationConvention(ChatObservationConvention observationConvention) {
+            this.observationConvention = observationConvention;
+            return this;
+        }
+
         public OllamaChatModel build() {
-            return new OllamaChatModel(ollamaClient, model, format, options, observationRegistry);
+            var chatModel = new OllamaChatModel(ollamaClient, model, format, options);
+            if (observationConvention != null) {
+                chatModel.setObservationConvention(observationConvention);
+            }
+            if (observationRegistry != null) {
+                chatModel.setObservationRegistry(observationRegistry);
+            }
+            return chatModel;
         }
     }
 

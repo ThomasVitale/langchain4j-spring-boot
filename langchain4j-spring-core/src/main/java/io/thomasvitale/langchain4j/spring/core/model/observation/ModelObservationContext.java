@@ -6,7 +6,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
- * Abstract {@link Observation.Context} to use for observing LangChain4j model interactions.
+ * Base observation context to use for observing model interactions.
  */
 public abstract class ModelObservationContext extends Observation.Context {
 

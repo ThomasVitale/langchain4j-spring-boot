@@ -29,7 +29,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
 class ChromaEmbeddingStoreIT {
 
     @Container
-    static ChromaDBContainer chroma = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.4.23");
+    static ChromaDBContainer chroma = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.4.24");
 
     private static ChromaClient chromaClient;
 

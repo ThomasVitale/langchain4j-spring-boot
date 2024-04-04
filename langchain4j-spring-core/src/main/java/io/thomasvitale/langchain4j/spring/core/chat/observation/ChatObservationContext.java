@@ -6,17 +6,15 @@ import dev.langchain4j.data.message.ChatMessage;
 import dev.langchain4j.model.output.FinishReason;
 import dev.langchain4j.model.output.TokenUsage;
 
-import io.micrometer.observation.Observation;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.thomasvitale.langchain4j.spring.core.model.observation.ModelObservationContext;
 
 /**
- * An {@link Observation.Context} used during interactions with a chat model.
+ * Observation context for chat model interactions.
  */
-public class ChatModelObservationContext extends ModelObservationContext {
+public class ChatObservationContext extends ModelObservationContext {
 
     @Nullable
     private Double temperature;
@@ -27,7 +25,7 @@ public class ChatModelObservationContext extends ModelObservationContext {
     @Nullable
     private TokenUsage tokenUsage;
 
-    public ChatModelObservationContext(String provider) {
+    public ChatObservationContext(String provider) {
         super(provider);
     }
 

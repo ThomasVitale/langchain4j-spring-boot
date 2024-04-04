@@ -12,9 +12,9 @@ import io.micrometer.observation.ObservationRegistry;
 
 import org.springframework.util.Assert;
 
-import io.thomasvitale.langchain4j.spring.core.moderation.observation.DefaultModerationModelObservationConvention;
-import io.thomasvitale.langchain4j.spring.core.moderation.observation.ModerationModelObservationContext;
-import io.thomasvitale.langchain4j.spring.core.moderation.observation.ModerationModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.moderation.observation.DefaultModerationObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.moderation.observation.ModerationObservationContext;
+import io.thomasvitale.langchain4j.spring.core.moderation.observation.ModerationObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.moderation.ModerationRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.moderation.ModerationResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -32,18 +32,16 @@ public class OpenAIModerationModel implements ModerationModel {
 
     private final OpenAiModerationOptions options;
 
-    private final ObservationRegistry observationRegistry;
+    private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
-    private final ModerationModelObservationConvention observationConvention = new DefaultModerationModelObservationConvention();
+    private ModerationObservationConvention observationConvention = new DefaultModerationObservationConvention();
 
-    private OpenAIModerationModel(OpenAiClient openAiClient, OpenAiModerationOptions options, ObservationRegistry observationRegistry) {
+    private OpenAIModerationModel(OpenAiClient openAiClient, OpenAiModerationOptions options) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
-        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
-        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -66,7 +64,7 @@ public class OpenAIModerationModel implements ModerationModel {
                 .input(inputs)
                 .build();
 
-        ModerationModelObservationContext observationContext = new ModerationModelObservationContext("openai");
+        ModerationObservationContext observationContext = new ModerationObservationContext("openai");
         observationContext.setModel(options.getModel());
 
         Response<Moderation> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
@@ -94,6 +92,16 @@ public class OpenAIModerationModel implements ModerationModel {
         return modelResponse;
     }
 
+    public void setObservationRegistry(ObservationRegistry observationRegistry) {
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
+        this.observationRegistry = observationRegistry;
+    }
+
+    public void setObservationConvention(ModerationObservationConvention observationConvention) {
+        Assert.notNull(observationConvention, "observationConvention cannot be null");
+        this.observationConvention = observationConvention;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -101,7 +109,8 @@ public class OpenAIModerationModel implements ModerationModel {
     public static class Builder {
         private OpenAiClient openAiClient;
         private OpenAiModerationOptions options = new OpenAiModerationOptions();
-        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;;
+        private ObservationRegistry observationRegistry;
+        private ModerationObservationConvention observationConvention;
 
         private Builder() {}
 
@@ -120,8 +129,20 @@ public class OpenAIModerationModel implements ModerationModel {
             return this;
         }
 
+        public Builder observationConvention(ModerationObservationConvention observationConvention) {
+            this.observationConvention = observationConvention;
+            return this;
+        }
+
         public OpenAIModerationModel build() {
-            return new OpenAIModerationModel(openAiClient, options, observationRegistry);
+            var moderationModel = new OpenAIModerationModel(openAiClient, options);
+            if (observationConvention != null) {
+                moderationModel.setObservationConvention(observationConvention);
+            }
+            if (observationRegistry != null) {
+                moderationModel.setObservationRegistry(observationRegistry);
+            }
+            return moderationModel;
         }
     }
 

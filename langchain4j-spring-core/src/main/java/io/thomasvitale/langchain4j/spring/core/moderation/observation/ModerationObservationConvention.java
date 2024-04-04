@@ -4,13 +4,13 @@ import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationConvention;
 
 /**
- * {@link ObservationConvention} for {@link ModerationModelObservationContext}.
+ * {@link ObservationConvention} for {@link ModerationObservationContext}.
  */
-public interface ModerationModelObservationConvention extends ObservationConvention<ModerationModelObservationContext> {
+public interface ModerationObservationConvention extends ObservationConvention<ModerationObservationContext> {
 
     @Override
     default boolean supportsContext(Observation.Context context) {
-        return context instanceof ModerationModelObservationContext;
+        return context instanceof ModerationObservationContext;
     }
 
 }

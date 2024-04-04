@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class WeaviateDockerComposeConnectionDetailsFactoryIT extends DockerComposeIntegrationTestSupport {
 
-    private static final DockerImageName weaviateDockerImage = DockerImageName.parse("semitechnologies/weaviate");
+    private static final DockerImageName weaviateDockerImage = DockerImageName.parse("cr.weaviate.io/semitechnologies/weaviate");
 
     WeaviateDockerComposeConnectionDetailsFactoryIT() {
         super("weaviate-compose.yml", weaviateDockerImage);

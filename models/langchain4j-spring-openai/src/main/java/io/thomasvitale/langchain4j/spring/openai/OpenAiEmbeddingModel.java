@@ -15,9 +15,9 @@ import io.micrometer.observation.ObservationRegistry;
 
 import org.springframework.util.Assert;
 
-import io.thomasvitale.langchain4j.spring.core.embedding.observation.DefaultEmbeddingModelObservationConvention;
-import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationContext;
-import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.DefaultEmbeddingObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingObservationContext;
+import io.thomasvitale.langchain4j.spring.core.embedding.observation.EmbeddingObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.embedding.EmbeddingRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.embedding.EmbeddingResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -33,18 +33,16 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
 
     private final OpenAiEmbeddingOptions options;
 
-    private final ObservationRegistry observationRegistry;
+    private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
-    private final EmbeddingModelObservationConvention observationConvention = new DefaultEmbeddingModelObservationConvention();
+    private EmbeddingObservationConvention observationConvention = new DefaultEmbeddingObservationConvention();
 
-    private OpenAiEmbeddingModel(OpenAiClient openAiClient, OpenAiEmbeddingOptions options, ObservationRegistry observationRegistry) {
+    private OpenAiEmbeddingModel(OpenAiClient openAiClient, OpenAiEmbeddingOptions options) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
-        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
-        this.observationRegistry = observationRegistry;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
         List<Embedding> embeddings = new ArrayList<>();
         AtomicInteger promptTokens = new AtomicInteger();
 
-        EmbeddingModelObservationContext observationContext = new EmbeddingModelObservationContext("openai");
+        EmbeddingObservationContext observationContext = new EmbeddingObservationContext("openai");
         observationContext.setModel(options.getModel());
 
         Response<List<Embedding>> modelResponse = Observation.createNotStarted(observationConvention, () -> observationContext, this.observationRegistry).observe(() -> {
@@ -92,6 +90,16 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
         return modelResponse;
     }
 
+    public void setObservationRegistry(ObservationRegistry observationRegistry) {
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
+        this.observationRegistry = observationRegistry;
+    }
+
+    public void setObservationConvention(EmbeddingObservationConvention observationConvention) {
+        Assert.notNull(observationConvention, "observationConvention cannot be null");
+        this.observationConvention = observationConvention;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -99,7 +107,8 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
     public static class Builder {
         private OpenAiClient openAiClient;
         private OpenAiEmbeddingOptions options = OpenAiEmbeddingOptions.builder().build();
-        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;;
+        private ObservationRegistry observationRegistry;
+        private EmbeddingObservationConvention observationConvention;
 
         private Builder() {
         }
@@ -119,8 +128,20 @@ public class OpenAiEmbeddingModel implements EmbeddingModel {
             return this;
         }
 
+        public Builder observationConvention(EmbeddingObservationConvention observationConvention) {
+            this.observationConvention = observationConvention;
+            return this;
+        }
+
         public OpenAiEmbeddingModel build() {
-            return new OpenAiEmbeddingModel(openAiClient, options, observationRegistry);
+            var embeddingModel = new OpenAiEmbeddingModel(openAiClient, options);
+            if (observationConvention != null) {
+                embeddingModel.setObservationConvention(observationConvention);
+            }
+            if (observationRegistry != null) {
+                embeddingModel.setObservationRegistry(observationRegistry);
+            }
+            return embeddingModel;
         }
     }
 

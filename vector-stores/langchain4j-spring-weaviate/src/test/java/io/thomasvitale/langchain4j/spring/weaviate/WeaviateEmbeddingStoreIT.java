@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class WeaviateEmbeddingStoreIT {
 
     @Container
-    static WeaviateContainer weaviate = new WeaviateContainer("semitechnologies/weaviate:1.23.10");
+    static WeaviateContainer weaviate = new WeaviateContainer("semitechnologies/weaviate:1.24.6");
 
     private static WeaviateEmbeddingStore weaviateEmbeddingStore;
 

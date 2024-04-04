@@ -2,22 +2,20 @@ package io.thomasvitale.langchain4j.spring.core.embedding.observation;
 
 import dev.langchain4j.model.output.TokenUsage;
 
-import io.micrometer.observation.Observation;
-
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import io.thomasvitale.langchain4j.spring.core.model.observation.ModelObservationContext;
 
 /**
- * An {@link Observation.Context} used during interactions with an embedding model.
+ * Observation context for embedding model interactions.
  */
-public class EmbeddingModelObservationContext extends ModelObservationContext {
+public class EmbeddingObservationContext extends ModelObservationContext {
 
     @Nullable
     private TokenUsage tokenUsage;
 
-    public EmbeddingModelObservationContext(String provider) {
+    public EmbeddingObservationContext(String provider) {
         super(provider);
     }
 

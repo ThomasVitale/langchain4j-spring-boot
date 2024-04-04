@@ -11,9 +11,9 @@ import io.micrometer.observation.ObservationRegistry;
 
 import org.springframework.util.Assert;
 
-import io.thomasvitale.langchain4j.spring.core.image.observation.DefaultImageModelObservationConvention;
-import io.thomasvitale.langchain4j.spring.core.image.observation.ImageModelObservationContext;
-import io.thomasvitale.langchain4j.spring.core.image.observation.ImageModelObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.image.observation.DefaultImageObservationConvention;
+import io.thomasvitale.langchain4j.spring.core.image.observation.ImageObservationContext;
+import io.thomasvitale.langchain4j.spring.core.image.observation.ImageObservationConvention;
 import io.thomasvitale.langchain4j.spring.openai.api.image.ImageGenerationRequest;
 import io.thomasvitale.langchain4j.spring.openai.api.image.ImageGenerationResponse;
 import io.thomasvitale.langchain4j.spring.openai.client.OpenAiClient;
@@ -29,25 +29,23 @@ public class OpenAiImageModel implements ImageModel {
 
     private final OpenAiImageOptions options;
 
-    private final ObservationRegistry observationRegistry;
+    private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;
 
-    private final ImageModelObservationConvention observationConvention = new DefaultImageModelObservationConvention();
+    private ImageObservationConvention observationConvention = new DefaultImageObservationConvention();
 
-    private OpenAiImageModel(OpenAiClient openAiClient, OpenAiImageOptions options, ObservationRegistry observationRegistry) {
+    private OpenAiImageModel(OpenAiClient openAiClient, OpenAiImageOptions options) {
         Assert.notNull(openAiClient, "openAiClient cannot be null");
         Assert.notNull(options, "options cannot be null");
-        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
 
         this.openAiClient = openAiClient;
         this.options = options;
-        this.observationRegistry = observationRegistry;
     }
 
     @Override
     public Response<Image> generate(String prompt) {
         ImageGenerationRequest request = imageGenerationRequestBuilder(prompt).build();
 
-        ImageModelObservationContext observationContext = new ImageModelObservationContext("openai");
+        ImageObservationContext observationContext = new ImageObservationContext("openai");
         observationContext.setModel(options.getModel());
         observationContext.setNumber(1);
 
@@ -72,7 +70,7 @@ public class OpenAiImageModel implements ImageModel {
     public Response<List<Image>> generate(String prompt, int n) {
         ImageGenerationRequest request = imageGenerationRequestBuilder(prompt).n(n).build();
 
-        ImageModelObservationContext observationContext = new ImageModelObservationContext("openai");
+        ImageObservationContext observationContext = new ImageObservationContext("openai");
         observationContext.setModel(options.getModel());
         observationContext.setNumber(n);
 
@@ -105,6 +103,16 @@ public class OpenAiImageModel implements ImageModel {
                 .user(options.getUser());
     }
 
+    public void setObservationRegistry(ObservationRegistry observationRegistry) {
+        Assert.notNull(observationRegistry, "observationRegistry cannot be null");
+        this.observationRegistry = observationRegistry;
+    }
+
+    public void setObservationConvention(ImageObservationConvention observationConvention) {
+        Assert.notNull(observationConvention, "observationConvention cannot be null");
+        this.observationConvention = observationConvention;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -112,7 +120,8 @@ public class OpenAiImageModel implements ImageModel {
     public static class Builder {
         private OpenAiClient openAiClient;
         private OpenAiImageOptions options = new OpenAiImageOptions();
-        private ObservationRegistry observationRegistry = ObservationRegistry.NOOP;;
+        private ObservationRegistry observationRegistry;
+        private ImageObservationConvention observationConvention;
 
         private Builder() {}
 
@@ -131,8 +140,20 @@ public class OpenAiImageModel implements ImageModel {
             return this;
         }
 
+        public Builder observationConvention(ImageObservationConvention observationConvention) {
+            this.observationConvention = observationConvention;
+            return this;
+        }
+
         public OpenAiImageModel build() {
-            return new OpenAiImageModel(openAiClient, options, observationRegistry);
+            var imageModel = new OpenAiImageModel(openAiClient, options);
+            if (observationConvention != null) {
+                imageModel.setObservationConvention(observationConvention);
+            }
+            if (observationRegistry != null) {
+                imageModel.setObservationRegistry(observationRegistry);
+            }
+            return imageModel;
         }
     }
 
