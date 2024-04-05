@@ -49,19 +49,15 @@ public final class OllamaAdapters {
     public static Message toOllamaMessage(ChatMessage chatMessage) {
         if (chatMessage instanceof SystemMessage systemMessage) {
             return Message.builder().role(toOllamaRole(chatMessage)).content(systemMessage.text()).build();
-        }
-        else if (chatMessage instanceof AiMessage aiMessage) {
+        } else if (chatMessage instanceof AiMessage aiMessage) {
             return Message.builder().role(toOllamaRole(chatMessage)).content(aiMessage.text()).build();
-        }
-        else if (chatMessage instanceof UserMessage userMessage) {
+        } else if (chatMessage instanceof UserMessage userMessage) {
             if (userMessage.contents().stream().anyMatch(content -> IMAGE.equals(content.type()))) {
                 return toMessageWithImage(userMessage);
-            }
-            else {
+            } else {
                 return toMessageWithText(userMessage);
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Unsupported message class: " + chatMessage.getClass().getSimpleName());
         }
     }
@@ -114,13 +110,11 @@ public final class OllamaAdapters {
     private static String toBase64EncodedImage(Image image) {
         if (StringUtils.hasText(image.base64Data())) {
             return image.base64Data();
-        }
-        else {
+        } else {
             if (SUPPORTED_URL_SCHEMES.contains(image.url().getScheme())) {
                 return image.url().getScheme().startsWith("http") ? encodeImageFromHttp(image)
                         : encodeImageFromFile(image);
-            }
-            else {
+            } else {
                 throw new IllegalArgumentException(
                         "The Ollama integration supports only http/https and file URLs. Unsupported URL scheme: "
                                 + image.url().getScheme());
@@ -138,8 +132,7 @@ public final class OllamaAdapters {
         try {
             var imageFile = ResourceUtils.getFile(image.url());
             imageFileBytes = FileCopyUtils.copyToByteArray(imageFile);
-        }
-        catch (IOException ex) {
+        } catch (IOException ex) {
             throw new RuntimeException("Cannot read the image with path: %s".formatted(image.url()), ex);
         }
         return Base64.getEncoder().encodeToString(imageFileBytes);

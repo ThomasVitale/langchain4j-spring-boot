@@ -46,7 +46,7 @@ public record GenerateRequest(
         Boolean raw,
         String format,
         Duration keepAlive,
-        List<byte[]> images,
+        List<String> images,
         Map<String, Object> options
 ) {
 
@@ -69,7 +69,7 @@ public record GenerateRequest(
         private Boolean raw;
         private String format;
         private Duration keepAlive;
-        private List<byte[]> images;
+        private List<String> images;
         private Map<String, Object> options;
 
         private Builder() {}
@@ -119,7 +119,7 @@ public record GenerateRequest(
             return this;
         }
 
-        public Builder images(List<byte[]> images) {
+        public Builder images(List<String> images) {
             this.images = images;
             return this;
         }

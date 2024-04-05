@@ -17,8 +17,7 @@ import io.thomasvitale.langchain4j.autoconfigure.models.ollama.OllamaConnectionD
 public class OllamaContainerConnectionDetailsFactory
         extends ContainerConnectionDetailsFactory<OllamaContainer, OllamaConnectionDetails> {
 
-    OllamaContainerConnectionDetailsFactory() {
-    }
+    OllamaContainerConnectionDetailsFactory() {}
 
     @Override
     protected OllamaConnectionDetails getContainerConnectionDetails(ContainerConnectionSource<OllamaContainer> source) {

@@ -640,16 +640,13 @@ public class Options {
         this.numThread = numThread;
     }
 
-
     // Utilities
 
     public Map<String, Object> toMap() {
         try {
             var json = new ObjectMapper().writeValueAsString(this);
-            return new ObjectMapper().readValue(json, new TypeReference<>() {
-            });
-        }
-        catch (JsonProcessingException ex) {
+            return new ObjectMapper().readValue(json, new TypeReference<>() {});
+        } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex);
         }
     }

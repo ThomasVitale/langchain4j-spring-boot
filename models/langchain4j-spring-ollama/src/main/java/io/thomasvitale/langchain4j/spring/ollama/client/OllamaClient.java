@@ -56,8 +56,7 @@ public class OllamaClient {
         ClientHttpRequestFactory requestFactory;
         if (clientConfig.logRequests()) {
             requestFactory = new BufferingClientHttpRequestFactory(jdkClientHttpRequestFactory);
-        }
-        else {
+        } else {
             requestFactory = jdkClientHttpRequestFactory;
         }
 
