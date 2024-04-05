@@ -32,13 +32,11 @@ import io.thomasvitale.langchain4j.spring.core.json.JsonDeserializationException
 abstract class AiMessageMixin {
 
     @JsonCreator
-    AiMessageMixin(@JsonProperty("toolExecutionRequests") List<ToolExecutionRequest> toolExecutionRequests) {
-    }
+    AiMessageMixin(@JsonProperty("toolExecutionRequests") List<ToolExecutionRequest> toolExecutionRequests) {}
 
     static class AiMessageDeserializer extends JsonDeserializer<AiMessage> {
 
-        private static final TypeReference<List<ToolExecutionRequest>> TOOL_EXECUTION_REQUEST_LIST = new TypeReference<>() {
-        };
+        private static final TypeReference<List<ToolExecutionRequest>> TOOL_EXECUTION_REQUEST_LIST = new TypeReference<>() {};
 
         @Override
         public AiMessage deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
@@ -46,13 +44,11 @@ abstract class AiMessageMixin {
             JsonNode node = objectMapper.readTree(jsonParser);
             if (node.has("text")) {
                 return new AiMessage(node.get("text").asText());
-            }
-            else if (node.has("toolExecutionRequests")) {
+            } else if (node.has("toolExecutionRequests")) {
                 List<ToolExecutionRequest> toolExecutionRequests = objectMapper
                     .readValue(node.get("toolExecutionRequests").traverse(objectMapper), TOOL_EXECUTION_REQUEST_LIST);
                 return new AiMessage(toolExecutionRequests);
-            }
-            else {
+            } else {
                 throw new JsonDeserializationException(
                         "No 'text' or 'toolExecutionRequests' fields found in %s".formatted(AiMessage.class.getName()));
             }

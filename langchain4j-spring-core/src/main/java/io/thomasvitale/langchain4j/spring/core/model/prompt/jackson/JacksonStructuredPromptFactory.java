@@ -20,8 +20,7 @@ import io.thomasvitale.langchain4j.spring.core.json.jackson.LangChain4jJacksonPr
  */
 public class JacksonStructuredPromptFactory implements StructuredPromptFactory {
 
-    public static TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {
-    };
+    public static TypeReference<Map<String, Object>> MAP_TYPE = new TypeReference<>() {};
 
     private final ObjectMapper objectMapper;
 

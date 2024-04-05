@@ -16,10 +16,12 @@ import dev.langchain4j.data.message.UserMessage;
  * Mixin used to serialize / deserialize {@link ChatMessage}.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
-@JsonSubTypes(value = { @JsonSubTypes.Type(value = AiMessage.class, name = "AI"),
+@JsonSubTypes(value = {
+        @JsonSubTypes.Type(value = AiMessage.class, name = "AI"),
         @JsonSubTypes.Type(value = SystemMessage.class, name = "SYSTEM"),
         @JsonSubTypes.Type(value = ToolExecutionResultMessage.class, name = "TOOL_EXECUTION_RESULT"),
-        @JsonSubTypes.Type(value = UserMessage.class, name = "USER"), })
+        @JsonSubTypes.Type(value = UserMessage.class, name = "USER")
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class ChatMessageMixin {
 

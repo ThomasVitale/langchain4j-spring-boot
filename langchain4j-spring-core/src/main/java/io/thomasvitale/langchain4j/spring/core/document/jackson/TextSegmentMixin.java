@@ -17,7 +17,6 @@ import dev.langchain4j.data.segment.TextSegment;
 abstract class TextSegmentMixin {
 
     @JsonCreator
-    TextSegmentMixin(@JsonProperty("text") String text, @JsonProperty("metadata") Metadata metadata) {
-    }
+    TextSegmentMixin(@JsonProperty("text") String text, @JsonProperty("metadata") Metadata metadata) {}
 
 }

@@ -17,8 +17,10 @@ import dev.langchain4j.data.message.TextContent;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE, setterVisibility = JsonAutoDetect.Visibility.NONE)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = TextContent.class, name = "TEXT"),
-        @JsonSubTypes.Type(value = ImageContent.class, name = "IMAGE"), })
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = TextContent.class, name = "TEXT"),
+        @JsonSubTypes.Type(value = ImageContent.class, name = "IMAGE")
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 abstract class ContentMixin {
 

@@ -29,8 +29,7 @@ public class JacksonJsonCodec implements Json.JsonCodec {
     public String toJson(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonSerializationException(ex);
         }
     }
@@ -39,8 +38,7 @@ public class JacksonJsonCodec implements Json.JsonCodec {
     public <T> T fromJson(String json, Class<T> type) {
         try {
             return objectMapper.readValue(json, type);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonDeserializationException(ex);
         }
     }

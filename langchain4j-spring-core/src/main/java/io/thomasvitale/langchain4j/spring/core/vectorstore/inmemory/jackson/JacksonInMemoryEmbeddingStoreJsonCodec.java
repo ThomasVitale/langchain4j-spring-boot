@@ -20,8 +20,7 @@ import io.thomasvitale.langchain4j.spring.core.json.jackson.LangChain4jJacksonPr
  */
 public class JacksonInMemoryEmbeddingStoreJsonCodec implements InMemoryEmbeddingStoreJsonCodec {
 
-    private static final TypeReference<InMemoryEmbeddingStore<TextSegment>> TEXT_SEGMENT_TYPE = new TypeReference<>() {
-    };
+    private static final TypeReference<InMemoryEmbeddingStore<TextSegment>> TEXT_SEGMENT_TYPE = new TypeReference<>() {};
 
     private final ObjectMapper objectMapper;
 
@@ -33,8 +32,7 @@ public class JacksonInMemoryEmbeddingStoreJsonCodec implements InMemoryEmbedding
     public InMemoryEmbeddingStore<TextSegment> fromJson(String json) {
         try {
             return objectMapper.readValue(json, TEXT_SEGMENT_TYPE);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonDeserializationException(ex);
         }
     }
@@ -43,8 +41,7 @@ public class JacksonInMemoryEmbeddingStoreJsonCodec implements InMemoryEmbedding
     public String toJson(InMemoryEmbeddingStore<?> embeddingStore) {
         try {
             return objectMapper.writeValueAsString(embeddingStore);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonSerializationException(ex);
         }
     }

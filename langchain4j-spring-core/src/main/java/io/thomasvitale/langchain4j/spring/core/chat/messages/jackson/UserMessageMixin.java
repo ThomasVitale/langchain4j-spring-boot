@@ -31,8 +31,7 @@ abstract class UserMessageMixin {
 
     static class UserMessageDeserializer extends JsonDeserializer<UserMessage> {
 
-        private static final TypeReference<List<Content>> CONTENT_LIST = new TypeReference<>() {
-        };
+        private static final TypeReference<List<Content>> CONTENT_LIST = new TypeReference<>() {};
 
         @Override
         public UserMessage deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException {
@@ -56,11 +55,9 @@ abstract class UserMessageMixin {
 
             if (text != null) {
                 return buildUserMessageWithText(name, text);
-            }
-            else if (contents != null) {
+            } else if (contents != null) {
                 return buildUserMessageWithContents(name, contents);
-            }
-            else {
+            } else {
                 throw new JsonDeserializationException(
                         "No 'text' or 'contents' fields found in %s".formatted(UserMessage.class.getName()));
             }

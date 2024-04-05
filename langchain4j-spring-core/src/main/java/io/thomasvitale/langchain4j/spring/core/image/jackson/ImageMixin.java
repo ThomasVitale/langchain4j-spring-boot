@@ -16,6 +16,4 @@ import dev.langchain4j.data.message.ToolExecutionResultMessage;
 @JsonDeserialize(builder = Image.Builder.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ImageMixin {
-
-}
+abstract class ImageMixin {}

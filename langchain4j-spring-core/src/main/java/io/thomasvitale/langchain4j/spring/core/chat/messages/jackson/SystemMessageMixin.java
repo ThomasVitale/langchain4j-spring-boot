@@ -16,7 +16,6 @@ import dev.langchain4j.data.message.SystemMessage;
 abstract class SystemMessageMixin {
 
     @JsonCreator
-    SystemMessageMixin(@JsonProperty("text") String text) {
-    }
+    SystemMessageMixin(@JsonProperty("text") String text) {}
 
 }

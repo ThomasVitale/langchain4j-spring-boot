@@ -18,7 +18,6 @@ import dev.langchain4j.data.document.Metadata;
 abstract class MetadataMixin {
 
     @JsonCreator
-    MetadataMixin(@JsonProperty("metadata") Map<String, String> metadata) {
-    }
+    MetadataMixin(@JsonProperty("metadata") Map<String, String> metadata) {}
 
 }

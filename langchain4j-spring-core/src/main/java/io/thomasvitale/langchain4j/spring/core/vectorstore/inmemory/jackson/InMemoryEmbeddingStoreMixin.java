@@ -47,8 +47,7 @@ abstract class InMemoryEmbeddingStoreMixin {
 
         }
 
-        private record InMemoryEmbeddingStoreEntryMirror(String id, Embedding embedding, TextSegment embedded) {
-        }
+        private record InMemoryEmbeddingStoreEntryMirror(String id, Embedding embedding, TextSegment embedded) {}
 
     }
 

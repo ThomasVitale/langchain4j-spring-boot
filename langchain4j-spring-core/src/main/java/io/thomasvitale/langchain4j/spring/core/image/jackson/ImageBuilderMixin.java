@@ -10,6 +10,4 @@ import dev.langchain4j.data.image.Image;
  */
 @JsonPOJOBuilder(withPrefix = "")
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ImageBuilderMixin {
-
-}
+abstract class ImageBuilderMixin {}

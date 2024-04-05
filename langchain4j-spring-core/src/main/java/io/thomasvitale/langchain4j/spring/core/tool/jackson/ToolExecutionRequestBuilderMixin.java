@@ -11,6 +11,4 @@ import dev.langchain4j.agent.tool.ToolExecutionRequest;
  */
 @JsonPOJOBuilder(withPrefix = "")
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ToolExecutionRequestBuilderMixin {
-
-}
+abstract class ToolExecutionRequestBuilderMixin {}

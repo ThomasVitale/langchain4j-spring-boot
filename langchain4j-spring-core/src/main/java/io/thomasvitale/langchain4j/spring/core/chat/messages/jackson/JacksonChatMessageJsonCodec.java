@@ -22,8 +22,7 @@ import org.springframework.util.StringUtils;
  */
 public class JacksonChatMessageJsonCodec implements ChatMessageJsonCodec {
 
-    private static final TypeReference<List<ChatMessage>> MESSAGE_LIST_TYPE = new TypeReference<>() {
-    };
+    private static final TypeReference<List<ChatMessage>> MESSAGE_LIST_TYPE = new TypeReference<>() {};
 
     private final ObjectMapper objectMapper;
 
@@ -35,8 +34,7 @@ public class JacksonChatMessageJsonCodec implements ChatMessageJsonCodec {
     public ChatMessage messageFromJson(String json) {
         try {
             return objectMapper.readValue(json, ChatMessage.class);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonDeserializationException(ex);
         }
     }
@@ -49,8 +47,7 @@ public class JacksonChatMessageJsonCodec implements ChatMessageJsonCodec {
 
         try {
             return objectMapper.readValue(json, MESSAGE_LIST_TYPE);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonDeserializationException(ex);
         }
     }
@@ -59,8 +56,7 @@ public class JacksonChatMessageJsonCodec implements ChatMessageJsonCodec {
     public String messageToJson(ChatMessage message) {
         try {
             return objectMapper.writeValueAsString(message);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonSerializationException(ex);
         }
     }
@@ -69,8 +65,7 @@ public class JacksonChatMessageJsonCodec implements ChatMessageJsonCodec {
     public String messagesToJson(List<ChatMessage> messages) {
         try {
             return objectMapper.writeValueAsString(messages);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new JsonSerializationException(ex);
         }
     }

@@ -16,7 +16,6 @@ import dev.langchain4j.data.embedding.Embedding;
 abstract class EmbeddingMixin {
 
     @JsonCreator
-    EmbeddingMixin(@JsonProperty("vector") float[] vector) {
-    }
+    EmbeddingMixin(@JsonProperty("vector") float[] vector) {}
 
 }

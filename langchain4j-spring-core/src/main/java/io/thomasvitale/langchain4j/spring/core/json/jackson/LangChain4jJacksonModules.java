@@ -25,8 +25,13 @@ public class LangChain4jJacksonModules {
      * List of all the available LangChain4j Jackson modules.
      */
     public static List<Module> getModules() {
-        return List.of(new ChatMessageJacksonModule(), new DocumentJacksonModule(), new EmbeddingJacksonModule(),
-                new ImageJacksonModule(), new ToolJacksonModule(), new VectorStoreJacksonModule());
+        return List.of(
+                new ChatMessageJacksonModule(),
+                new DocumentJacksonModule(),
+                new EmbeddingJacksonModule(),
+                new ImageJacksonModule(),
+                new ToolJacksonModule(),
+                new VectorStoreJacksonModule());
     }
 
 }

@@ -13,7 +13,6 @@ import dev.langchain4j.data.message.TextContent;
 abstract class TextContentMixin {
 
     @JsonCreator
-    TextContentMixin(@JsonProperty("text") String text) {
-    }
+    TextContentMixin(@JsonProperty("text") String text) {}
 
 }

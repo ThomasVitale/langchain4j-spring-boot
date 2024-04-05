@@ -15,6 +15,4 @@ import dev.langchain4j.agent.tool.ToolExecutionRequest;
 @JsonDeserialize(builder = ToolExecutionRequest.Builder.class)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-abstract class ToolExecutionRequestMixin {
-
-}
+abstract class ToolExecutionRequestMixin {}
