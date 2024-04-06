@@ -65,7 +65,7 @@ public final class ChromaAdapters {
     }
 
     private static double scoreDistanceForCosineSimilaritySearch(double distance) {
-        return 1 - distance;
+        return 1 - (distance / 2);
     }
 
 }

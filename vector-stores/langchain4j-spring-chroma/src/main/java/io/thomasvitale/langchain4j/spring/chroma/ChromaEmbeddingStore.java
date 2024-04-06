@@ -6,6 +6,8 @@ import dev.langchain4j.data.document.Metadata;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
+import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
+import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +23,6 @@ import io.thomasvitale.langchain4j.spring.chroma.api.QueryRequest;
 import io.thomasvitale.langchain4j.spring.chroma.client.ChromaClient;
 
 import static dev.langchain4j.internal.Utils.randomUUID;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Represents a store for embeddings using the Chroma vector store.
@@ -97,25 +98,21 @@ public class ChromaEmbeddingStore implements EmbeddingStore<TextSegment>, Initia
         chromaClient.upsertEmbeddings(collectionId, addEmbeddingsRequest);
     }
 
-    // TODO: Add filter expressions after LangChain4j supports them.
     @Override
-    public List<EmbeddingMatch<TextSegment>> findRelevant(Embedding referenceEmbedding, int maxResults,
-            double minScore) {
-        Assert.notNull(referenceEmbedding, "referenceEmbedding cannot be null");
-        Assert.isTrue(maxResults >= 1, "maxResults must be greater than or equal to 1");
-        Assert.isTrue(minScore >= 0 && minScore <= 1, "minScore must be between 0 and 1 (inclusive)");
+    public EmbeddingSearchResult<TextSegment> search(EmbeddingSearchRequest embeddingSearchRequest) {
+        Assert.notNull(embeddingSearchRequest, "embeddingSearchRequest cannot be null");
 
         var queryRequest = QueryRequest.builder()
-            .queryEmbeddings(List.of(referenceEmbedding.vectorAsList()))
-            .nResults(maxResults)
-            .include(List.of(Include.METADATAS, Include.DOCUMENTS, Include.DISTANCES, Include.EMBEDDINGS))
-            .build();
+                .queryEmbeddings(List.of(embeddingSearchRequest.queryEmbedding().vectorAsList()))
+                .nResults(embeddingSearchRequest.maxResults())
+                .include(List.of(Include.METADATAS, Include.DOCUMENTS, Include.DISTANCES, Include.EMBEDDINGS))
+                .build();
 
         var queryResponse = chromaClient.queryCollection(collectionId, queryRequest);
 
         List<EmbeddingMatch<TextSegment>> matches = ChromaAdapters.toEmbeddingMatches(queryResponse);
-
-        return matches.stream().filter(match -> match.score() >= minScore).collect(toList());
+        List<EmbeddingMatch<TextSegment>> result = matches.stream().filter(match -> match.score() >= embeddingSearchRequest.minScore()).toList();
+        return  new EmbeddingSearchResult<>(result);
     }
 
     /**
