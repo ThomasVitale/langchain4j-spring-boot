@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 import dev.langchain4j.data.embedding.Embedding;
 import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.store.embedding.EmbeddingMatch;
+import dev.langchain4j.store.embedding.EmbeddingSearchRequest;
+import dev.langchain4j.store.embedding.EmbeddingSearchResult;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 
 import io.weaviate.client.Config;
@@ -192,12 +194,9 @@ public class WeaviateEmbeddingStore implements EmbeddingStore<TextSegment> {
                 .build();
     }
 
-    // TODO: Add filter expressions after LangChain4j supports them.
     @Override
-    public List<EmbeddingMatch<TextSegment>> findRelevant(Embedding referenceEmbedding, int maxResults, double minScore) {
-        Assert.notNull(referenceEmbedding, "referenceEmbedding cannot be null");
-        Assert.isTrue(maxResults >= 1, "maxResults must be greater than or equal to 1");
-        Assert.isTrue(minScore >= 0 && minScore <= 1, "minScore must be between 0 and 1 (inclusive)");
+    public EmbeddingSearchResult<TextSegment> search(EmbeddingSearchRequest embeddingSearchRequest) {
+        Assert.notNull(embeddingSearchRequest, "referenceEmbedding cannot be null");
 
         GetBuilder.GetBuilderBuilder builder = GetBuilder.builder();
 
@@ -213,10 +212,10 @@ public class WeaviateEmbeddingStore implements EmbeddingStore<TextSegment> {
 
         GetBuilder queryBuilder = builder.className(objectClassName)
                 .withNearVectorFilter(NearVectorArgument.builder()
-                        .vector(referenceEmbedding.vectorAsList().toArray(new Float[0]))
-                        .certainty((float) minScore)
+                        .vector(embeddingSearchRequest.queryEmbedding().vectorAsList().toArray(new Float[0]))
+                        .certainty((float) embeddingSearchRequest.minScore())
                         .build())
-                .limit(maxResults)
+                .limit(embeddingSearchRequest.maxResults())
                 .fields(Fields.builder().fields(searchFields.toArray(new Field[0])).build())
                 .build();
 
@@ -246,18 +245,19 @@ public class WeaviateEmbeddingStore implements EmbeddingStore<TextSegment> {
                 .stream()
                 .findFirst();
         if (responseData.isEmpty()) {
-            return List.of();
+            return new EmbeddingSearchResult<>(List.of());
         }
 
         Optional<?> responseDataItemsPart = responseData.get().getValue().entrySet().stream().findFirst();
         if (responseDataItemsPart.isEmpty()) {
-            return List.of();
+            return new EmbeddingSearchResult<>(List.of());
         }
 
         @SuppressWarnings("unchecked")
         List<Map<String, ?>> responseItems = ((Map.Entry<String, List<Map<String, ?>>>) responseDataItemsPart.get()).getValue();
 
-        return responseItems.stream().map(WeaviateAdapters::toEmbeddingMatch).toList();
+        List<EmbeddingMatch<TextSegment>> embeddingMatches = responseItems.stream().map(WeaviateAdapters::toEmbeddingMatch).toList();
+        return new EmbeddingSearchResult<>(embeddingMatches);
     }
 
     public static Builder builder() {
