@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import io.thomasvitale.langchain4j.spring.openai.api.chat.ChatCompletionRequest;
+import io.thomasvitale.langchain4j.spring.openai.api.chat.ChatModels;
 import io.thomasvitale.langchain4j.spring.openai.api.chat.Tool;
 
 /**
@@ -21,7 +22,7 @@ public class OpenAiChatOptions {
     /**
      * ID of the model to use.
      */
-    private String model;
+    private String model = ChatModels.GPT_3_5_TURBO.toString();
     /**
      * Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
      */
@@ -94,9 +95,7 @@ public class OpenAiChatOptions {
     public static class Builder {
         private final OpenAiChatOptions options = new OpenAiChatOptions();
 
-        private Builder() {
-            this.options.model = DEFAULT_MODEL;
-        }
+        private Builder() {}
 
         public Builder model(String model) {
             this.options.model = model;
