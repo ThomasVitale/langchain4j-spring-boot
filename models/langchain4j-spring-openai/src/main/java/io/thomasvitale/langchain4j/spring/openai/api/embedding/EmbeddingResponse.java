@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import io.thomasvitale.langchain4j.spring.openai.api.shared.Usage;
+import io.thomasvitale.langchain4j.spring.openai.api.Usage;
 
 /**
  * A collection of embedding vectors representing the input data.

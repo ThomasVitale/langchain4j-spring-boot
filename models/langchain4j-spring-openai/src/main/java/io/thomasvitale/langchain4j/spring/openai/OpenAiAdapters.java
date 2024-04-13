@@ -29,7 +29,7 @@ import io.thomasvitale.langchain4j.spring.openai.api.chat.ChatCompletionResponse
 import io.thomasvitale.langchain4j.spring.openai.api.chat.Tool;
 import io.thomasvitale.langchain4j.spring.openai.api.embedding.EmbeddingResponse;
 import io.thomasvitale.langchain4j.spring.openai.api.image.ImageGenerationResponse;
-import io.thomasvitale.langchain4j.spring.openai.api.shared.Usage;
+import io.thomasvitale.langchain4j.spring.openai.api.Usage;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;

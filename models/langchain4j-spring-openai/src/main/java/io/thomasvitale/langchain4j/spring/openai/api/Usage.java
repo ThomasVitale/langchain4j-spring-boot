@@ -1,4 +1,4 @@
-package io.thomasvitale.langchain4j.spring.openai.api.shared;
+package io.thomasvitale.langchain4j.spring.openai.api;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;

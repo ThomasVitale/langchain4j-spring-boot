@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import io.thomasvitale.langchain4j.spring.core.json.jackson.LangChain4jJacksonProvider;
+
 /**
  * Ollama options for chat, image, and embedding clients.
  *
@@ -645,7 +647,7 @@ public class Options {
     public Map<String, Object> toMap() {
         try {
             var json = new ObjectMapper().writeValueAsString(this);
-            return new ObjectMapper().readValue(json, new TypeReference<>() {});
+            return LangChain4jJacksonProvider.getObjectMapper().readValue(json, new TypeReference<>() {});
         } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex);
         }

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
-import io.thomasvitale.langchain4j.spring.openai.api.shared.Usage;
+import io.thomasvitale.langchain4j.spring.openai.api.Usage;
 
 /**
  * Represents a chat completion response returned by model, based on the provided input.
