@@ -15,7 +15,8 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     api('dev.langchain4j:langchain4j-core') {
-        exclude group: 'com.google.code.gson', module: 'gson'
+        // TODO: Exclude again after adding AI Services Spring-style
+        //exclude group: 'com.google.code.gson', module: 'gson'
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
     api('dev.langchain4j:langchain4j') {
