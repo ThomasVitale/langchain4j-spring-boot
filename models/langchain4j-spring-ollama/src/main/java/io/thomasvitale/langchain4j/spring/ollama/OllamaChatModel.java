@@ -31,7 +31,7 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
  */
 public class OllamaChatModel implements ChatLanguageModel {
 
-    public static final String DEFAULT_MODEL = "llama2";
+    public static final String DEFAULT_MODEL = "llama3";
 
     private final OllamaClient ollamaClient;
 

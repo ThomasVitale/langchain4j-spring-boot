@@ -16,7 +16,7 @@ public class OllamaChatProperties {
     /**
      * Name of the model to use.
      */
-    private String model = "llama2";
+    private String model = "llama3";
 
     /**
      * Format to return a response in. Supported: 'json'.

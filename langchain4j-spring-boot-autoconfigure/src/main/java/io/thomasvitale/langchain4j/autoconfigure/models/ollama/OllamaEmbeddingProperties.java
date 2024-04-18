@@ -16,7 +16,7 @@ public class OllamaEmbeddingProperties {
     /**
      * Name of the model to use.
      */
-    private String model = "llama2";
+    private String model = "llama3";
 
     /**
      * Additional model parameters.

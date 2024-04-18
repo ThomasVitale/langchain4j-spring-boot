@@ -28,7 +28,7 @@ import io.thomasvitale.langchain4j.spring.ollama.client.OllamaClient;
  */
 public class OllamaEmbeddingModel implements EmbeddingModel {
 
-    public static final String DEFAULT_MODEL = "llama2";
+    public static final String DEFAULT_MODEL = "llama3";
 
     private final OllamaClient ollamaClient;
 

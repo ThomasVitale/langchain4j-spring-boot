@@ -46,7 +46,7 @@ cd myapp
 ./mvnw spring-boot:run
 ```
 
-You can now call the application that will use Ollama and _llama2_ to generate a text response.
+You can now call the application that will use Ollama and _llama3_ to generate a text response.
 This example uses [httpie](https://httpie.io) to send HTTP requests.
 
 ```shell
@@ -104,7 +104,7 @@ Configuration:
 langchain4j:
   ollama:
     chat:
-      model: llama2
+      model: llama3
 ```
 
 Example:
