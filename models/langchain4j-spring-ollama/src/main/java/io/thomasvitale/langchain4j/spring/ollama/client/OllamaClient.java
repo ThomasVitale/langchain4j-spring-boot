@@ -1,16 +1,15 @@
 package io.thomasvitale.langchain4j.spring.ollama.client;
 
-import java.net.http.HttpClient;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.client.ClientHttpRequestFactories;
+import org.springframework.boot.web.client.ClientHttpRequestFactorySettings;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClient;
@@ -48,24 +47,17 @@ public class OllamaClient {
     }
 
     private RestClient buildRestClient(OllamaClientConfig clientConfig, RestClient.Builder restClientBuilder) {
-        HttpClient httpClient = HttpClient.newBuilder().connectTimeout(clientConfig.connectTimeout()).build();
-
-        var jdkClientHttpRequestFactory = new JdkClientHttpRequestFactory(httpClient);
-        jdkClientHttpRequestFactory.setReadTimeout(clientConfig.readTimeout());
-
-        ClientHttpRequestFactory requestFactory;
-        if (clientConfig.logRequests()) {
-            requestFactory = new BufferingClientHttpRequestFactory(jdkClientHttpRequestFactory);
-        } else {
-            requestFactory = jdkClientHttpRequestFactory;
-        }
+        var clientHttpRequestFactory = new BufferingClientHttpRequestFactory(ClientHttpRequestFactories.get(
+                ClientHttpRequestFactorySettings.DEFAULTS
+                        .withConnectTimeout(clientConfig.connectTimeout())
+                        .withReadTimeout(clientConfig.readTimeout())));
 
         Consumer<HttpHeaders> defaultHeaders = headers -> {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         };
 
-        return restClientBuilder.requestFactory(requestFactory)
+        return restClientBuilder.requestFactory(clientHttpRequestFactory)
             .baseUrl(clientConfig.baseUrl().toString())
             .defaultHeaders(defaultHeaders)
                 .defaultStatusHandler(this.responseErrorHandler)
