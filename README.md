@@ -1,5 +1,8 @@
 # LangChain4j Spring Boot
 
+> **Warning**
+> This package has been archived in favour of the upstream [LangChain4j Spring](https://github.com/langchain4j/langchain4j-spring) project.
+
 This project brings [LangChain4j](https://github.com/langchain4j) support in Spring Boot
 to build AI and LLM-powered applications. It provides integrations with LLM services
 and vector stores, as well as tools, chains, and AI services.
@@ -12,46 +15,6 @@ using the vanilla LangChain4j libraries in Spring Boot:
 * Built-in observability with Micrometer, including LLM-specific metrics and traces
 * Dev services with Docker Compose and Testcontainers for models and vector stores
 * Service bindings for automatic connection configuration when running on Kubernetes.
-
-## 🚀&nbsp; Quick Start
-
-### Pre-Requisites
-
-* Java 17+
-* Docker/Podman
-* [Spring CLI](https://docs.spring.io/spring-cli/reference/installation.html)
-
-### Getting Started
-
-Using the Spring CLI, you can easily bootstrap a new Spring Boot application with LangChain4j support.
-
-First, add the LangChain4j Spring Boot catalog providing the project templates.
-
-```shell
-spring project-catalog add langchain4j https://github.com/ThomasVitale/langchain4j-spring-boot
-```
-
-Then, create a new Spring Boot project for building an LLM Applications with LangChain4j and Ollama.
-
-```shell
-spring boot new myapp langchain4j-chat-ollama
-```
-
-Finally, navigate to the `myapp` folder and run the Spring Boot application. The first time you run it,
-it will take a while to download the Ollama container image used as a dev service based on the Testcontainers
-Spring Boot integration.
-
-```shell
-cd myapp
-./mvnw spring-boot:run
-```
-
-You can now call the application that will use Ollama and _llama3_ to generate a text response.
-This example uses [httpie](https://httpie.io) to send HTTP requests.
-
-```shell
-http :8080/ai/chat message=="What is the capital of Italy?"
-```
 
 ## 🦜 Models
 
