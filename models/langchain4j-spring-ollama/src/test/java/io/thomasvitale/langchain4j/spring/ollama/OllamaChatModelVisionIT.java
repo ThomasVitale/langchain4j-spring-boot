@@ -35,7 +35,7 @@ class OllamaChatModelVisionIT {
 
     private static final Logger logger = LoggerFactory.getLogger(OllamaChatModelVisionIT.class);
 
-    private static final String MODEL_NAME = "moondream";
+    private static final String MODEL_NAME = "llava";
 
     @Container
     static OllamaContainer ollama = new OllamaContainer(DockerImageName
