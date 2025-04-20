@@ -1,6 +1,6 @@
 services:
   weaviate:
-    image: cr.weaviate.io/semitechnologies/weaviate
+    image: cr.weaviate.io/semitechnologies/weaviate:1.24.6
     command:
       - --host
       - 0.0.0.0

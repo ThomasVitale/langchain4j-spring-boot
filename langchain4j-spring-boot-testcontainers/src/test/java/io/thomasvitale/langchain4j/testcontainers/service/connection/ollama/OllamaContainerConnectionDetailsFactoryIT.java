@@ -29,7 +29,7 @@ class OllamaContainerConnectionDetailsFactoryIT {
 
         @Container
         @ServiceConnection
-        static final OllamaContainer container = new OllamaContainer("ollama/ollama:0.6.4");
+        static final OllamaContainer container = new OllamaContainer("ollama/ollama:0.6.5");
 
         @Autowired
         private OllamaConnectionDetails connectionDetails;

@@ -1,6 +1,6 @@
 services:
   chroma:
-    image: ghcr.io/chroma-core/chroma
+    image: ghcr.io/chroma-core/chroma:0.5.3
     ports:
       - '8000'
     environment:
