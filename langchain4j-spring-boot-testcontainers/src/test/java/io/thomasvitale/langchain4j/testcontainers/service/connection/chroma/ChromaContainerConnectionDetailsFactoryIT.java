@@ -24,7 +24,7 @@ class ChromaContainerConnectionDetailsFactoryIT {
 
     @Container
     @ServiceConnection
-    static final ChromaDBContainer container = new ChromaDBContainer("ghcr.io/chroma-core/chroma");
+    static final ChromaDBContainer container = new ChromaDBContainer("ghcr.io/chroma-core/chroma:0.5.3");
 
     @Autowired
     private ChromaConnectionDetails connectionDetails;
